@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net" modified="2026-05-23T09:40:00.000Z" agent="Codex" version="22.1.0" type="device">
+  <diagram id="institution-benefit-mode" name="Page-1">
+    <mxGraphModel dx="1600" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1800" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="start" value="开始" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="60" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n1" value="机构采购报告权益" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n2" value="平台确认收款" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="生成权益批次" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="400" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="生成 N 个一次性二维码" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="520" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n5" value="机构分发给学生" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="640" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n6" value="学生扫码进入小程序" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="760" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1" value="二维码有效？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="360" y="880" width="140" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="invalid1" value="提示无效 / 已过期 / 已使用 / 已禁用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n7" value="绑定 openid / unionid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1000" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n8" value="学生填写表单" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1120" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n9" value="点击提交" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1240" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="二次校验通过？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1360" width="140" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="invalid2" value="提示权益状态变化&#xa;终止生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1370" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n10" value="原子化核销权益" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1480" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n11" value="创建 0 元报告订单" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1600" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n12" value="生成报告" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1720" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="n13" value="记录机构 / 批次 / 二维码 / 用户 / 报告订单关系" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1840" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="end" value="交付报告" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1960" width="100" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="note1" value="机构批发权益模式&#xa;B 端：机构采购 → 平台收款 → 生成权益批次&#xa;C 端：用户扫码 → 免费核销 → 生成报告" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="120" width="420" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="note2" value="用户侧订单规则&#xa;order_amount = 199&#xa;actual_pay_amount = 0&#xa;payment_required = false&#xa;pay_status = no_payment_required&#xa;微信支付订单 = 无" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="320" width="420" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="note3" value="二维码校验规则&#xa;1. 是否存在&#xa;2. 是否属于有效批次&#xa;3. 是否未使用&#xa;4. 是否未过期&#xa;5. 是否未被禁用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="760" width="420" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="note4" value="权益码状态&#xa;unused / locked / used / expired / disabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="980" width="420" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="note5" value="合规边界&#xa;平台向机构收款&#xa;平台不向用户代收款&#xa;平台不做分账 / 提现&#xa;本质是机构预付后的权益核销" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1180" width="420" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="note6" value="必须风控&#xa;一码一次&#xa;扫码绑定&#xa;提交时并发锁 / 原子化核销&#xa;有效期 / 作废 / 追踪来源 / 退款后批量作废" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1460" width="420" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" source="start" target="n1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" source="n1" target="n2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" source="n2" target="n3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" edge="1" source="n3" target="n4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" edge="1" source="n4" target="n5" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" edge="1" source="n5" target="n6" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" edge="1" source="n6" target="d1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="否" edge="1" source="d1" target="invalid1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#b85450;fontColor=#b85450;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="是" edge="1" source="d1" target="n7" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;fontColor=#82b366;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" edge="1" source="n7" target="n8" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" edge="1" source="n8" target="n9" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" edge="1" source="n9" target="d2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e13" value="否" edge="1" source="d2" target="invalid2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#b85450;fontColor=#b85450;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e14" value="是" edge="1" source="d2" target="n10" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;fontColor=#82b366;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e15" edge="1" source="n10" target="n11" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e16" edge="1" source="n11" target="n12" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e17" edge="1" source="n12" target="n13" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e18" edge="1" source="n13" target="end" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

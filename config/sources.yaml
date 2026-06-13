@@ -1,0 +1,553 @@
+sources:
+- company: NVIDIA Newsroom Latest
+  layer: chips
+  type: newsroom
+  url: https://nvidianews.nvidia.com/news/latest
+  priority: medium
+  cadence: manual
+  purpose: chip_update
+  source_group: background
+- company: NVIDIA RSS Feeds
+  layer: chips
+  type: rss
+  url: https://www.nvidia.com/en-us/about-nvidia/rss/
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: AMD Press Releases
+  layer: chips
+  type: newsroom
+  url: https://ir.amd.com/news-events/press-releases
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: ASML Press Releases
+  layer: chips
+  type: newsroom
+  url: https://www.asml.com/news/press-releases
+  priority: medium
+  cadence: daily
+  purpose: chip_equipment_update
+  source_group: core_watchlist
+- company: Micron Newsroom
+  layer: chips
+  type: newsroom
+  url: https://www.micron.com/about/press/news
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: OpenAI API Changelog
+  layer: infrastructure
+  type: changelog
+  url: https://developers.openai.com/api/docs/changelog
+  priority: high
+  cadence: daily
+  purpose: api_change
+  source_group: core_watchlist
+- company: OpenAI Models
+  layer: models
+  type: changelog
+  url: https://developers.openai.com/api/docs/models
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: OpenAI News
+  layer: models
+  type: newsroom
+  url: https://openai.com/news/
+  priority: medium
+  cadence: manual
+  purpose: model_product_update
+  source_group: background
+- company: Anthropic Release Notes
+  layer: models
+  type: changelog
+  url: https://docs.anthropic.com/en/release-notes
+  priority: medium
+  cadence: manual
+  purpose: model_update
+  source_group: background
+- company: Anthropic News
+  layer: models
+  type: newsroom
+  url: https://www.anthropic.com/news
+  priority: high
+  cadence: daily
+  purpose: model_product_update
+  source_group: core_watchlist
+- company: Google DeepMind Blog
+  layer: models
+  type: blog
+  url: https://deepmind.google/discover/blog/
+  priority: medium
+  cadence: manual
+  purpose: model_research_update
+  source_group: background
+- company: Google AI Blog
+  layer: models
+  type: blog
+  url: https://blog.google/technology/ai/
+  priority: medium
+  cadence: manual
+  purpose: model_product_update
+  source_group: background
+- company: Gemini API Docs
+  layer: models
+  type: changelog
+  url: https://ai.google.dev/gemini-api/docs
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: AWS What's New
+  layer: infrastructure
+  type: newsroom
+  url: https://aws.amazon.com/new/
+  priority: medium
+  cadence: manual
+  purpose: cloud_update
+  source_group: background
+- company: AWS Machine Learning Blog
+  layer: infrastructure
+  type: blog
+  url: https://aws.amazon.com/blogs/machine-learning/
+  priority: medium
+  cadence: manual
+  purpose: cloud_ai_update
+  source_group: background
+- company: Google Cloud AI Blog
+  layer: infrastructure
+  type: blog
+  url: https://cloud.google.com/blog/products/ai-machine-learning
+  priority: medium
+  cadence: manual
+  purpose: cloud_ai_update
+  source_group: background
+- company: Microsoft Azure Updates
+  layer: infrastructure
+  type: newsroom
+  url: https://azure.microsoft.com/updates/
+  priority: medium
+  cadence: manual
+  purpose: cloud_update
+  source_group: background
+- company: Azure OpenAI What's New
+  layer: infrastructure
+  type: changelog
+  url: https://learn.microsoft.com/en-us/azure/ai-services/openai/whats-new
+  priority: high
+  cadence: daily
+  purpose: azure_openai_update
+  source_group: core_watchlist
+- company: OpenAI Codex Changelog
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/codex/changelog
+  priority: medium
+  cadence: manual
+  purpose: coding_agent_update
+  source_group: background
+- company: OpenAI Agents SDK
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/api/docs/guides/agents
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: OpenAI Apps SDK Changelog
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/apps-sdk/changelog
+  priority: medium
+  cadence: daily
+  purpose: chatgpt_apps_update
+  source_group: core_watchlist
+- company: GitHub Trending
+  layer: applications
+  type: web
+  url: https://github.com/trending
+  priority: medium
+  cadence: daily
+  purpose: developer_signal
+  source_group: discovery
+- company: HuggingFace Spaces
+  layer: applications
+  type: web
+  url: https://huggingface.co/spaces
+  priority: medium
+  cadence: daily
+  purpose: ai_app_signal
+  source_group: discovery
+- company: GE Vernova News
+  layer: energy
+  type: newsroom
+  url: https://www.gevernova.com/news/media-hub
+  priority: medium
+  cadence: weekly
+  purpose: energy_news
+  source_group: core_watchlist
+- company: Vertiv News
+  layer: energy
+  type: newsroom
+  url: https://investors.vertiv.com/news/default.aspx
+  priority: medium
+  cadence: weekly
+  purpose: energy_datacenter
+  source_group: capital_event
+- company: NVIDIA Investor Relations RSS
+  layer: capital
+  type: rss
+  url: https://investor.nvidia.com/investor-resources/rss/default.aspx
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: AMD Investor Relations
+  layer: capital
+  type: ir
+  url: https://ir.amd.com/
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: Microsoft Investor Relations
+  layer: capital
+  type: ir
+  url: https://www.microsoft.com/en-us/Investor
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: Alphabet Investor Relations
+  layer: capital
+  type: ir
+  url: https://abc.xyz/investor/
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: Amazon Investor Relations
+  layer: capital
+  type: ir
+  url: https://ir.aboutamazon.com
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: TSMC Monthly Revenue
+  layer: capital
+  type: ir
+  url: https://investor.tsmc.com/english/monthly-revenue
+  priority: high
+  cadence: monthly
+  purpose: capital_revenue
+  source_group: capital_event
+- company: LMArena
+  layer: models
+  type: benchmark
+  url: https://lmarena.ai
+  priority: medium
+  cadence: daily
+  purpose: model_benchmark
+  source_group: discovery
+- company: Artificial Analysis
+  layer: models
+  type: benchmark
+  url: https://artificialanalysis.ai
+  priority: medium
+  cadence: daily
+  purpose: model_benchmark
+  source_group: discovery
+- company: OpenAI Python Releases
+  layer: infrastructure
+  type: github_release
+  url: https://github.com/openai/openai-python/releases
+  priority: medium
+  cadence: daily
+  purpose: developer_sdk_update
+  source_group: discovery
+- company: Claude Code Releases
+  layer: applications
+  type: github_release
+  url: https://github.com/anthropics/claude-code/releases
+  priority: medium
+  cadence: daily
+  purpose: coding_agent_update
+  source_group: discovery
+- company: OpenAI ChatGPT Release Notes
+  layer: applications
+  type: release_notes
+  url: https://help.openai.com/en/articles/6825453-chatgpt-release-notes
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: Anthropic Claude Release Notes
+  layer: applications
+  type: release_notes
+  url: https://support.claude.com/en/articles/12138966-release-notes
+  priority: high
+  cadence: daily
+  purpose: claude_product_update
+  source_group: core_watchlist
+- company: Anthropic API Release Notes
+  layer: infrastructure
+  type: release_notes
+  url: https://platform.claude.com/docs/en/release-notes/overview
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: NVIDIA Developer Blog
+  layer: chips
+  type: blog
+  url: https://developer.nvidia.com/blog/
+  priority: high
+  cadence: daily
+  purpose: nvidia_developer_ecosystem
+  source_group: core_watchlist
+- company: Azure Updates
+  layer: infrastructure
+  type: newsroom
+  url: https://azure.microsoft.com/en-us/updates
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: VentureBeat AI
+  layer: applications
+  type: newsroom
+  url: https://venturebeat.com/category/ai
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: TSMC Newsroom
+  layer: chips
+  type: newsroom
+  url: https://www.tsmc.com/english/news
+  priority: medium
+  cadence: manual
+  purpose: reference
+  source_group: background
+- company: OpenAI Node Releases
+  layer: infrastructure
+  type: github_release
+  url: https://github.com/openai/openai-node/releases
+  priority: medium
+  cadence: daily
+  purpose: developer_sdk_update
+  source_group: discovery
+- company: Google Cloud Release Notes
+  layer: infrastructure
+  type: changelog
+  url: https://docs.cloud.google.com/release-notes
+  priority: high
+  cadence: daily
+  purpose: cloud_release_notes
+  source_group: core_watchlist
+- company: Google Developers Blog
+  layer: infrastructure
+  type: blog
+  url: https://developers.googleblog.com/
+  priority: medium
+  cadence: daily
+  purpose: developer_ecosystem_update
+  source_group: core_watchlist
+- company: TechCrunch AI
+  layer: applications
+  type: newsroom
+  url: https://techcrunch.com/category/artificial-intelligence/
+  priority: medium
+  cadence: daily
+  purpose: ai_startup_signal
+  source_group: discovery
+- company: Eaton News
+  layer: energy
+  type: newsroom
+  url: https://www.eaton.com/us/en-us/company/news-insights/news-releases.html
+  priority: medium
+  cadence: daily
+  purpose: power_equipment_update
+  source_group: core_watchlist
+- company: Meta AI Blog
+  layer: models
+  type: blog
+  url: https://ai.meta.com/blog/
+  priority: high
+  cadence: daily
+  purpose: model_product_update
+  source_group: core_watchlist
+- company: xAI News
+  layer: models
+  type: newsroom
+  url: https://x.ai/news
+  priority: high
+  cadence: daily
+  purpose: model_product_update
+  source_group: core_watchlist
+- company: Mistral AI News
+  layer: models
+  type: newsroom
+  url: https://mistral.ai/news/
+  priority: high
+  cadence: daily
+  purpose: model_product_update
+  source_group: core_watchlist
+- company: CoreWeave Blog
+  layer: infrastructure
+  type: blog
+  url: https://www.coreweave.com/blog
+  priority: high
+  cadence: daily
+  purpose: cloud_infra_update
+  source_group: core_watchlist
+- company: SK Hynix Newsroom
+  layer: chips
+  type: newsroom
+  url: https://news.skhynix.com/
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: Samsung Semiconductor Newsroom
+  layer: chips
+  type: newsroom
+  url: https://semiconductor.samsung.com/news-events/news/
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: Perplexity Blog
+  layer: applications
+  type: blog
+  url: https://www.perplexity.ai/hub/blog
+  priority: medium
+  cadence: daily
+  purpose: application_signal
+  source_group: core_watchlist
+- company: Broadcom News
+  layer: chips
+  type: newsroom
+  url: https://www.broadcom.com/company/news
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: Cursor Changelog
+  layer: applications
+  type: changelog
+  url: https://cursor.com/changelog
+  priority: medium
+  cadence: daily
+  purpose: coding_agent_update
+  source_group: core_watchlist
+- company: Schneider Electric Newsroom
+  layer: energy
+  type: newsroom
+  url: https://www.se.com/ww/en/about-us/newsroom/
+  priority: medium
+  cadence: daily
+  purpose: energy_signal
+  source_group: core_watchlist
+- company: NVIDIA Quarterly Results
+  layer: capital
+  type: ir
+  url: https://investor.nvidia.com/financial-info/quarterly-results/default.aspx
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+  source_group: capital_event
+- company: Cohere Blog
+  layer: models
+  type: blog
+  url: https://cohere.com/blog
+  priority: medium
+  cadence: daily
+  purpose: model_product_update
+  source_group: core_watchlist
+- company: Oracle Cloud Infrastructure Blog
+  layer: infrastructure
+  type: blog
+  url: https://blogs.oracle.com/cloud-infrastructure/
+  priority: medium
+  cadence: daily
+  purpose: cloud_infra_update
+  source_group: core_watchlist
+- company: Cloudflare AI Blog
+  layer: infrastructure
+  type: blog
+  url: https://blog.cloudflare.com/tag/ai/
+  priority: medium
+  cadence: daily
+  purpose: cloud_infra_update
+  source_group: core_watchlist
+- company: Marvell Newsroom
+  layer: chips
+  type: newsroom
+  url: https://www.marvell.com/company/newsroom.html
+  priority: high
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: Arm Newsroom
+  layer: chips
+  type: newsroom
+  url: https://newsroom.arm.com/
+  priority: medium
+  cadence: daily
+  purpose: chip_update
+  source_group: core_watchlist
+- company: ServiceNow Newsroom
+  layer: applications
+  type: newsroom
+  url: https://www.servicenow.com/company/media/press-room.html
+  priority: medium
+  cadence: daily
+  purpose: application_signal
+  source_group: core_watchlist
+- company: Salesforce Newsroom
+  layer: applications
+  type: newsroom
+  url: https://www.salesforce.com/news/
+  priority: medium
+  cadence: daily
+  purpose: application_signal
+  source_group: core_watchlist
+- company: Adobe Newsroom
+  layer: applications
+  type: newsroom
+  url: https://news.adobe.com/
+  priority: medium
+  cadence: daily
+  purpose: application_signal
+  source_group: core_watchlist
+- company: Palantir Newsroom
+  layer: applications
+  type: newsroom
+  url: https://www.palantir.com/newsroom/
+  priority: medium
+  cadence: daily
+  purpose: application_signal
+  source_group: core_watchlist
+- company: Constellation Newsroom
+  layer: energy
+  type: newsroom
+  url: https://www.constellationenergy.com/newsroom.html
+  priority: medium
+  cadence: daily
+  purpose: energy_signal
+  source_group: core_watchlist
+- company: Vistra Newsroom
+  layer: energy
+  type: newsroom
+  url: https://vistracorp.com/newsroom/
+  priority: medium
+  cadence: daily
+  purpose: energy_signal
+  source_group: core_watchlist

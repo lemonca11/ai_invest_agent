@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-05-23T09:21:00.000Z" agent="OpenClaw" etag="workflow" version="22.1.0" type="device">
+  <diagram id="workflow-diagram" name="AI Investment Workflow">
+    <mxGraphModel dx="1434" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AI 投资情报 Agent Workflow - AI 六层框架版" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="layer1-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="350" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="layer1-title" value="📋 来源配置层" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="85" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="sources.yaml&#xa;来源库配置" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="70" y="115" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="config_server.py&#xa;网页配置界面&#xa;localhost:5001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="220" y="115" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="sources_import.csv&#xa;批量导入文件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="70" y="175" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="import_sources.py&#xa;批量导入脚本" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="220" y="175" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="layer2-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="350" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="layer2-title" value="🔍 抓取层" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="85" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="node5" value="main.py&#xa;Python 抓取器" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="470" y="115" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node6" value="priority=high?&#xa;筛选高优先级" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="630" y="110" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="node7" value="BeautifulSoup&#xa;提取网页文本&#xa;保留前120行" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="470" y="180" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node8" value="URL去重&#xa;避免重复抓取" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="630" y="180" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="layer3-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="80" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="layer3-title" value="📦 原始素材层" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="850" y="85" width="280" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="node9" value="raw_items_日期.json&#xa;原始数据文件&#xa;包含 company/layer/content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="870" y="115" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="layer4-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="280" width="480" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="layer4-title" value="🧠 分析层" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="285" width="480" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="node10" value="OpenClaw&#xa;调度 Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="70" y="315" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node11" value="daily_report.md&#xa;六层分析 Prompt&#xa;严禁编造/信息不足标注" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="200" y="310" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="node12" value="moonshot/&#xa;kimi-k2.5&#xa;Kimi 大模型" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="70" y="380" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node13" value="按 AI 六层框架分析&#xa;能源→芯片→基础设施→模型→应用→资本" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="200" y="375" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="layer5-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="570" y="280" width="350" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="layer5-title" value="📄 输出层" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="285" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="node14" value="reports/日期.md&#xa;Markdown 日报&#xa;含今日总览/重大事件/六层分析/投资观察" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="590" y="315" width="310" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="framework-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;strokeWidth=3;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="280" width="230" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="framework-title" value="🏗️ AI 六层框架" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1000" y="285" width="230" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" value="⚡ 能源层&#xa;电力/核电/天然气/储能" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="315" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="🔧 芯片/计算层&#xa;GPU/ASIC/HBM/TSMC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c5cae9;strokeColor=#283593;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="355" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="🖥️ 基础设施层&#xa;数据中心/云平台/CUDA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b2dfdb;strokeColor=#00695c;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="395" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" value="🧠 模型层&#xa;OpenAI/Anthropic/Gemini" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#6a1b9a;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="435" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" value="💬 应用层&#xa;ChatGPT/Claude/Agent/SaaS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b3e5fc;strokeColor=#0277bd;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="475" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" value="💰 资本层&#xa;财报/IR/融资/CapEx" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcedc8;strokeColor=#558b2f;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1015" y="515" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="核心分工&#xa;Python = 抓资料&#xa;OpenClaw = 调度 Agent&#xa;Kimi = 分析判断&#xa;Markdown = 输出日报" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;spacing=3;" vertex="1" parent="1">
+          <mxGeometry x="50" y="470" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="status" value="系统状态&#xa;✅ 来源配置页面&#xa;✅ 批量导入&#xa;✅ 六层框架&#xa;✅ OpenClaw + Kimi&#xa;⏳ 一键运行脚本（待完成）" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;spacing=3;" vertex="1" parent="1">
+          <mxGeometry x="250" y="470" width="190" height="95" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

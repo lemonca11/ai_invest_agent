@@ -1,0 +1,95 @@
+[
+  {
+    "date": "2026-06-13",
+    "title": "AI Investment Intelligence Daily - 2026-06-13",
+    "url": "reports/2026-06-13.html",
+    "overview": [
+      "**Core view**: Today's AI investment narrative is not just a model capability race. The more important pattern is the convergence of model governance risk, enterprise deployment readiness, and agentic AI infrastructure.",
+      "**Top signal**: Anthropic's Fable 5 and Mythos 5 access suspension under a US government directive is the most important risk event. Advanced models are now directly exposed to export controls, national security review, and cross-border availability constraints.",
+      "**Enterprise AI**: Claude's enterprise roadmap is accelerating. Compliance API, role-based permissions, and Claude Design point to auditability, organizational governance, and design workflow integration.",
+      "**Compute infrastructure**: NVIDIA continues to frame Blackwell and GB300 as platforms for agentic workloads, not only training hardware. Agentic coding throughput and long-context deployment are becoming procurement narratives.",
+      "**Developer stack**: Google signals are concentrated around infrastructure and developer tooling, including Colab CLI, Gemma, DiffusionGemma, and Apigee.",
+      "**Investment implication**: The near-term focus should be Anthropic's regulatory exposure and enterprise adoption, NVIDIA's agentic workload economics, and Google's developer infrastructure expansion. Stronger investment conclusions still require customer adoption, cloud consumption, orders, and third-party benchmarks."
+    ],
+    "events": [
+      "Anthropic suspends access to Fable 5 and Mythos 5 under US government directive",
+      "Anthropic launches Claude Corps",
+      "Anthropic publishes the first Public Record survey",
+      "Claude Compliance API supports enterprise audit integrations",
+      "Claude Design enters research preview",
+      "Claude Enterprise adds role-based permissions",
+      "NVIDIA highlights agentic coding benchmark performance",
+      "NVIDIA details MiniMax M3 long-context deployment on accelerated infrastructure",
+      "Google Cloud updates Apigee hybrid documentation",
+      "SK Hynix and NVIDIA deepen memory collaboration for AI factories"
+    ]
+  },
+  {
+    "date": "2026-06-09",
+    "title": "AI Investment Intelligence Daily - 2026-06-09",
+    "url": "reports/2026-06-09.html",
+    "overview": [
+      "**Core view**: There were three confirmed events today, concentrated in AI compute and cloud infrastructure.",
+      "**AI layers**: chips / infrastructure",
+      "**Investment implication**: AMD and NVIDIA both point to continued strengthening of the AI compute supply side. Google Cloud shows that Gemini capabilities are being embedded into data governance, query scheduling, and cost-management workflows.",
+      "**Primary sources**: AMD IR, NVIDIA Developer Blog, Google Cloud Release Notes."
+    ],
+    "events": [
+      "AMD commits up to GBP 2 billion to accelerate AI innovation in the United Kingdom",
+      "NVIDIA publishes NVFP4 training recipe for JAX and MaxText on Blackwell",
+      "Google Cloud release notes update Gemini-assisted data workflows"
+    ]
+  },
+  {
+    "date": "2026-05-24",
+    "title": "AI Investment Intelligence Daily - 2026-05-24",
+    "url": "reports/2026-05-24.html",
+    "overview": [
+      "**Core view**: Anthropic's Project Glasswing first-month update was the only confirmed event strong enough for today's report.",
+      "**AI layer**: models",
+      "**Investment implication**: Anthropic showed a strong vertical AI-security signal. Mythos Preview appears to have meaningful commercial potential in vulnerability discovery and enterprise security workflows. The evidence still comes primarily from Anthropic's own disclosure, so third-party validation remains important.",
+      "**Primary source**: Anthropic News - Project Glasswing: An initial update."
+    ],
+    "events": [
+      "Anthropic publishes first-month Project Glasswing results"
+    ]
+  },
+  {
+    "date": "2026-05-23",
+    "title": "AI Investment Intelligence Daily - 2026-05-23",
+    "url": "reports/2026-05-23.html",
+    "overview": [
+      "**Core view**: AMD's next-generation EPYC \"Venice\" processor moved into TSMC 2nm production, and AMD committed more than USD 10 billion to Taiwan's AI infrastructure ecosystem.",
+      "**AI layers**: chips / capital",
+      "**Investment implication**: AMD is aggressively challenging NVIDIA's position in the AI data-center market. The 2nm process milestone and large ecosystem investment show long-term commitment to AI compute.",
+      "**Additional signal**: Anthropic continued to expand enterprise adoption through KPMG, PwC, Claude Code, and Compliance API updates."
+    ],
+    "events": [
+      "AMD EPYC \"Venice\" enters TSMC 2nm production",
+      "Anthropic expands enterprise partnerships and Claude product capabilities"
+    ]
+  },
+  {
+    "date": "2026-05-22",
+    "title": "AI Investment Intelligence Daily - 2026-05-22",
+    "url": "reports/2026-05-22.html",
+    "overview": [
+      "**Anthropic enterprise ecosystem expands rapidly**: KPMG, PwC, Blackstone, Hellman & Friedman, Goldman Sachs, and the Gates Foundation appeared across a dense set of enterprise and institutional partnerships. Claude is moving from a tool toward enterprise infrastructure.",
+      "**Google I/O '26 focuses on the agentic enterprise**: Gemini Enterprise, Agent Platform, Agent Executor, and related products show Google pushing cloud competition from model access toward agent development, orchestration, and governance.",
+      "**NVIDIA Q1 FY2027 beats expectations**: Revenue reached USD 81.6 billion, up 20% sequentially, reinforcing the strength of AI compute demand.",
+      "**AWS Frontier Agents reach general availability**: Security and DevOps agents provide a clearer commercial path for enterprise AI agents in IT operations and security.",
+      "**Information gap**: OpenAI web content was inaccessible through the crawler, creating a coverage blind spot."
+    ],
+    "events": [
+      "Anthropic and KPMG form a strategic alliance",
+      "Anthropic acquires Stainless",
+      "Anthropic partners with Blackstone, Hellman & Friedman, and Goldman Sachs on enterprise AI services",
+      "Anthropic and the Gates Foundation announce a USD 200 million partnership",
+      "Google launches Gemini Enterprise and Agent Platform",
+      "NVIDIA reports Q1 FY2027 results",
+      "NVIDIA delivers Vera CPU to top AI labs",
+      "AWS Frontier Agents become generally available",
+      "Amazon Nova Act receives HIPAA eligibility"
+    ]
+  }
+]

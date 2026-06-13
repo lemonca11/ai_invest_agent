@@ -1,0 +1,23 @@
+抓取完成：/Users/wenzhucui/ai_invest_agent/data/raw_items_2026-06-13.json
+启用优先级：high, medium
+启用频率：daily
+启用来源组：core_watchlist, discovery
+今日重大事件窗口：最近 72 小时
+近期重要变化窗口：最近 168 小时
+来源数量：41
+内容条目：50
+RSS条目：0
+详情页正文条目：28
+提取到发布时间条目：30
+发布时间未知条目：20
+失败条目：8
+source_group 分布：{'core_watchlist': 44, 'discovery': 6}
+event_grade 分布：{'recent_signal': 18, 'background_ref': 6, 'confirmed_event': 12, 'watch_signal': 6, 'failed_source': 8}
+time_quality 分布：{'site_parser_amd': 1, 'unknown': 20, 'site_parser_anthropic': 3, 'detail_page_extracted': 24, 'extracted_from_text': 2}
+本地日报生成完成：/Users/wenzhucui/ai_invest_agent/reports/2026-06-13.md
+输入文件：/Users/wenzhucui/ai_invest_agent/data/raw_items_2026-06-13.json
+内容条目：50
+来源迭代完成：/Users/wenzhucui/ai_invest_agent/reports/source_iteration_2026-06-13.md
+候选源数量：0
+自动晋级候选：0
+本次自动写入：0

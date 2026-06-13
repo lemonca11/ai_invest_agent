@@ -1,0 +1,456 @@
+sources:
+- company: OpenAI
+  layer: models
+  type: newsroom
+  url: https://openai.com/news/
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: Anthropic
+  layer: models
+  type: newsroom
+  url: https://www.anthropic.com/news
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: Google DeepMind
+  layer: models
+  type: blog
+  url: https://deepmind.google/discover/blog/
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: Google Cloud
+  layer: infrastructure
+  type: blog
+  url: https://cloud.google.com/blog/products/ai-machine-learning
+  priority: high
+  cadence: daily
+  purpose: cloud_infra_update
+- company: Microsoft
+  layer: infrastructure
+  type: blog
+  url: https://blogs.microsoft.com/ai/
+  priority: high
+  cadence: daily
+  purpose: cloud_infra_update
+- company: AWS
+  layer: infrastructure
+  type: blog
+  url: https://aws.amazon.com/blogs/machine-learning/
+  priority: medium
+  cadence: daily
+  purpose: cloud_infra_update
+- company: NVIDIA
+  layer: chips
+  type: newsroom
+  url: https://nvidianews.nvidia.com/
+  priority: high
+  cadence: daily
+  purpose: chip_update
+- company: chatgpt
+  layer: applications
+  type: web
+  url: https://www.reddit.com/r/ChatGPT/
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: Reddit Artificial Intelligence
+  layer: applications
+  type: web
+  url: https://www.reddit.com/r/ArtificialIntelligence/
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: snowflake
+  layer: applications
+  type: web
+  url: https://www.snowflake.com/en/
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: datadog
+  layer: applications
+  type: web
+  url: https://www.datadoghq.com/
+  priority: high
+  cadence: manual
+  purpose: application_signal
+- company: ai application
+  layer: applications
+  type: web
+  url: https://www.producthunt.com/
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: chatgpt
+  layer: applications
+  type: newsroom
+  url: https://openai.com/zh-Hans-CN/news/
+  priority: high
+  cadence: daily
+  purpose: application_signal
+- company: chatgpt
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/api/docs/changelog
+  priority: high
+  cadence: daily
+  purpose: api_change
+- company: anthropic
+  layer: applications
+  type: changelog
+  url: https://platform.claude.com/docs/en/release-notes/system-prompts
+  priority: high
+  cadence: daily
+  purpose: application_signal
+- company: NVIDIA
+  layer: chips
+  type: web
+  url: https://www.nvidia.com
+  priority: high
+  cadence: manual
+  purpose: chip_update
+- company: NVIDIA Investor Relations
+  layer: capital
+  type: ir
+  url: https://investor.nvidia.com
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: TSMC Investor Relations
+  layer: capital
+  type: ir
+  url: https://www.tsmc.com/english/investorRelations
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: ASML Investors
+  layer: capital
+  type: ir
+  url: https://www.asml.com/en/investors
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Cloudflare Radar
+  layer: chips
+  type: web
+  url: https://radar.cloudflare.com
+  priority: medium
+  cadence: manual
+  purpose: chip_update
+- company: Arista Networks
+  layer: chips
+  type: web
+  url: https://www.arista.com/en
+  priority: medium
+  cadence: manual
+  purpose: chip_update
+- company: Equinix
+  layer: chips
+  type: web
+  url: https://www.equinix.com
+  priority: medium
+  cadence: manual
+  purpose: chip_update
+- company: OpenAI Blog
+  layer: models
+  type: blog
+  url: https://openai.com/blog
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: OpenAI Models
+  layer: models
+  type: web
+  url: https://developers.openai.com/api/docs/models
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: OpenAI Pricing
+  layer: models
+  type: web
+  url: https://developers.openai.com/api/docs/pricing
+  priority: high
+  cadence: weekly
+  purpose: pricing_change
+- company: OpenAI Deprecations
+  layer: models
+  type: web
+  url: https://developers.openai.com/api/docs/deprecations
+  priority: medium
+  cadence: weekly
+  purpose: api_deprecation
+- company: OpenAI Codex Changelog
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/codex/changelog
+  priority: high
+  cadence: daily
+  purpose: api_change
+- company: OpenAI Codex Models
+  layer: applications
+  type: web
+  url: https://developers.openai.com/codex/models
+  priority: medium
+  cadence: manual
+  purpose: model_update
+- company: OpenAI Agents SDK
+  layer: applications
+  type: web
+  url: https://developers.openai.com/api/docs/guides/agents
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: OpenAI Apps SDK Changelog
+  layer: applications
+  type: changelog
+  url: https://developers.openai.com/apps-sdk/changelog
+  priority: medium
+  cadence: daily
+  purpose: api_change
+- company: Anthropic Release Notes
+  layer: models
+  type: changelog
+  url: https://docs.anthropic.com/en/release-notes
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: Google AI Blog
+  layer: models
+  type: blog
+  url: https://ai.googleblog.com
+  priority: high
+  cadence: daily
+  purpose: model_update
+- company: Gemini API Docs
+  layer: models
+  type: web
+  url: https://ai.google.dev/gemini-api/docs
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: LMSYS LM Arena
+  layer: models
+  type: web
+  url: https://lmarena.ai
+  priority: medium
+  cadence: manual
+  purpose: model_update
+- company: Artificial Analysis
+  layer: models
+  type: web
+  url: https://artificialanalysis.ai
+  priority: medium
+  cadence: manual
+  purpose: model_update
+- company: HuggingFace Open LLM Leaderboard
+  layer: models
+  type: web
+  url: https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard
+  priority: medium
+  cadence: manual
+  purpose: model_update
+- company: OpenAI API Docs
+  layer: infrastructure
+  type: web
+  url: https://platform.openai.com/docs
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: Anthropic API Docs
+  layer: infrastructure
+  type: web
+  url: https://docs.anthropic.com
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: Google AI Studio Gemini API
+  layer: infrastructure
+  type: web
+  url: https://ai.google.dev
+  priority: high
+  cadence: manual
+  purpose: api_change
+- company: Microsoft Investor Relations
+  layer: capital
+  type: ir
+  url: https://www.microsoft.com/en-us/Investor
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: Alphabet Investor Relations
+  layer: capital
+  type: ir
+  url: https://abc.xyz/investor/
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: Amazon Investor Relations
+  layer: capital
+  type: ir
+  url: https://ir.aboutamazon.com
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: AWS Blog
+  layer: infrastructure
+  type: blog
+  url: https://aws.amazon.com/blogs/aws/
+  priority: medium
+  cadence: daily
+  purpose: cloud_infra_update
+- company: Google Cloud Blog
+  layer: infrastructure
+  type: blog
+  url: https://cloud.google.com/blog
+  priority: high
+  cadence: daily
+  purpose: cloud_infra_update
+- company: Google Trends
+  layer: applications
+  type: web
+  url: https://trends.google.com
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: Apple App Store
+  layer: applications
+  type: web
+  url: https://apps.apple.com
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: Google Play
+  layer: applications
+  type: web
+  url: https://play.google.com
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: Reddit LocalLLaMA
+  layer: applications
+  type: web
+  url: https://www.reddit.com/r/LocalLLaMA/
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: Reddit Artificial Intelligence
+  layer: applications
+  type: web
+  url: https://www.reddit.com/r/ArtificialIntelligence/
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: GitHub Trending
+  layer: applications
+  type: web
+  url: https://github.com/trending
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: HuggingFace Spaces
+  layer: applications
+  type: web
+  url: https://huggingface.co/spaces
+  priority: medium
+  cadence: manual
+  purpose: application_signal
+- company: Product Hunt
+  layer: applications
+  type: web
+  url: https://www.producthunt.com
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: Similarweb
+  layer: applications
+  type: web
+  url: https://www.similarweb.com
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: Sensor Tower
+  layer: applications
+  type: web
+  url: https://sensortower.com
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: data.ai
+  layer: applications
+  type: web
+  url: https://www.data.ai
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: Apptopia
+  layer: applications
+  type: web
+  url: https://www.apptopia.com
+  priority: low
+  cadence: manual
+  purpose: application_signal
+- company: GE Vernova
+  layer: energy
+  type: ir
+  url: https://www.gevernova.com/investors
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Constellation Energy
+  layer: energy
+  type: ir
+  url: https://www.constellationenergy.com/investors
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Vistra
+  layer: energy
+  type: ir
+  url: https://investor.vistracorp.com
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Eaton
+  layer: energy
+  type: ir
+  url: https://www.eaton.com/us/en-us/company/investor-relations.html
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Schneider Electric
+  layer: energy
+  type: ir
+  url: https://www.se.com/ww/en/about-us/investor-relations/
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: Vertiv
+  layer: energy
+  type: ir
+  url: https://investors.vertiv.com
+  priority: medium
+  cadence: weekly
+  purpose: capital_market
+- company: NVIDIA Newsroom RSS
+  layer: chips
+  type: rss
+  url: https://nvidianews.nvidia.com/rss
+  priority: high
+  cadence: daily
+  purpose: chip_update
+- company: NVIDIA Investor Relations RSS
+  layer: capital
+  type: rss
+  url: https://investor.nvidia.com/investor-resources/rss/default.aspx
+  priority: high
+  cadence: weekly
+  purpose: capital_market
+- company: AWS What's New
+  layer: infrastructure
+  type: newsroom
+  url: https://aws.amazon.com/new/
+  priority: high
+  cadence: daily
+  purpose: cloud_update

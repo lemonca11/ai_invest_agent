@@ -1,0 +1,65 @@
+name: Daily MetaFinance publish
+
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-metafinance-publish
+  cancel-in-progress: false
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
+
+      - name: Fetch sources
+        run: python3 main.py
+
+      - name: Generate daily report
+        run: |
+          TODAY=$(date +%F)
+          python3 generate_local_report.py --date "$TODAY"
+
+      - name: Update source iteration
+        run: |
+          TODAY=$(date +%F)
+          python3 market_source_iterate.py --date "$TODAY"
+
+      - name: Build static site
+        run: python3 build_site.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

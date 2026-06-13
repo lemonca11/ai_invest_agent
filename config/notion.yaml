@@ -1,0 +1,4 @@
+parent_page_id_env: NOTION_PARENT_PAGE_ID
+token_env: NOTION_TOKEN
+title_prefix: "AI 投资情报日报"
+source_report_dir: reports

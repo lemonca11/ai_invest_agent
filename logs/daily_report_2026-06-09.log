@@ -1,0 +1,47 @@
+抓取完成：/Users/wenzhucui/ai_invest_agent/data/raw_items_2026-06-09.json
+启用优先级：high, medium
+启用频率：daily
+启用来源组：core_watchlist, discovery
+今日重大事件窗口：最近 72 小时
+近期重要变化窗口：最近 168 小时
+来源数量：21
+内容条目：20
+RSS条目：0
+详情页正文条目：0
+提取到发布时间条目：0
+发布时间未知条目：20
+失败条目：20
+source_group 分布：{'core_watchlist': 11, 'discovery': 9}
+event_grade 分布：{'failed_source': 20}
+time_quality 分布：{'unknown': 20}
+[agents/auth-profiles] synced openai-codex credentials from external cli
+Gateway agent failed; falling back to embedded: Error: gateway closed (1006 abnormal closure (no close frame)): no close reason
+Gateway target: ws://127.0.0.1:18789
+Source: local loopback
+Config: /Users/wenzhucui/.openclaw/openclaw.json
+Bind: loopback
+[bundle-mcp] failed to start server "drawio" (npx -y @mcp/drawio-mcp): Error: MCP server connection timed out after 30000ms
+[agent/embedded] embedded run agent end: runId=c4374b0d-38a1-4e0d-a17e-9579488c3d48 isError=true model=kimi-k2.5 provider=moonshot error=LLM request failed: network connection error. rawError=Connection error.
+[agent/embedded] embedded run agent end: runId=c4374b0d-38a1-4e0d-a17e-9579488c3d48 isError=true model=kimi-k2.5 provider=moonshot error=LLM request failed: network connection error. rawError=Connection error.
+[agent/embedded] embedded run agent end: runId=c4374b0d-38a1-4e0d-a17e-9579488c3d48 isError=true model=kimi-k2.5 provider=moonshot error=LLM request failed: network connection error. rawError=Connection error.
+[agent/embedded] embedded run agent end: runId=c4374b0d-38a1-4e0d-a17e-9579488c3d48 isError=true model=kimi-k2.5 provider=moonshot error=LLM request failed: network connection error. rawError=Connection error.
+[agent/embedded] embedded run failover decision: runId=c4374b0d-38a1-4e0d-a17e-9579488c3d48 stage=assistant decision=surface_error reason=timeout provider=moonshot/kimi-k2.5 profile=sha256:a3568bc3c72e
+LLM request failed: network connection error.
+抓取完成：/Users/wenzhucui/ai_invest_agent/data/raw_items_2026-06-09.json
+启用优先级：high, medium
+启用频率：daily
+启用来源组：core_watchlist, discovery
+今日重大事件窗口：最近 72 小时
+近期重要变化窗口：最近 168 小时
+来源数量：21
+内容条目：23
+RSS条目：0
+详情页正文条目：13
+提取到发布时间条目：14
+发布时间未知条目：9
+失败条目：1
+source_group 分布：{'core_watchlist': 12, 'discovery': 11}
+event_grade 分布：{'confirmed_event': 3, 'background_ref': 2, 'recent_signal': 11, 'watch_signal': 6, 'failed_source': 1}
+time_quality 分布：{'site_parser_amd': 1, 'unknown': 9, 'site_parser_anthropic': 2, 'detail_page_extracted': 10, 'extracted_from_text': 1}
+LLM request timed out.
+失败：未生成 reports/2026-06-09.md，请查看日志：~/ai_invest_agent/logs/daily_report_2026-06-09.log

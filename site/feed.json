@@ -1,0 +1,117 @@
+[
+  {
+    "date": "2026-06-13",
+    "title": "AI 投资情报日报 - 2026-06-13",
+    "url": "reports/2026-06-13.html",
+    "overview": [
+      "**核心判断**：今天的 AI 投资主线不是单纯模型能力竞赛，而是“模型监管风险 + 企业级落地能力 + agentic AI 算力平台”三条线同时推进。",
+      "**今日重点**：Anthropic 的 Fable 5 / Mythos 5 被美国政府要求暂停外国国民访问，是今天最重要的风险信号：高能力模型开始直接面对出口控制、国家安全和跨境可用性约束。",
+      "**延伸观察**：Claude 的企业化动作明显加速：Compliance API、角色权限和 Claude Design 分别指向合规审计、组织治理和设计工作流，说明模型厂商正在把竞争从单纯模型能力推进到企业工作台和管理能力。",
+      "**延伸观察**：NVIDIA 的主线是 agentic AI 基础设施：GB300 的 agentic coding 吞吐叙事和 MiniMax M3 长上下文部署方案，都在强化 Blackwell/GB300 不只是训练硬件，而是面向并发 agent、工具调用和长上下文推理的平台。",
+      "**延伸观察**：Google 侧信号偏基础设施和开发者工具，重点不是单点爆款产品，而是 Colab CLI、Gemma / DiffusionGemma、Apigee 等能力对本地 AI、agent 可调用算力和企业 API 管理的补齐。",
+      "**延伸观察**：AMD 英国 20 亿英镑 AI 投资仍是近期重要资本与算力信号，说明主权 AI 和科研算力市场继续为 NVIDIA 之外的供应商提供叙事空间，但短期收入转化仍需订单和交付数据验证。",
+      "**投资含义**：短期应把 Anthropic 的监管与企业产品进展、NVIDIA 的 agentic workload 能效叙事、Google 的开发者基础设施补齐放在同一张图里看；真正能转化为投资判断的，还需要后续验证客户采用、订单、云消耗和第三方 benchmark。",
+      "**风险提示**：部分 discovery 和 release note 来源仍是目录页或文档页，不能直接当成强事件；能源层和资本层今天的有效信号不足。"
+    ],
+    "events": [
+      "Anthropic 因美国政府指令暂停 Fable 5 和 Mythos 5 访问",
+      "Anthropic 推出 Claude Corps 公益与人才项目",
+      "Anthropic 发布首期 Public Record 公众态度调查结果",
+      "Claude Compliance API 企业合规集成更新",
+      "Claude Design 研究预览更新",
+      "Claude Enterprise 角色权限能力更新",
+      "NVIDIA 发布 Agentic Coding 基准表现更新",
+      "NVIDIA 发布 MiniMax M3 长上下文部署方案",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "SK Hynix 与 NVIDIA 建立多年技术合作推进 AI 工厂内存",
+      "Adobe 公布创纪录 Q2 业绩并强调企业 AI 渗透",
+      "AMD 宣布在英国投入最高 20 亿英镑推进 AI 创新",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "Google 发布 DiffusionGemma 开发者指南",
+      "Google 发布 Colab CLI 开发者工具",
+      "Google 发布 Gemma 4 12B 开发者指南",
+      "Cursor Bugbot 审查速度提升 3 倍、成本下降 22%",
+      "Cohere 研究线聚焦工作未来、多语言模型和企业可信 AI",
+      "Cloudflare 以自身架构演示如何防御前沿网络攻击模型",
+      "Arm 发布 Neural Dawn 展示移动端 AI 图形和神经渲染能力",
+      "Salesforce 将能耗和碳排放指标纳入 AI Model Cards",
+      "Salesforce 用 Slackbot 展示 Agentic Enterprise 内部知识工作流",
+      "OpenAI API Changelog 背景页：需继续跟踪具体 API 变更",
+      "OpenAI Apps SDK Changelog 背景页：需继续跟踪具体应用生态变更",
+      "Mistral 官网信号：前沿模型、助手、Agent 和企业服务",
+      "CoreWeave 博客页信号：AI 云基础设施持续扩展",
+      "Broadcom 新闻页信号：AI 网络和定制芯片链需继续跟踪",
+      "Palantir 新闻页信号：AIP 企业和政府落地需继续跟踪"
+    ]
+  },
+  {
+    "date": "2026-06-09",
+    "title": "AI 投资情报日报 - 2026-06-09",
+    "url": "reports/2026-06-09.html",
+    "overview": [
+      "**结论**：今日 confirmed_event 共 3 条，核心集中在芯片/计算层与云基础设施层。",
+      "**对应层级**：chips / infrastructure",
+      "**投资含义**：AMD 和 NVIDIA 的事件都指向 AI 计算供给侧继续强化，Google Cloud 则显示云平台正在把 Gemini 能力嵌入数据、查询、成本治理等企业工作流。",
+      "**依据来源**：AMD IR、NVIDIA Developer Blog、Google Cloud Release Notes"
+    ],
+    "events": [
+      "AMD 承诺在英国投入最高 20 亿英镑推进 AI 创新",
+      "NVIDIA 发布 Blackwell 上 NVFP4 + JAX/MaxText 训练方案",
+      "Google Cloud 6 月 9 日发布说明更新"
+    ]
+  },
+  {
+    "date": "2026-05-24",
+    "title": "AI 投资情报日报 - 2026-05-24",
+    "url": "reports/2026-05-24.html",
+    "overview": [
+      "**结论**：Anthropic 发布 Project Glasswing 首月进展报告，Mythos Preview 模型在网络安全领域展现突破性能力，发现超 10,000 个高危漏洞。",
+      "**对应层级**：models",
+      "**投资含义**：Anthropic 在 AI 安全垂直领域出现强信号，具备商业化潜力，企业级合规 API 生态持续扩张。但由于该事件仅来自 Anthropic 单一官方来源，需持续跟踪第三方验证和竞争对手反应，不能单独作为行业确定性结论。",
+      "**依据来源**：Anthropic News - Project Glasswing: An initial update (2026-05-22)"
+    ],
+    "events": [
+      "Anthropic Project Glasswing 首月成果发布"
+    ]
+  },
+  {
+    "date": "2026-05-23",
+    "title": "AI 投资情报日报 - 2026-05-23",
+    "url": "reports/2026-05-23.html",
+    "overview": [
+      "**结论**：AMD宣布下一代EPYC处理器\"Venice\"采用TSMC 2nm工艺量产，并承诺在台湾投资超100亿美元加速AI基础设施",
+      "**对应层级**：芯片/计算层 (chips) / 资本层 (capital)",
+      "**投资含义**：AMD正在 aggressively 挑战NVIDIA在AI数据中心市场的地位，2nm工艺和巨额投资显示其争夺AI算力市场份额的决心",
+      "**依据来源**：AMD Press Releases (confirmed_event, published_at: 2026-05-21)",
+      "**结论**：Anthropic近期密集发布企业级合作（KPMG 27.6万人部署、PwC全面采用）及Claude产品更新（Claude Code、Compliance API）",
+      "**对应层级**：应用层 (applications) / 模型层 (models)",
+      "**投资含义**：AI在知识密集型专业服务领域进入规模化部署阶段，四大会计师事务所成为突破口",
+      "**依据来源**：Anthropic News + Claude Release Notes (confirmed_event, published_at: 2026-05-22)",
+      "**结论**：今日confirmed_event仅3条，日报相应缩短。watch_signal和background_ref未达重大事件标准",
+      "**对应层级**：信息质量说明",
+      "**投资含义**：数据质量过滤机制生效，避免低质量信息干扰判断",
+      "**依据来源**：event_grade统计"
+    ],
+    "events": [
+      "AMD下一代EPYC处理器\"Venice\"采用TSMC 2nm工艺量产",
+      "Anthropic与KPMG、PwC达成企业级合作及Claude产品更新"
+    ]
+  },
+  {
+    "date": "2026-05-22",
+    "title": "AI 投资情报日报 - 2026-05-22",
+    "url": "reports/2026-05-22.html",
+    "overview": [],
+    "events": [
+      "Anthropic 与 KPMG 达成战略联盟",
+      "Anthropic 收购 Stainless",
+      "Anthropic 与 Blackstone、Hellman & Friedman、Goldman Sachs 共建企业 AI 服务公司",
+      "Anthropic 与盖茨基金会达成 2 亿美元合作",
+      "Google 发布 Gemini Enterprise 和 Agent Platform",
+      "NVIDIA Q1 FY2027 财报发布",
+      "NVIDIA Vera CPU 发布",
+      "AWS Frontier Agents 正式商用",
+      "Amazon Nova Act 获得 HIPAA 资格认证"
+    ]
+  }
+]

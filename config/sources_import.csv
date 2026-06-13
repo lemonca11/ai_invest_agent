@@ -1,0 +1,13 @@
+company,layer,type,url,priority,cadence,purpose,source_group
+OpenAI ChatGPT Release Notes,applications,release_notes,https://help.openai.com/en/articles/6825453-chatgpt-release-notes,high,daily,chatgpt_product_update,core_watchlist
+OpenAI Node Releases,infrastructure,github_release,https://github.com/openai/openai-node/releases,medium,daily,developer_sdk_update,discovery
+Google AI Blog,models,blog,https://blog.google/technology/ai/,high,daily,google_ai_update,core_watchlist
+Google Cloud Release Notes,infrastructure,changelog,https://docs.cloud.google.com/release-notes,high,daily,cloud_release_notes,core_watchlist
+Google Developers Blog,infrastructure,blog,https://developers.googleblog.com/,medium,daily,developer_ecosystem_update,core_watchlist
+NVIDIA Developer Blog,chips,blog,https://developer.nvidia.com/blog/,high,daily,nvidia_developer_ecosystem,core_watchlist
+AWS Machine Learning Blog,infrastructure,blog,https://aws.amazon.com/blogs/machine-learning/,high,daily,aws_ai_ml_update,core_watchlist
+AWS What's New,infrastructure,newsroom,https://aws.amazon.com/new/,high,daily,aws_cloud_update,core_watchlist
+TechCrunch AI,applications,newsroom,https://techcrunch.com/category/artificial-intelligence/,medium,daily,ai_startup_signal,discovery
+GE Vernova News,energy,newsroom,https://www.gevernova.com/news/media-hub,medium,daily,power_infrastructure_update,core_watchlist
+Vertiv Investor News,energy,newsroom,https://investors.vertiv.com/news/default.aspx,medium,daily,datacenter_power_cooling,core_watchlist
+Eaton News,energy,newsroom,https://www.eaton.com/us/en-us/company/news-insights/news-releases.html,medium,daily,power_equipment_update,core_watchlist

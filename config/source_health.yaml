@@ -1,0 +1,1160 @@
+sources:
+  https://nvidianews.nvidia.com/news/latest:
+    company: NVIDIA Newsroom Latest
+    layer: chips
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.nvidia.com/en-us/about-nvidia/rss:
+    company: NVIDIA RSS Feeds
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://ir.amd.com/news-events/press-releases:
+    company: AMD Press Releases
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://www.asml.com/news/press-releases:
+    company: ASML Press Releases
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.micron.com/about/press/news:
+    company: Micron Newsroom
+    layer: chips
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://developers.openai.com/api/docs/changelog:
+    company: OpenAI API Changelog
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations:
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://developers.openai.com/api/docs/models:
+    company: OpenAI Models
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://openai.com/news:
+    company: OpenAI News
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://docs.anthropic.com/en/release-notes:
+    company: Anthropic Release Notes
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.anthropic.com/news:
+    company: Anthropic News
+    layer: models
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 4
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 3
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://deepmind.google/discover/blog:
+    company: Google DeepMind Blog
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://blog.google/technology/ai:
+    company: Google AI Blog
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://ai.google.dev/gemini-api/docs:
+    company: Gemini API Docs
+    layer: models
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://aws.amazon.com/new:
+    company: AWS What's New
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://aws.amazon.com/blogs/machine-learning:
+    company: AWS Machine Learning Blog
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://cloud.google.com/blog/products/ai-machine-learning:
+    company: Google Cloud AI Blog
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://azure.microsoft.com/updates:
+    company: Microsoft Azure Updates
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://learn.microsoft.com/en-us/azure/ai-services/openai/whats-new:
+    company: Azure OpenAI What's New
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://developers.openai.com/codex/changelog:
+    company: OpenAI Codex Changelog
+    layer: applications
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://developers.openai.com/api/docs/guides/agents:
+    company: OpenAI Agents SDK
+    layer: applications
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://developers.openai.com/apps-sdk/changelog:
+    company: OpenAI Apps SDK Changelog
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations:
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://github.com/trending:
+    company: GitHub Trending
+    layer: applications
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://huggingface.co/spaces:
+    company: HuggingFace Spaces
+    layer: applications
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://www.gevernova.com/news/media-hub:
+    company: GE Vernova News
+    layer: energy
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://investors.vertiv.com/news/default.aspx:
+    company: Vertiv News
+    layer: energy
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://investor.nvidia.com/investor-resources/rss/default.aspx:
+    company: NVIDIA Investor Relations RSS
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://ir.amd.com:
+    company: AMD Investor Relations
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.microsoft.com/en-us/Investor:
+    company: Microsoft Investor Relations
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://abc.xyz/investor:
+    company: Alphabet Investor Relations
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://ir.aboutamazon.com:
+    company: Amazon Investor Relations
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://investor.tsmc.com/english/monthly-revenue:
+    company: TSMC Monthly Revenue
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://lmarena.ai:
+    company: LMArena
+    layer: models
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://artificialanalysis.ai:
+    company: Artificial Analysis
+    layer: models
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://github.com/openai/openai-python/releases:
+    company: OpenAI Python Releases
+    layer: infrastructure
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://github.com/anthropics/claude-code/releases:
+    company: Claude Code Releases
+    layer: applications
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://help.openai.com/en/articles/6825453-chatgpt-release-notes:
+    company: OpenAI ChatGPT Release Notes
+    layer: applications
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://support.claude.com/en/articles/12138966-release-notes:
+    company: Anthropic Claude Release Notes
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 4
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 3
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://platform.claude.com/docs/en/release-notes/overview:
+    company: Anthropic API Release Notes
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://developer.nvidia.com/blog:
+    company: NVIDIA Developer Blog
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 4
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 3
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://azure.microsoft.com/en-us/updates:
+    company: Azure Updates
+    layer: infrastructure
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://venturebeat.com/category/ai:
+    company: VentureBeat AI
+    layer: applications
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.tsmc.com/english/news:
+    company: TSMC Newsroom
+    layer: chips
+    source_group: background
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://github.com/openai/openai-node/releases:
+    company: OpenAI Node Releases
+    layer: infrastructure
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://docs.cloud.google.com/release-notes:
+    company: Google Cloud Release Notes
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 4
+    last_checked_at: '2026-06-13'
+    last_item_count: 2
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 1
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://developers.googleblog.com:
+    company: Google Developers Blog
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://techcrunch.com/category/artificial-intelligence:
+    company: TechCrunch AI
+    layer: applications
+    source_group: discovery
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 4
+    failure_runs: 2
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    last_success_at: '2026-06-13'
+    recommendations: []
+  https://www.eaton.com/us/en-us/company/news-insights/news-releases.html:
+    company: Eaton News
+    layer: energy
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 6
+    unknown_time_runs: 6
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://ai.meta.com/blog:
+    company: Meta AI Blog
+    layer: models
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://x.ai/news:
+    company: xAI News
+    layer: models
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 5
+    unknown_time_runs: 5
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://mistral.ai/news:
+    company: Mistral AI News
+    layer: models
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 3
+    failure_runs: 2
+    unknown_time_runs: 5
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://www.coreweave.com/blog:
+    company: CoreWeave Blog
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 3
+    failure_runs: 2
+    unknown_time_runs: 5
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 多次缺少发布时间，建议写专项解析器或降级为 background。
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://news.skhynix.com:
+    company: SK Hynix Newsroom
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 3
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 3
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 1
+    recommendations: []
+    last_success_at: '2026-06-13'
+  https://semiconductor.samsung.com/news-events/news:
+    company: Samsung Semiconductor Newsroom
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 6
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://www.perplexity.ai/hub/blog:
+    company: Perplexity Blog
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://www.broadcom.com/company/news:
+    company: Broadcom News
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://cursor.com/changelog:
+    company: Cursor Changelog
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://www.se.com/ww/en/about-us/newsroom:
+    company: Schneider Electric Newsroom
+    layer: energy
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://investor.nvidia.com/financial-info/quarterly-results/default.aspx:
+    company: NVIDIA Quarterly Results
+    layer: capital
+    source_group: capital_event
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 0
+    unknown_time_runs: 0
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://cohere.com/blog:
+    company: Cohere Blog
+    layer: models
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://blogs.oracle.com/cloud-infrastructure:
+    company: Oracle Cloud Infrastructure Blog
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://blog.cloudflare.com/tag/ai:
+    company: Cloudflare AI Blog
+    layer: infrastructure
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 3
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://www.marvell.com/company/newsroom.html:
+    company: Marvell Newsroom
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://newsroom.arm.com:
+    company: Arm Newsroom
+    layer: chips
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 2
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://www.servicenow.com/company/media/press-room.html:
+    company: ServiceNow Newsroom
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+  https://www.salesforce.com/news:
+    company: Salesforce Newsroom
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 2
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://news.adobe.com:
+    company: Adobe Newsroom
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 1
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 1
+    recommendations: []
+    last_success_at: '2026-06-13'
+  https://www.palantir.com/newsroom:
+    company: Palantir Newsroom
+    layer: applications
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 1
+    failure_runs: 1
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 0
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_success_at: '2026-06-13'
+  https://www.constellationenergy.com/newsroom.html:
+    company: Constellation Newsroom
+    layer: energy
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 1
+    unknown_time_runs: 1
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 0
+    last_failed_count: 0
+    last_unknown_time_count: 0
+    last_confirmed_event_count: 0
+    recommendations: []
+  https://vistracorp.com/newsroom:
+    company: Vistra Newsroom
+    layer: energy
+    source_group: core_watchlist
+    first_seen_at: '2026-06-13'
+    runs: 3
+    success_runs: 0
+    failure_runs: 2
+    unknown_time_runs: 2
+    confirmed_event_runs: 0
+    last_checked_at: '2026-06-13'
+    last_item_count: 1
+    last_failed_count: 1
+    last_unknown_time_count: 1
+    last_confirmed_event_count: 0
+    recommendations:
+    - 近期没有 confirmed_event，继续观察，暂不降级。
+updated_at: '2026-06-13T15:05:36'

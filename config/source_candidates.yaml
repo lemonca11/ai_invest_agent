@@ -1,0 +1,9 @@
+updated_at: '2026-06-13T15:05:36'
+date: '2026-06-13'
+policy:
+  auto_promote_candidate: Official or stable high-score source; safe to add after
+    review or with --apply-official.
+  needs_review: Potentially useful but should be reviewed before adding.
+  watch_only: Keep in candidate pool; do not add yet.
+  reject: Do not add under current evidence.
+candidates: []
