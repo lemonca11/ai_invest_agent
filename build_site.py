@@ -10,14 +10,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REPORTS_DIR = ROOT / "reports"
 REPORTS_EN_DIR = ROOT / "reports_en"
+REPORTS_EARNINGS_DIR = ROOT / "reports_earnings"
+DATA_DIR = ROOT / "data"
 SITE_DIR = ROOT / "site"
 SITE_REPORTS_DIR = SITE_DIR / "reports"
+SITE_EARNINGS_DIR = SITE_DIR / "earnings"
+SITE_EARNINGS_REPORTS_DIR = SITE_EARNINGS_DIR / "reports"
 SITE_EN_DIR = SITE_DIR / "en"
 SITE_EN_REPORTS_DIR = SITE_EN_DIR / "reports"
 ASSETS_DIR = SITE_DIR / "assets"
 
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
+EARNINGS_RE = re.compile(r"^[A-Z0-9.-]+-.+\.md$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 TABLE_SEPARATOR_RE = re.compile(r"^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$")
@@ -43,6 +48,20 @@ class Report:
     def display_title(self) -> str:
         title = self.title.replace(f" - {self.date}", "").strip()
         return title or "AI 投资情报日报"
+
+
+@dataclass
+class EarningsReport:
+    report_id: str
+    ticker: str
+    period: str
+    title: str
+    html: str
+    plain: str
+
+    @property
+    def url(self) -> str:
+        return f"reports/{self.report_id}.html"
 
 
 def escape(text: str) -> str:
@@ -132,6 +151,23 @@ def parse_report(path: Path, lang: str = "zh") -> Report:
         html=markdown_to_html(raw),
         plain=raw,
         lang=lang,
+    )
+
+
+def parse_earnings_report(path: Path) -> EarningsReport:
+    raw = path.read_text(encoding="utf-8")
+    lines = raw.splitlines()
+    title = lines[0].lstrip("# ").strip() if lines and lines[0].startswith("# ") else path.stem
+    parts = path.stem.split("-", 1)
+    ticker = parts[0]
+    period = parts[1].replace("-", " ") if len(parts) > 1 else ""
+    return EarningsReport(
+        report_id=path.stem,
+        ticker=ticker,
+        period=period,
+        title=title,
+        html=markdown_to_html(raw),
+        plain=raw,
     )
 
 
@@ -329,10 +365,402 @@ def layout(title: str, body: str, description: str = "", lang: str = "zh-CN", cs
 """
 
 
+EARNINGS_DEMO_CALENDAR = [
+    {
+        "ticker": "ORCL",
+        "company": "Oracle",
+        "period": "Q4 FY2026",
+        "date": "2026-06-11",
+        "time": "After close",
+        "layer": "Cloud infrastructure / Applications",
+        "status": "Analyzed",
+        "url": "reports/ORCL-Q4-FY2026.html",
+        "source": "Official IR",
+        "action": "Read analysis",
+    },
+    {
+        "ticker": "ADBE",
+        "company": "Adobe",
+        "period": "Q2 FY2026",
+        "date": "2026-06-11",
+        "time": "After close",
+        "layer": "AI applications",
+        "status": "Released",
+        "url": "#",
+        "source": "Official IR",
+        "action": "Queue analysis",
+    },
+    {
+        "ticker": "AVGO",
+        "company": "Broadcom",
+        "period": "Q2 FY2026",
+        "date": "2026-06-05",
+        "time": "After close",
+        "layer": "AI networking / ASIC",
+        "status": "Analyzing",
+        "url": "#",
+        "source": "Official IR",
+        "action": "In progress",
+    },
+    {
+        "ticker": "NVDA",
+        "company": "NVIDIA",
+        "period": "Q1 FY2027",
+        "date": "2026-05-27",
+        "time": "After close",
+        "layer": "Chips / AI infrastructure",
+        "status": "Upcoming",
+        "url": "#",
+        "source": "Third-party calendar",
+        "action": "Wait for release",
+    },
+]
+
+
+def latest_earnings_calendar() -> list[dict]:
+    paths = sorted(DATA_DIR.glob("earnings_calendar_*.json"))
+    if not paths:
+        return EARNINGS_DEMO_CALENDAR
+
+    try:
+        payload = json.loads(paths[-1].read_text(encoding="utf-8"))
+    except Exception:
+        return EARNINGS_DEMO_CALENDAR
+
+    rows = []
+    for item in payload.get("items", []):
+        status = item.get("status") or "upcoming"
+        if status == "released":
+            display_status = "Released"
+            action = "Queue analysis"
+        elif status == "upcoming":
+            display_status = "Upcoming"
+            action = "Wait for release"
+        elif status == "no_official_release":
+            display_status = "No official release"
+            action = "Check source"
+        else:
+            display_status = status.replace("_", " ").title()
+            action = "Review"
+
+        rows.append(
+            {
+                "ticker": item.get("ticker") or "",
+                "company": item.get("company") or "",
+                "period": item.get("fiscal_period") or "",
+                "date": item.get("expected_date") or "",
+                "time": (item.get("timing") or "").replace("_", " ").title(),
+                "layer": item.get("layer") or "",
+                "status": display_status,
+                "url": "#",
+                "source": "Official IR" if item.get("official_release_url") else "Third-party calendar",
+                "action": action,
+            }
+        )
+
+    return rows or EARNINGS_DEMO_CALENDAR
+
+
+def report_for_ticker(earnings_reports: list[EarningsReport], ticker: str) -> EarningsReport | None:
+    ticker = ticker.upper()
+    for report in earnings_reports:
+        if report.ticker.upper() == ticker:
+            return report
+    return None
+
+
+def earnings_items(earnings_reports: list[EarningsReport]) -> list[dict]:
+    items = []
+    for item in latest_earnings_calendar():
+        row = dict(item)
+        report = report_for_ticker(earnings_reports, row["ticker"])
+        if report:
+            row["period"] = report.period or row["period"]
+            row["status"] = "Analyzed"
+            row["url"] = report.url
+            row["action"] = "Read analysis"
+            row["title"] = report.title
+        items.append(row)
+    return items
+
+
+def earnings_preview(earnings_reports: list[EarningsReport]) -> str:
+    rows = []
+    for item in earnings_items(earnings_reports)[:3]:
+        link = item["url"] if item["url"] != "#" else "earnings/index.html"
+        rows.append(
+            f"""
+            <tr>
+              <td><strong>{escape(item["ticker"])}</strong><span>{escape(item["company"])}</span></td>
+              <td>{escape(item["period"])}<span>{escape(item["date"])}</span></td>
+              <td><span class="status-pill {escape(item["status"].lower().replace(" ", "-"))}">{escape(item["status"])}</span></td>
+              <td><a href="{escape('earnings/' + link if link.startswith('reports/') else link)}">{escape(item["action"])}</a></td>
+            </tr>
+            """
+        )
+    return f"""
+  <section class="earnings-strip" aria-label="AI earnings monitor">
+    <div class="section-heading">
+      <p>Earnings</p>
+      <h2>AI 财报雷达</h2>
+    </div>
+    <div class="earnings-strip-copy">
+      <p>跟踪 AI 相关科技股财报日历、官方 IR 公告和财报解读。</p>
+      <a href="earnings/index.html">Open earnings desk</a>
+    </div>
+    <div class="mini-table-wrap">
+      <table class="mini-table">
+        <tbody>{''.join(rows)}</tbody>
+      </table>
+    </div>
+  </section>
+"""
+
+
+def earnings_index_layout(earnings_reports: list[EarningsReport]) -> str:
+    rows = []
+    for item in earnings_items(earnings_reports):
+        status_class = item["status"].lower().replace(" ", "-")
+        link = item["url"]
+        action = (
+            f'<a href="{escape(link)}">{escape(item["action"])}</a>'
+            if link != "#"
+            else f'<span>{escape(item["action"])}</span>'
+        )
+        rows.append(
+            f"""
+            <tr>
+              <td class="ticker-cell"><strong>{escape(item["ticker"])}</strong><span>{escape(item["company"])}</span></td>
+              <td>{escape(item["period"])}</td>
+              <td>{escape(item["date"])}<span>{escape(item["time"])}</span></td>
+              <td>{escape(item["layer"])}</td>
+              <td><span class="status-pill {escape(status_class)}">{escape(item["status"])}</span></td>
+              <td>{escape(item["source"])}</td>
+              <td class="action-cell">{action}</td>
+            </tr>
+            """
+        )
+
+    body = f"""
+<header class="site-header compact">
+  <a class="brand" href="../index.html" aria-label="MetaFinance home">
+    <span class="brand-mark">MF</span>
+    <span><strong>MetaFinance</strong><small>AI Investment Intelligence</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="index.html">Earnings</a>
+    <a href="../feed.json">Data</a>
+  </nav>
+</header>
+<main>
+  <section class="earnings-desk-head">
+    <div>
+      <p class="eyebrow">AI Earnings Desk</p>
+      <h1>财报日历与官方解读</h1>
+      <p>聚焦 AI 产业链科技股财报。日历用于提醒，解读优先使用公司 IR 和 SEC 官方材料。</p>
+    </div>
+    <a href="reports/ORCL-Q4-FY2026.html">View ORCL demo</a>
+  </section>
+
+  <section class="earnings-dashboard">
+    <div class="earnings-kpi"><strong>30 days</strong><span>forward calendar</span></div>
+    <div class="earnings-kpi"><strong>Official first</strong><span>IR / SEC sources</span></div>
+    <div class="earnings-kpi"><strong>AI lens</strong><span>cloud, chips, apps, energy</span></div>
+  </section>
+
+  <section class="earnings-calendar-section">
+    <div class="section-heading">
+      <p>Calendar</p>
+      <h2>Upcoming and released earnings</h2>
+    </div>
+    <div class="archive-table-wrap">
+      <table class="archive-table earnings-calendar-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Period</th>
+            <th>Release date</th>
+            <th>AI layer</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>Analysis</th>
+          </tr>
+        </thead>
+        <tbody>{''.join(rows)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="earnings-system">
+    <div class="latest-summary">
+      <div class="section-heading">
+        <p>Source Policy</p>
+        <h2>信息源优先级</h2>
+      </div>
+      <ol class="event-list">
+        <li>公司 Investor Relations 新闻稿、财报 PDF、prepared remarks。</li>
+        <li>SEC 8-K、10-Q、10-K，用于补齐正式披露和风险因素。</li>
+        <li>第三方财报日历只用于提醒，不作为正文事实来源。</li>
+      </ol>
+    </div>
+    <div class="market-map">
+      <div class="section-heading">
+        <p>Workflow</p>
+        <h2>发布流水线</h2>
+      </div>
+      <div class="layer-grid">
+        <span>Calendar</span><span>Official IR</span><span>SEC filings</span>
+        <span>Analysis skill</span><span>Markdown report</span><span>Publish</span>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <span>MetaFinance</span>
+  <span>Earnings demo generated inside the same static site.</span>
+</footer>
+"""
+    return layout(
+        "MetaFinance · AI Earnings Desk",
+        body,
+        description="AI related technology earnings calendar and official earnings analysis.",
+        css_href="../assets/styles.css",
+    )
+
+
+def earnings_report_layout(report: EarningsReport) -> str:
+    body = f"""
+<header class="site-header compact">
+  <a class="brand" href="../../index.html" aria-label="MetaFinance home">
+    <span class="brand-mark">MF</span>
+    <span><strong>MetaFinance</strong><small>AI Investment Intelligence</small></span>
+  </a>
+  <nav>
+    <a href="../../index.html#reports">Reports</a>
+    <a href="../index.html">Earnings</a>
+    <a href="../../feed.json">Data</a>
+  </nav>
+</header>
+<main class="report-page">
+  <aside class="report-aside">
+    <div class="date-label">{escape(report.ticker)} · {escape(report.period)}</div>
+    <h2>Earnings Brief</h2>
+    <p>官方财报信息源优先，面向 AI 投资链条的结构化解读。</p>
+    <div class="report-toc">
+      <span>Contents</span>
+      <a href="#1-一句话结论">一句话结论</a>
+      <a href="#2-官方来源">官方来源</a>
+      <a href="#3-关键财务指标">关键财务指标</a>
+      <a href="#4-ai-相关看点">AI 相关看点</a>
+      <a href="#5-投资含义">投资含义</a>
+    </div>
+    <a class="back-link" href="../index.html">← Back to earnings</a>
+  </aside>
+  <article class="markdown-body">
+    {report.html}
+  </article>
+</main>
+"""
+    return layout(
+        f"MetaFinance · {report.title}",
+        body,
+        description=f"{report.ticker} earnings analysis for AI infrastructure investors.",
+        css_href="../../assets/styles.css",
+    )
+
+
+def oracle_demo_report_layout() -> str:
+    raw = """# ORCL Q4 FY2026 财报解读 Demo
+
+## 1. 一句话结论
+
+Oracle 这份财报的主线不是传统数据库业务，而是云基础设施需求、RPO 积压和 AI 训练 / 推理工作负载能否继续拉动 OCI 增长。Demo 中的分析结构展示未来 skill 输出的阅读体验。
+
+## 2. 官方来源
+
+| 字段 | 内容 |
+|---|---|
+| 公司 | Oracle |
+| Ticker | ORCL |
+| 财报期 | Q4 FY2026 / FY2026 |
+| 来源类型 | Official Investor Relations |
+| 官方链接 | [Oracle Announces Record Q4 and FY 2026 Results Driven by Cloud Infrastructure & Cloud Applications](https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/default.aspx) |
+
+## 3. AI 相关看点
+
+- **OCI 需求**：重点看 cloud infrastructure revenue、AI 训练集群租用、GPU / 加速器容量扩张和客户 backlog。
+- **RPO / backlog**：如果剩余履约义务继续高增长，说明未来云收入可见度提高。
+- **Capex 节奏**：AI 基础设施增长通常伴随资本开支上行，需要判断投入是否能转化为高质量云收入。
+- **应用层联动**：Cloud Applications 增长能说明 Oracle 是否把基础设施需求转化为更宽的企业软件关系。
+
+## 4. 财务指标面板
+
+| 指标 | Demo 展示口径 | 分析用途 |
+|---|---|---|
+| Total revenue | 从官方公告抽取 | 判断整体增长质量 |
+| Cloud revenue | 从官方公告抽取 | 判断云业务贡献 |
+| OCI growth | 从官方公告抽取 | 判断 AI 基础设施拉动 |
+| EPS / operating margin | 从官方公告抽取 | 判断增长是否牺牲盈利质量 |
+| RPO | 从官方公告或 10-Q 抽取 | 判断未来收入可见度 |
+
+## 5. 投资含义
+
+如果 OCI、RPO 和 capex 三者同步上行，Oracle 会更像 AI 基础设施供给侧公司，而不只是传统企业软件公司。反过来，如果云收入增长依赖高强度 capex 且利润率承压，市场可能会重新评估 AI 基建投资回报周期。
+
+## 6. 待验证问题
+
+- OCI 增长里有多少来自 AI 客户，多少来自传统云迁移。
+- GPU / 数据中心产能是否限制短期收入确认。
+- RPO 增长是否对应高质量客户和可持续毛利。
+- 管理层是否给出下一财年的 capex、云收入和 margin 指引。
+"""
+    report_html = markdown_to_html(raw)
+    body = f"""
+<header class="site-header compact">
+  <a class="brand" href="../../index.html" aria-label="MetaFinance home">
+    <span class="brand-mark">MF</span>
+    <span><strong>MetaFinance</strong><small>AI Investment Intelligence</small></span>
+  </a>
+  <nav>
+    <a href="../../index.html#reports">Reports</a>
+    <a href="../index.html">Earnings</a>
+    <a href="../../feed.json">Data</a>
+  </nav>
+</header>
+<main class="report-page">
+  <aside class="report-aside">
+    <div class="date-label">ORCL · Q4 FY2026</div>
+    <h2>Earnings Brief</h2>
+    <p>Demo 页面用于展示官方财报抓取和财报分析 skill 的最终发布效果。</p>
+    <div class="report-toc">
+      <span>Contents</span>
+      <a href="#1-一句话结论">一句话结论</a>
+      <a href="#2-官方来源">官方来源</a>
+      <a href="#3-ai-相关看点">AI 相关看点</a>
+      <a href="#4-财务指标面板">财务指标面板</a>
+      <a href="#5-投资含义">投资含义</a>
+    </div>
+    <a class="back-link" href="../index.html">← Back to earnings</a>
+  </aside>
+  <article class="markdown-body">
+    {report_html}
+  </article>
+</main>
+"""
+    return layout(
+        "MetaFinance · ORCL Q4 FY2026 Earnings Demo",
+        body,
+        description="Oracle earnings analysis demo for AI infrastructure investors.",
+        css_href="../../assets/styles.css",
+    )
+
+
 def report_layout(report: Report, lang: str = "zh", alt_href_override: str | None = None) -> str:
     is_en = lang == "en"
     home_href = "../index.html" if not is_en else "../index.html"
     data_href = "../feed.json" if not is_en else "../feed.json"
+    earnings_href = "../earnings/index.html" if not is_en else "../../earnings/index.html"
     alt_href = alt_href_override or (f"../en/reports/{report.date}.html" if not is_en else f"../../reports/{report.date}.html")
     alt_label = "English" if not is_en else "中文"
     aside_text = (
@@ -352,6 +780,7 @@ def report_layout(report: Report, lang: str = "zh", alt_href_override: str | Non
   </a>
   <nav>
     <a href="{home_href}">Reports</a>
+    <a href="{earnings_href}">Earnings</a>
     <a href="{data_href}">Data</a>
     <a class="lang-link" href="{alt_href}">{alt_label}</a>
   </nav>
@@ -377,7 +806,7 @@ def report_layout(report: Report, lang: str = "zh", alt_href_override: str | Non
     return layout(f"MetaFinance · {report.date}", body, lang=html_lang, css_href=css_href)
 
 
-def index_layout(reports: list[Report], lang: str = "zh") -> str:
+def index_layout(reports: list[Report], lang: str = "zh", earnings_reports: list[EarningsReport] | None = None) -> str:
     is_en = lang == "en"
     latest = reports[0]
     overview_items = "\n".join(f"<li>{inline_markdown(item)}</li>" for item in latest.overview[:5])
@@ -390,6 +819,7 @@ def index_layout(reports: list[Report], lang: str = "zh") -> str:
     total_events = sum(len(report.events) for report in reports)
     home_href = "index.html"
     data_href = "feed.json"
+    earnings_href = "earnings/index.html" if not is_en else "../earnings/index.html"
     alt_href = "en/index.html" if not is_en else "../index.html"
     alt_label = "English" if not is_en else "中文"
     hero_kicker = "Global AI Markets · 中文 / English" if not is_en else "Global AI Markets · English Edition"
@@ -415,6 +845,7 @@ def index_layout(reports: list[Report], lang: str = "zh") -> str:
   </a>
   <nav>
     <a href="#reports">Reports</a>
+    <a href="{earnings_href}">Earnings</a>
     <a href="{data_href}">Data</a>
     <a class="lang-link" href="{alt_href}">{alt_label}</a>
   </nav>
@@ -472,6 +903,8 @@ def index_layout(reports: list[Report], lang: str = "zh") -> str:
     </div>
   </section>
 
+  {earnings_preview(earnings_reports or [])}
+
   <section id="reports" class="reports-section">
     <div class="section-heading">
       <p>{escape(archive_kicker)}</p>
@@ -508,8 +941,11 @@ def write_feed(path: Path, reports: list[Report]) -> None:
 
 def build() -> None:
     SITE_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    SITE_EARNINGS_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     SITE_EN_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+    for old_page in SITE_EARNINGS_REPORTS_DIR.glob("*.html"):
+        old_page.unlink()
     reports = [parse_report(path) for path in sorted(REPORTS_DIR.glob("*.md")) if DATE_RE.match(path.name)]
     reports.sort(key=lambda item: item.date, reverse=True)
     if not reports:
@@ -521,7 +957,20 @@ def build() -> None:
         page = report_layout(report, lang="zh", alt_href_override=alt_href)
         (SITE_REPORTS_DIR / f"{report.date}.html").write_text(page, encoding="utf-8")
 
-    (SITE_DIR / "index.html").write_text(index_layout(reports, lang="zh"), encoding="utf-8")
+    earnings_reports = [
+        parse_earnings_report(path)
+        for path in sorted(REPORTS_EARNINGS_DIR.glob("*.md"))
+        if EARNINGS_RE.match(path.name)
+    ]
+    earnings_reports.sort(key=lambda item: item.report_id, reverse=True)
+    if earnings_reports:
+        for report in earnings_reports:
+            (SITE_EARNINGS_REPORTS_DIR / f"{report.report_id}.html").write_text(earnings_report_layout(report), encoding="utf-8")
+    else:
+        (SITE_EARNINGS_REPORTS_DIR / "ORCL-Q4-FY2026.html").write_text(oracle_demo_report_layout(), encoding="utf-8")
+
+    (SITE_DIR / "index.html").write_text(index_layout(reports, lang="zh", earnings_reports=earnings_reports), encoding="utf-8")
+    (SITE_EARNINGS_DIR / "index.html").write_text(earnings_index_layout(earnings_reports), encoding="utf-8")
     (SITE_DIR / ".nojekyll").write_text("", encoding="utf-8")
     write_feed(SITE_DIR / "feed.json", reports)
 

@@ -256,7 +256,41 @@ python3 build_site.py
 
 ---
 
-## 10. 当前项目的最短理解
+## 10. 财报模块
+
+财报模块和日报共用同一个公开站点，不另建网站。
+
+当前页面结构：
+
+- 财报首页：`site/earnings/index.html`
+- 财报报告页：`site/earnings/reports/TICKER-PERIOD.html`
+
+核心文件：
+
+- [`config/earnings_watchlist.yaml`](/Users/wenzhucui/ai_invest_agent/config/earnings_watchlist.yaml)：AI 相关科技股财报观察名单
+- [`earnings_pipeline.py`](/Users/wenzhucui/ai_invest_agent/earnings_pipeline.py)：财报日历、官方财报抓取和 Markdown 报告生成入口
+- `data/earnings_calendar_YYYY-MM-DD.json`：财报日历快照
+- `data/earnings/TICKER-PERIOD.json`：官方财报原始数据
+- `reports_earnings/TICKER-PERIOD.md`：财报分析 Markdown
+
+执行方式：
+
+```bash
+cd ~/ai_invest_agent
+venv/bin/python earnings_pipeline.py --ticker ORCL
+python3 build_site.py
+```
+
+当前财报抓取策略：
+
+1. 日历可以来自 watchlist 或第三方日历。
+2. 财报正文优先使用公司 Investor Relations 官方页面。
+3. 如果官方页面被 bot challenge、正文过短或无法提取，流水线只记录 raw JSON，不生成分析报告。
+4. 后续接入财报分析 skill 后，由 `earnings_pipeline.py` 把官方 raw JSON 转成 skill 输入，再写入 `reports_earnings/`。
+
+---
+
+## 11. 当前项目的最短理解
 
 一句话概括：
 

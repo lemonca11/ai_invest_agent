@@ -1,0 +1,65 @@
+companies:
+  - ticker: ORCL
+    company: Oracle
+    priority: high
+    layer: cloud_infrastructure
+    ai_focus:
+      - OCI
+      - cloud infrastructure
+      - cloud applications
+      - remaining performance obligations
+    calendar:
+      fiscal_period: Q4 FY2026
+      expected_date: "2026-06-11"
+      timing: after_close
+    official_sources:
+      ir_home: https://investor.oracle.com/
+      latest_release_url: https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/default.aspx
+
+  - ticker: NVDA
+    company: NVIDIA
+    priority: high
+    layer: chips
+    ai_focus:
+      - data center
+      - AI accelerators
+      - inference
+      - networking
+    calendar:
+      fiscal_period: Q1 FY2027
+      expected_date: "2026-05-27"
+      timing: after_close
+    official_sources:
+      ir_home: https://investor.nvidia.com/
+
+  - ticker: ADBE
+    company: Adobe
+    priority: medium
+    layer: applications
+    ai_focus:
+      - Firefly
+      - Digital Media
+      - Experience Cloud
+      - enterprise AI adoption
+    calendar:
+      fiscal_period: Q2 FY2026
+      expected_date: "2026-06-11"
+      timing: after_close
+    official_sources:
+      ir_home: https://www.adobe.com/investor-relations.html
+
+  - ticker: AVGO
+    company: Broadcom
+    priority: high
+    layer: chips
+    ai_focus:
+      - AI networking
+      - custom ASIC
+      - VMware
+      - data center infrastructure
+    calendar:
+      fiscal_period: Q2 FY2026
+      expected_date: "2026-06-05"
+      timing: after_close
+    official_sources:
+      ir_home: https://investors.broadcom.com/
