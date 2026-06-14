@@ -480,6 +480,84 @@ def has_signal(items, keyword):
     return False
 
 
+def top_counts(counts, limit=3):
+    return sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:limit]
+
+
+def readable_list(values):
+    values = [value for value in values if value]
+    if not values:
+        return "暂无明确主线"
+    if len(values) == 1:
+        return values[0]
+    return "、".join(values[:-1]) + "和" + values[-1]
+
+
+def overview_signal_label(item):
+    layer = LAYER_NAMES.get(item.get("layer") or "", item.get("layer") or "unknown")
+    company = item.get("company") or "未知来源"
+    title = clean_inline(chinese_event_title(item), 70)
+    return f"{title}（{company}，{layer}）"
+
+
+def make_core_judgement(confirmed_items, recent_items, watch_items):
+    signal_items = confirmed_items + recent_items
+    if not signal_items:
+        if watch_items:
+            return "今天没有抓到可确认的重大事件，主要是发现源和观察信号，适合先做来源验证，不宜直接形成投资判断。"
+        return "今天没有形成可用的新信号，日报重点应放在抓取质量、来源可用性和信息盲区排查上。"
+
+    layer_counts = count_by(signal_items, "layer")
+    grade_counts = count_by(signal_items, "event_grade")
+    dominant_layers = [
+        LAYER_NAMES.get(layer, layer)
+        for layer, _ in top_counts(layer_counts)
+        if layer != "unknown"
+    ]
+    confirmed_count = grade_counts.get("confirmed_event", 0)
+    recent_count = grade_counts.get("recent_signal", 0)
+
+    if confirmed_count:
+        strength = f"{confirmed_count} 条 confirmed_event"
+        if recent_count:
+            strength += f" 和 {recent_count} 条 recent_signal"
+    else:
+        strength = f"{recent_count} 条 recent_signal"
+
+    return (
+        f"今天的有效信号集中在{readable_list(dominant_layers)}，"
+        f"共筛出 {strength}；主线应围绕这些层级的事实更新判断，而不是沿用上一日报告的叙事。"
+    )
+
+
+def make_investment_implication(confirmed_items, recent_items):
+    signal_items = confirmed_items + recent_items
+    if not signal_items:
+        return "当前更重要的是恢复有效抓取和确认来源质量；在没有新事实链前，不建议把观察页或失败源解读为投资事件。"
+
+    layer_counts = count_by(signal_items, "layer")
+    dominant_layers = [layer for layer, _ in top_counts(layer_counts)]
+    implications = []
+
+    if "chips" in dominant_layers:
+        implications.append("算力供给、硬件生态和订单验证")
+    if "infrastructure" in dominant_layers:
+        implications.append("云平台用量、开发者采用和企业部署")
+    if "models" in dominant_layers:
+        implications.append("模型能力、访问限制、安全合规和客户采购风险")
+    if "applications" in dominant_layers:
+        implications.append("企业工作流嵌入、付费转化和留存")
+    if "energy" in dominant_layers:
+        implications.append("电力约束、数据中心项目进度和长期供给")
+    if "capital" in dominant_layers:
+        implications.append("收入、资本开支、订单和市场预期")
+
+    if not implications:
+        implications.append("客户采用、订单/收入影响、第三方验证和后续公告")
+
+    return "短期应重点验证" + "；".join(implications[:3]) + "。"
+
+
 def make_overview(payload, items):
     confirmed_items = [
         item for item in items
@@ -488,6 +566,10 @@ def make_overview(payload, items):
     recent_items = [
         item for item in items
         if item.get("event_grade") == "recent_signal"
+    ]
+    watch_items = [
+        item for item in items
+        if item.get("event_grade") == "watch_signal"
     ]
 
     topic_lines = []
@@ -526,14 +608,28 @@ def make_overview(payload, items):
         )
 
     if not topic_lines:
-        topic_lines.append(
-            "今天没有形成单一压倒性主线，事件主要分散在模型、应用、芯片和基础设施层，适合继续跟踪而不是立即下强结论。"
-        )
+        signal_items = confirmed_items + recent_items + watch_items
+        for item in signal_items[:4]:
+            topic_lines.append(f"{overview_signal_label(item)} 是今天需要跟踪的主要信号。")
+
+    if not topic_lines:
+        topic_lines.append("今天没有形成单一压倒性主线，适合先检查来源质量和等待下一次有效抓取。")
+
+    failed_count = len([item for item in items if item.get("event_grade") == "failed_source" or item.get("error")])
+    unknown_time_count = len([item for item in items if not item.get("published_at") and not item.get("error")])
+    risk_parts = []
+    if failed_count:
+        risk_parts.append(f"{failed_count} 个来源抓取失败")
+    if unknown_time_count:
+        risk_parts.append(f"{unknown_time_count} 条缺少明确发布时间")
+    if watch_items:
+        risk_parts.append(f"{len(watch_items)} 条 discovery 信号仍需验证")
+    risk_text = "；".join(risk_parts) if risk_parts else "本次未发现明显 failed_source 或时间盲区。"
 
     lines = [
         "## 1. 今日总览",
         "",
-        "- **核心判断**：今天的 AI 投资主线不是单纯模型能力竞赛，而是“模型监管风险 + 企业级落地能力 + agentic AI 算力平台”三条线同时推进。",
+        f"- **核心判断**：{make_core_judgement(confirmed_items, recent_items, watch_items)}",
         f"- **今日重点**：{topic_lines[0]}",
     ]
 
@@ -541,8 +637,8 @@ def make_overview(payload, items):
         lines.append(f"- **延伸观察**：{line}")
 
     lines.extend([
-        "- **投资含义**：短期应把 Anthropic 的监管与企业产品进展、NVIDIA 的 agentic workload 能效叙事、Google 的开发者基础设施补齐放在同一张图里看；真正能转化为投资判断的，还需要后续验证客户采用、订单、云消耗和第三方 benchmark。",
-        "- **风险提示**：部分 discovery 和 release note 来源仍是目录页或文档页，不能直接当成强事件；能源层和资本层今天的有效信号不足。",
+        f"- **投资含义**：{make_investment_implication(confirmed_items, recent_items)}",
+        f"- **风险提示**：{risk_text}",
         "",
         "---",
         "",

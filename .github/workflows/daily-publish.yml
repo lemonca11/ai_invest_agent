@@ -16,6 +16,8 @@ concurrency:
 
 env:
   TZ: Asia/Shanghai
+  LOOKBACK_HOURS: "30"
+  RECENT_SIGNAL_HOURS: "168"
 
 jobs:
   build:
@@ -34,6 +36,30 @@ jobs:
 
       - name: Fetch sources
         run: python3 main.py
+
+      - name: Check fetch quality
+        run: |
+          TODAY=$(date +%F)
+          python3 - "data/raw_items_${TODAY}.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          if not path.exists():
+              raise SystemExit(f"Missing raw items file: {path}")
+
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          items = payload.get("items", [])
+          failed = sum(1 for item in items if item.get("event_grade") == "failed_source")
+          successful = len(items) - failed
+
+          print(f"fetch quality: total={len(items)}, successful={successful}, failed={failed}")
+          if not items:
+              raise SystemExit("No fetched items; stop publish.")
+          if successful == 0:
+              raise SystemExit("All fetched items failed; stop publish.")
+          PY
 
       - name: Generate daily report
         run: |
