@@ -15,6 +15,7 @@ companies:
     official_sources:
       ir_home: https://investor.oracle.com/
       latest_release_url: https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/default.aspx
+      sec_cik: "0001341439"
 
   - ticker: NVDA
     company: NVIDIA
@@ -31,6 +32,7 @@ companies:
       timing: after_close
     official_sources:
       ir_home: https://investor.nvidia.com/
+      sec_cik: "0001045810"
 
   - ticker: ADBE
     company: Adobe
@@ -47,6 +49,7 @@ companies:
       timing: after_close
     official_sources:
       ir_home: https://www.adobe.com/investor-relations.html
+      sec_cik: "0000796343"
 
   - ticker: AVGO
     company: Broadcom
@@ -63,3 +66,4 @@ companies:
       timing: after_close
     official_sources:
       ir_home: https://investors.broadcom.com/
+      sec_cik: "0001730168"

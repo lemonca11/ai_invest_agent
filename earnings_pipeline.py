@@ -3,7 +3,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -18,6 +20,7 @@ DATA_DIR = ROOT / "data"
 EARNINGS_DATA_DIR = DATA_DIR / "earnings"
 REPORTS_EARNINGS_DIR = ROOT / "reports_earnings"
 SKILL_NAME = "科技股财报分析"
+SEC_USER_AGENT = os.getenv("SEC_USER_AGENT", "MetaFinance ai_invest_agent research contact@example.com")
 
 
 def load_watchlist(path: Path = WATCHLIST_PATH) -> list[dict]:
@@ -43,6 +46,34 @@ def fetch_page(url: str) -> tuple[str, str]:
     response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
     return response.text, response.url
+
+
+def fetch_json(url: str) -> dict:
+    last_error = None
+    for attempt in range(3):
+        try:
+            response = requests.get(url, headers={"User-Agent": SEC_USER_AGENT}, timeout=30)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+    raise last_error
+
+
+def fetch_sec_text(url: str) -> tuple[str, str]:
+    last_error = None
+    for attempt in range(3):
+        try:
+            response = requests.get(url, headers={"User-Agent": SEC_USER_AGENT}, timeout=30)
+            response.raise_for_status()
+            return response.text, response.url
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+    raise last_error
 
 
 def page_title(html: str) -> str:
@@ -108,19 +139,165 @@ def stable_report_id(ticker: str, fiscal_period: str) -> str:
 
 
 def extract_metric_hints(text: str) -> dict:
+    compact = re.sub(r"\s+", " ", text)
+
+    def first(pattern: str) -> str | None:
+        match = re.search(pattern, compact, flags=re.IGNORECASE)
+        if not match:
+            return None
+        return match.group(1).rstrip(",")
+
     hints = {}
     patterns = {
-        "revenue": r"(?:total\s+)?revenues?.{0,80}?(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
-        "cloud": r"cloud.{0,100}?(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
-        "rpo": r"(?:remaining performance obligations|RPO).{0,120}?(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
-        "eps": r"(?:earnings per share|EPS).{0,80}?(\$[0-9][0-9.,]*)",
+        "Q4 Total Revenues": r"Q4 Total Revenues\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
+        "Q4 Total Cloud Revenues": r"Q4 Total Cloud Revenues\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
+        "Q4 Cloud Infra IaaS Revenue": r"Q4 Cloud Infra\s*\(IaaS\)\s*Revenue\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
+        "Q4 Cloud Apps SaaS Revenue": r"Q4 Cloud Apps\s*\(SaaS\)\s*Revenue\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
+        "RPO Ending Balance": r"RPO.{0,140}?ended the quarter at\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
+        "RPO Sequential Increase": r"RPO.{0,180}?up\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)\s+sequentially",
+        "Q4 GAAP EPS": r"Q4 Earnings per Share GAAP.{0,80}?(\$[0-9][0-9.,]*)",
+        "Q4 Non-GAAP EPS": r"Q4 Earnings per Share GAAP.{0,120}?non-GAAP.{0,40}?(\$[0-9][0-9.,]*)",
+        "FY Operating Cash Flow": r"operating cash flow of\s+(\$[0-9][0-9.,]*\s*(?:billion|million)?)",
     }
-    compact = re.sub(r"\s+", " ", text)
-    for key, pattern in patterns.items():
-        match = re.search(pattern, compact, flags=re.IGNORECASE)
-        if match:
-            hints[key] = match.group(1)
+    for label, pattern in patterns.items():
+        value = first(pattern)
+        if value:
+            hints[label] = value
+
+    free_cash_flow = first(r"Free cash flow was\s+(negative\s+\$[0-9][0-9.,]*\s*(?:billion|million)?)")
+    if free_cash_flow:
+        hints["FY Free Cash Flow"] = free_cash_flow
     return hints
+
+
+def release_title_from_text(text: str, fallback: str) -> str:
+    for line in text.splitlines():
+        cleaned = line.strip()
+        if re.search(r"\bannounces\b.+\bresults\b", cleaned, flags=re.IGNORECASE):
+            return cleaned
+    return fallback
+
+
+def parse_date(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.strptime(value, "%Y-%m-%d")
+    except ValueError:
+        return None
+
+
+def sec_cik(company: dict) -> str | None:
+    cik = (company.get("official_sources") or {}).get("sec_cik")
+    if not cik:
+        return None
+    return str(cik).zfill(10)
+
+
+def select_sec_filing(company: dict) -> dict | None:
+    cik = sec_cik(company)
+    if not cik:
+        return None
+
+    submissions_url = f"https://data.sec.gov/submissions/CIK{cik}.json"
+    data = fetch_json(submissions_url)
+    recent = (data.get("filings") or {}).get("recent") or {}
+    forms = recent.get("form") or []
+    accession_numbers = recent.get("accessionNumber") or []
+    filing_dates = recent.get("filingDate") or []
+    primary_docs = recent.get("primaryDocument") or []
+    primary_descriptions = recent.get("primaryDocDescription") or []
+
+    expected = parse_date((company.get("calendar") or {}).get("expected_date"))
+    best = None
+    best_distance = 10_000
+    for index, form in enumerate(forms):
+        if form not in {"8-K", "10-Q", "10-K"}:
+            continue
+        filing_date = parse_date(filing_dates[index] if index < len(filing_dates) else None)
+        if not filing_date:
+            continue
+        distance = abs((filing_date - expected).days) if expected else index
+        if expected and distance > 45:
+            continue
+        if distance < best_distance:
+            best_distance = distance
+            best = {
+                "form": form,
+                "accession_number": accession_numbers[index],
+                "filing_date": filing_dates[index],
+                "primary_document": primary_docs[index] if index < len(primary_docs) else "",
+                "primary_description": primary_descriptions[index] if index < len(primary_descriptions) else "",
+            }
+    return best
+
+
+def sec_archive_base(cik: str, accession_number: str) -> str:
+    cik_no_zeros = str(int(cik))
+    accession_no_dashes = accession_number.replace("-", "")
+    return f"https://www.sec.gov/Archives/edgar/data/{cik_no_zeros}/{accession_no_dashes}"
+
+
+def select_sec_document(cik: str, filing: dict) -> dict:
+    base = sec_archive_base(cik, filing["accession_number"])
+    index_json = fetch_json(f"{base}/index.json")
+    items = ((index_json.get("directory") or {}).get("item") or [])
+    html_items = [
+        item for item in items
+        if str(item.get("name", "")).lower().endswith((".htm", ".html", ".txt"))
+    ]
+
+    def score(item: dict) -> tuple[int, str]:
+        name = str(item.get("name", "")).lower()
+        description = str(item.get("description", "")).lower()
+        text = f"{name} {description}"
+        value = 0
+        if "ex-99" in text or "ex99" in text or "ex99_" in text or "ex_99" in text or "exhibit 99" in text:
+            value += 100
+        if "press release" in text or "earnings" in text or "results" in text:
+            value += 50
+        if name == str(filing.get("primary_document", "")).lower():
+            value += 20
+        return (-value, name)
+
+    selected = sorted(html_items, key=score)[0] if html_items else {"name": filing.get("primary_document")}
+    selected_url = f"{base}/{selected.get('name')}"
+    return {
+        "url": selected_url,
+        "name": selected.get("name"),
+        "description": selected.get("description") or filing.get("primary_description"),
+    }
+
+
+def fetch_sec_fallback(company: dict) -> dict | None:
+    cik = sec_cik(company)
+    if not cik:
+        return None
+    filing = select_sec_filing(company)
+    if not filing:
+        return None
+    document = select_sec_document(cik, filing)
+    html, final_url = fetch_sec_text(document["url"])
+    text = clean_text(html, max_lines=900)
+    if len(text) < 800:
+        return {
+            "fetch_status": "sec_content_incomplete",
+            "error": "SEC filing was found but did not expose enough text for analysis.",
+            "official_url": final_url,
+            "title": document.get("description") or filing.get("primary_description") or final_url,
+            "raw_text": text,
+            "source_type": "sec_filing",
+            "sec_filing": filing,
+        }
+    return {
+        "fetch_status": "ok",
+        "error": None,
+        "official_url": final_url,
+        "title": release_title_from_text(text, document.get("description") or filing.get("primary_description") or final_url),
+        "raw_text": text,
+        "source_type": "sec_filing",
+        "sec_filing": filing,
+    }
 
 
 def fetch_release(company: dict) -> Path | None:
@@ -151,6 +328,31 @@ def fetch_release(company: dict) -> Path | None:
         fetch_status = "content_incomplete"
         error = "Official IR page was reachable but did not expose enough text for analysis."
 
+    if fetch_status != "ok":
+        try:
+            fallback = fetch_sec_fallback(company)
+        except requests.RequestException as exc:
+            fallback = {
+                "fetch_status": "sec_fetch_failed",
+                "error": str(exc),
+            }
+        if fallback and fallback.get("fetch_status") == "ok":
+            fetch_status = "ok"
+            error = None
+            final_url = fallback["official_url"]
+            title = fallback["title"]
+            text = fallback["raw_text"]
+            source_type = fallback["source_type"]
+            sec_filing = fallback.get("sec_filing")
+        else:
+            source_type = "official_ir"
+            sec_filing = fallback.get("sec_filing") if fallback else None
+            if fallback and fallback.get("error"):
+                error = f"{error} SEC fallback: {fallback.get('error')}"
+    else:
+        source_type = "official_ir"
+        sec_filing = None
+
     payload = {
         "id": hashlib.sha256(f"{company['ticker']}|{fiscal_period}|{final_url}".encode("utf-8")).hexdigest()[:16],
         "ticker": company.get("ticker"),
@@ -159,7 +361,7 @@ def fetch_release(company: dict) -> Path | None:
         "ai_focus": company.get("ai_focus") or [],
         "fiscal_period": fiscal_period,
         "expected_date": calendar.get("expected_date"),
-        "source_type": "official_ir",
+        "source_type": source_type,
         "official_url": final_url,
         "title": title,
         "fetched_at": datetime.now().isoformat(),
@@ -167,6 +369,7 @@ def fetch_release(company: dict) -> Path | None:
         "error": error,
         "raw_text": text,
         "metric_hints": extract_metric_hints(text),
+        "sec_filing": sec_filing,
         "report_id": report_id,
     }
     EARNINGS_DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -399,13 +602,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    companies = load_watchlist()
+    all_companies = load_watchlist()
+    companies = all_companies
     if args.ticker:
-        companies = [item for item in companies if item.get("ticker", "").upper() == args.ticker.upper()]
+        companies = [item for item in all_companies if item.get("ticker", "").upper() == args.ticker.upper()]
     if not companies:
         raise SystemExit("No matching earnings watchlist companies.")
 
-    calendar_path = write_calendar(companies)
+    calendar_path = write_calendar(all_companies)
     print(f"Earnings calendar written: {calendar_path}")
     if args.calendar_only:
         return
