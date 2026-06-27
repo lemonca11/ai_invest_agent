@@ -128,9 +128,9 @@ def call_kimi(question: str, market_context: dict) -> str:
 
     client = OpenAI(
         api_key=api_key,
-        base_url=env("KIMI_BASE_URL", "https://api.moonshot.ai/v1"),
+        base_url=env("KIMI_BASE_URL", "https://api.moonshot.cn/v1"),
     )
-    model = env("KIMI_MODEL", "kimi-k2.6")
+    model = env("KIMI_MODEL", "kimi-k2.5")
     response = client.chat.completions.create(
         model=model,
         temperature=0.2,
@@ -156,6 +156,50 @@ def call_kimi(question: str, market_context: dict) -> str:
         ],
     )
     return response.choices[0].message.content or ""
+
+
+def fallback_answer(question: str, market_context: dict) -> str:
+    summaries = market_context.get("summaries", [])
+    top_score = market_context.get("top_score", [])
+    selected_group = market_context.get("selected_group")
+    selected_stock = market_context.get("selected_stock")
+    q = question.lower()
+
+    if summaries and ("总市值" in question or "分类" in question or "类型" in question):
+        return "\n".join(
+            f"{item.get('group')}: {item.get('market_cap_label', 'N/A')}，"
+            f"20日成交额 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
+            f"领涨 {item.get('leader', 'N/A')}"
+            for item in summaries
+        )
+
+    if selected_group:
+        signals = market_context.get("group_signals", [])
+        if signals:
+            rows = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
+            return "\n".join(
+                f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}，"
+                f"状态 {row.get('state')}，20日 {float(row.get('ret_20d_pct') or 0):.2f}%"
+                for row in rows
+            )
+
+    if selected_stock:
+        row = selected_stock
+        return (
+            f"{row.get('name')}({row.get('symbol')}): 状态 {row.get('state')}，"
+            f"分数 {float(row.get('score') or 0):.0f}，市值 ${float(row.get('market_cap') or 0)/1e9:.1f}B，"
+            f"20日 {float(row.get('ret_20d_pct') or 0):.2f}%，量能 {float(row.get('volume_vs_20d_pct') or 0):.2f}%，"
+            f"观察规则：{row.get('playbook', '')}"
+        )
+
+    if top_score:
+        rows = top_score[:5]
+        return "\n".join(
+            f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}，状态 {row.get('state')}"
+            for row in rows
+        )
+
+    return "我当前支持：分类总市值、某分类最强、某股票当前状态。"
 
 
 @app.after_request
@@ -185,10 +229,13 @@ def chat_post() -> Response:
         market_data_url = env("MARKET_DATA_URL", DEFAULT_MARKET_DATA_URL)
         market_data = requests.get(market_data_url, timeout=20).json()
         market_context = compact_market_context(question, market_data)
-        answer = call_kimi(question, market_context)
+        try:
+            answer = call_kimi(question, market_context)
+        except Exception:
+            answer = fallback_answer(question, market_context)
         return json_response({"answer": answer}, status=200)
     except Exception as exc:
-        return json_response({"answer": f"Kimi 后端暂不可用：{exc}"}, status=500)
+        return json_response({"answer": f"市场数据暂不可用：{exc}"}, status=500)
 
 
 @app.route("/", defaults={"path": ""}, methods=["GET"])

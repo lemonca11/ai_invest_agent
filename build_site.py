@@ -763,7 +763,7 @@ def market_page_layout() -> str:
     signals = sorted(payload["signals"], key=lambda row: to_float(row.get("market_cap")), reverse=True)
     summaries = payload["summaries"]
     data_json = json.dumps(payload, ensure_ascii=False)
-    chat_api_url = json.dumps(os.environ.get("MARKET_CHAT_API_URL", ""), ensure_ascii=False)
+    chat_api_url = json.dumps(os.environ.get("MARKET_CHAT_API_URL", "/api/chat"), ensure_ascii=False)
 
     cards = "".join(
         f"""
