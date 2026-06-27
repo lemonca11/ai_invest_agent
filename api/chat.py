@@ -133,6 +133,16 @@ class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self) -> None:
         json_response(self, 200, {"ok": True})
 
+    def do_GET(self) -> None:
+        json_response(
+            self,
+            405,
+            {
+                "error": "Method not allowed",
+                "message": "Use POST with a JSON body: {\"question\": \"...\"}",
+            },
+        )
+
     def do_POST(self) -> None:
         try:
             length = int(self.headers.get("Content-Length", "0"))
