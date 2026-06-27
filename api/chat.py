@@ -121,6 +121,14 @@ def compact_market_context(question: str, market_data: dict) -> dict:
     return context
 
 
+def load_market_data() -> dict:
+    local_path = SITE_DIR / "market" / "market_data.json"
+    if local_path.is_file():
+        return json.loads(local_path.read_text(encoding="utf-8"))
+    market_data_url = env("MARKET_DATA_URL", DEFAULT_MARKET_DATA_URL)
+    return requests.get(market_data_url, timeout=10).json()
+
+
 def call_kimi(question: str, market_context: dict) -> str:
     api_key = env("KIMI_API_KEY")
     if not api_key:
@@ -207,6 +215,19 @@ def add_cors_headers(response: Response) -> Response:
     return with_cors(response)
 
 
+@app.route("/api/health", methods=["GET"])
+def health() -> Response:
+    market_data = load_market_data()
+    return json_response(
+        {
+            "ok": True,
+            "latest_date": market_data.get("latest_date"),
+            "signals": len(market_data.get("signals", [])),
+        },
+        status=200,
+    )
+
+
 @app.route("/api/chat", methods=["GET"])
 def chat_get() -> Response:
     return json_response(
@@ -226,8 +247,7 @@ def chat_post() -> Response:
         if not question:
             return json_response({"answer": "问题不能为空。"}, status=400)
 
-        market_data_url = env("MARKET_DATA_URL", DEFAULT_MARKET_DATA_URL)
-        market_data = requests.get(market_data_url, timeout=20).json()
+        market_data = load_market_data()
         market_context = compact_market_context(question, market_data)
         try:
             answer = call_kimi(question, market_context)
