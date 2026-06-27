@@ -71,6 +71,9 @@ jobs:
           TODAY=$(date +%F)
           python3 market_source_iterate.py --date "$TODAY"
 
+      - name: Refresh market radar data
+        run: python3 market_dashboard.py
+
       - name: Build static site
         run: python3 build_site.py
 

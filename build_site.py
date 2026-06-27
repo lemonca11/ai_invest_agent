@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import html
+import csv
 import json
+import math
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -16,9 +18,11 @@ SITE_DIR = ROOT / "site"
 SITE_REPORTS_DIR = SITE_DIR / "reports"
 SITE_EARNINGS_DIR = SITE_DIR / "earnings"
 SITE_EARNINGS_REPORTS_DIR = SITE_EARNINGS_DIR / "reports"
+SITE_MARKET_DIR = SITE_DIR / "market"
 SITE_EN_DIR = SITE_DIR / "en"
 SITE_EN_REPORTS_DIR = SITE_EN_DIR / "reports"
 ASSETS_DIR = SITE_DIR / "assets"
+EXTERNAL_MARKET_DIR = ROOT.parent / "trading_system"
 
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
@@ -517,6 +521,455 @@ def earnings_preview(earnings_reports: list[EarningsReport]) -> str:
 """
 
 
+def read_csv_rows(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def to_float(value: object, default: float = 0.0) -> float:
+    try:
+        if value in ("", None):
+            return default
+        number = float(value)
+        return number if math.isfinite(number) else default
+    except Exception:
+        return default
+
+
+def fmt_market_cap(value: float) -> str:
+    if not value:
+        return "N/A"
+    if value >= 1e12:
+        return f"${value / 1e12:.2f}T"
+    return f"${value / 1e9:.1f}B"
+
+
+def fmt_billions(value: float) -> str:
+    if not value:
+        return "N/A"
+    return f"${value / 1e9:.2f}B"
+
+
+def fmt_percent(value: float) -> str:
+    return f"{value:.2f}%"
+
+
+def market_data_paths() -> tuple[Path, Path, Path, Path]:
+    external_data = EXTERNAL_MARKET_DIR / "data"
+    if (external_data / "signals.csv").exists() and (EXTERNAL_MARKET_DIR / "watchlist.json").exists():
+        return (
+            external_data / "signals.csv",
+            external_data / "close.csv",
+            external_data / "volume.csv",
+            EXTERNAL_MARKET_DIR / "watchlist.json",
+        )
+    return (
+        DATA_DIR / "market_signals.csv",
+        DATA_DIR / "market_close.csv",
+        DATA_DIR / "market_volume.csv",
+        ROOT / "config" / "market_watchlist.json",
+    )
+
+
+def load_market_payload() -> dict:
+    signals_path, close_path, volume_path, watchlist_path = market_data_paths()
+    if not signals_path.exists() or not watchlist_path.exists():
+        return {"available": False, "groups": {}, "signals": [], "summaries": [], "latest_date": ""}
+
+    signals = read_csv_rows(signals_path)
+    for row in signals:
+        for key in [
+            "market_cap",
+            "score",
+            "last_close",
+            "day_return_pct",
+            "ret_20d_pct",
+            "ret_60d_pct",
+            "above_ma20_pct",
+            "above_ma50_pct",
+            "volume_vs_20d_pct",
+            "dollar_volume",
+            "current_drawdown_pct",
+        ]:
+            row[key] = to_float(row.get(key))
+        for key in ["accumulation_days", "distribution_days"]:
+            row[key] = int(to_float(row.get(key)))
+
+    config = json.loads(watchlist_path.read_text(encoding="utf-8"))
+    signal_by_name = {row["name"]: row for row in signals}
+
+    volume_rows = read_csv_rows(volume_path)
+    close_rows = read_csv_rows(close_path)
+    latest_date = close_rows[-1]["Date"] if close_rows else ""
+    last20_volume = volume_rows[-20:] if len(volume_rows) >= 20 else volume_rows
+    latest_close = close_rows[-1] if close_rows else {}
+
+    summaries = []
+    for group, names in config.get("groups", {}).items():
+        group_signals = [signal_by_name[name] for name in names if name in signal_by_name]
+        total_cap = sum(to_float(row.get("market_cap")) for row in group_signals)
+        dollar_values = []
+        for volume_row in last20_volume:
+            close_row = next((r for r in close_rows if r.get("Date") == volume_row.get("Date")), {})
+            total = 0.0
+            for name in names:
+                total += to_float(close_row.get(name)) * to_float(volume_row.get(name))
+            if total:
+                dollar_values.append(total)
+        avg_dollar = sum(dollar_values) / len(dollar_values) if dollar_values else 0.0
+        leader = max(group_signals, key=lambda row: to_float(row.get("score")), default=None)
+        summaries.append(
+            {
+                "group": group,
+                "count": len(group_signals),
+                "market_cap": total_cap,
+                "market_cap_label": fmt_market_cap(total_cap),
+                "avg_dollar_volume_20d": avg_dollar,
+                "avg_dollar_volume_20d_label": fmt_billions(avg_dollar),
+                "leader": leader["name"] if leader else "",
+                "leader_score": to_float(leader.get("score")) if leader else 0.0,
+            }
+        )
+    summaries.sort(key=lambda row: row["market_cap"], reverse=True)
+    correlations = compute_market_correlations(close_rows, config.get("groups", {}), signal_by_name)
+
+    return {
+        "available": True,
+        "latest_date": latest_date,
+        "groups": config.get("groups", {}),
+        "tickers": config.get("tickers", {}),
+        "signals": signals,
+        "summaries": summaries,
+        "correlations": correlations,
+        "source_files": {
+            "signals": str(signals_path),
+            "close": str(close_path),
+            "volume": str(volume_path),
+            "watchlist": str(watchlist_path),
+        },
+    }
+
+
+def pearson(xs: list[float], ys: list[float]) -> float:
+    if len(xs) < 2 or len(xs) != len(ys):
+        return 0.0
+    mean_x = sum(xs) / len(xs)
+    mean_y = sum(ys) / len(ys)
+    cov = sum((x - mean_x) * (y - mean_y) for x, y in zip(xs, ys))
+    var_x = sum((x - mean_x) ** 2 for x in xs)
+    var_y = sum((y - mean_y) ** 2 for y in ys)
+    if not var_x or not var_y:
+        return 0.0
+    return cov / math.sqrt(var_x * var_y)
+
+
+def compute_market_correlations(close_rows: list[dict], groups: dict, signal_by_name: dict) -> dict:
+    if len(close_rows) < 3:
+        return {}
+    returns_by_name: dict[str, dict[str, float]] = {}
+    names = [name for name in close_rows[0].keys() if name != "Date"]
+    for name in names:
+        returns_by_name[name] = {}
+        previous = None
+        for row in close_rows:
+            current = to_float(row.get(name), default=0.0)
+            if previous and current:
+                returns_by_name[name][row["Date"]] = current / previous - 1
+            previous = current or previous
+
+    result = {}
+    for group, group_names in groups.items():
+        valid = [name for name in group_names if name in returns_by_name and name in signal_by_name]
+        matrix = []
+        for a in valid:
+            row = []
+            for b in valid:
+                common_dates = sorted(set(returns_by_name[a]).intersection(returns_by_name[b]))
+                xs = [returns_by_name[a][date] for date in common_dates]
+                ys = [returns_by_name[b][date] for date in common_dates]
+                row.append(round(pearson(xs, ys), 2))
+            matrix.append(row)
+        pairs = []
+        for i, a in enumerate(valid):
+            for j, b in enumerate(valid[i + 1 :], start=i + 1):
+                pairs.append({"a": a, "b": b, "corr": matrix[i][j]})
+        pairs.sort(key=lambda item: item["corr"], reverse=True)
+        result[group] = {"names": valid, "matrix": matrix, "top_pairs": pairs[:5]}
+    return result
+
+
+def market_preview() -> str:
+    payload = load_market_payload()
+    if not payload.get("available"):
+        return ""
+    summaries = payload["summaries"][:4]
+    top = sorted(payload["signals"], key=lambda row: to_float(row.get("score")), reverse=True)[:5]
+    cards = "".join(
+        f"""
+        <div class="market-radar-card">
+          <span>{escape(item["group"])}</span>
+          <strong>{escape(item["market_cap_label"])}</strong>
+          <p>20日成交额 {escape(item["avg_dollar_volume_20d_label"])} · 领涨信号 {escape(item["leader"])}</p>
+        </div>
+        """
+        for item in summaries
+    )
+    rows = "".join(
+        f"""
+        <tr>
+          <td><strong>{escape(row["symbol"])}</strong><span>{escape(row["name"])}</span></td>
+          <td>{escape(row["state"])}</td>
+          <td>{to_float(row["score"]):.0f}</td>
+          <td>{fmt_percent(to_float(row["ret_20d_pct"]))}</td>
+        </tr>
+        """
+        for row in top
+    )
+    return f"""
+  <section class="market-radar-strip" aria-label="AI market radar">
+    <div class="section-heading">
+      <p>Market Radar</p>
+      <h2>AI 产业链市场雷达</h2>
+    </div>
+    <div class="market-radar-copy">
+      <p>把日报里的 AI 产业链叙事映射到美股量价、总市值、分类强弱和相关性。</p>
+      <a href="market/index.html">Open market radar</a>
+    </div>
+    <div class="market-radar-cards">{cards}</div>
+    <div class="mini-table-wrap">
+      <table class="mini-table">
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  </section>
+"""
+
+
+def market_page_layout() -> str:
+    payload = load_market_payload()
+    if not payload.get("available"):
+        body = """
+<header class="site-header compact">
+  <a class="brand" href="../index.html" aria-label="MetaFinance home"><span class="brand-mark">MF</span><span><strong>MetaFinance</strong><small>AI Investment Intelligence</small></span></a>
+  <nav><a href="../index.html#reports">Reports</a><a href="index.html">Market Radar</a><a href="../earnings/index.html">Earnings</a><a href="../feed.json">Data</a></nav>
+</header>
+<main><section class="earnings-desk-head"><div><p class="eyebrow">Market Radar</p><h1>暂无市场数据</h1><p>请先生成 market_signals.csv、market_close.csv 和 market_volume.csv。</p></div></section></main>
+"""
+        return layout("MetaFinance · Market Radar", body, css_href="../assets/styles.css")
+
+    signals = sorted(payload["signals"], key=lambda row: to_float(row.get("market_cap")), reverse=True)
+    summaries = payload["summaries"]
+    data_json = json.dumps(payload, ensure_ascii=False)
+
+    cards = "".join(
+        f"""
+        <div class="market-radar-card">
+          <span>{escape(item["group"])}</span>
+          <strong>{escape(item["market_cap_label"])}</strong>
+          <p>覆盖 {item["count"]} 个标的 · 20日成交额 {escape(item["avg_dollar_volume_20d_label"])} · 领涨 {escape(item["leader"])}</p>
+        </div>
+        """
+        for item in summaries
+    )
+
+    close_rows = read_csv_rows(market_data_paths()[1])
+    rows = "".join(
+        f"""
+        <tr data-groups="">
+          <td><strong>{escape(row["symbol"])}</strong><span>{escape(row["name"])}</span></td>
+          <td><span class="status-pill {escape(str(row["state"]).replace(" ", "-"))}">{escape(row["state"])}</span></td>
+          <td>{to_float(row["score"]):.0f}</td>
+          <td>{fmt_market_cap(to_float(row["market_cap"]))}</td>
+          <td>{to_float(row["last_close"]):.2f}</td>
+          <td>{fmt_percent(to_float(row["day_return_pct"]))}</td>
+          <td>{fmt_percent(to_float(row["ret_20d_pct"]))}</td>
+          <td>{fmt_percent(to_float(row["ret_60d_pct"]))}</td>
+          <td>{fmt_percent(to_float(row["above_ma20_pct"]))}</td>
+          <td>{fmt_percent(to_float(row["above_ma50_pct"]))}</td>
+          <td>{fmt_percent(to_float(row["volume_vs_20d_pct"]))}</td>
+          <td>{fmt_billions(to_float(row["dollar_volume"]))}</td>
+          <td>{fmt_percent(to_float(row["current_drawdown_pct"]))}</td>
+          <td>{int(to_float(row["accumulation_days"]))}/{int(to_float(row["distribution_days"]))}</td>
+          <td>{market_sparkline(close_rows, row["name"])}</td>
+          <td class="playbook-cell">{escape(row.get("playbook", ""))}</td>
+        </tr>
+        """
+        for row in signals
+    )
+
+    group_buttons = '<button class="active" data-group="全部">全部</button>' + "".join(
+        f'<button data-group="{escape(group)}">{escape(group)}</button>' for group in payload["groups"].keys()
+    )
+    correlation_sections = "".join(
+        market_correlation_section(group, item)
+        for group, item in payload.get("correlations", {}).items()
+        if item.get("names")
+    )
+
+    body = f"""
+<header class="site-header compact">
+  <a class="brand" href="../index.html" aria-label="MetaFinance home">
+    <span class="brand-mark">MF</span>
+    <span><strong>MetaFinance</strong><small>AI Investment Intelligence</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="index.html">Market Radar</a>
+    <a href="../earnings/index.html">Earnings</a>
+    <a href="market_data.json">Data</a>
+  </nav>
+</header>
+<main>
+  <section class="earnings-desk-head market-head">
+    <div>
+      <p class="eyebrow">Market Radar · {escape(payload["latest_date"])}</p>
+      <h1>AI 产业链市场雷达</h1>
+      <p>按云平台、芯片计算、存储、半导体设备、软件、电力和网络互联追踪美股头部标的。</p>
+    </div>
+    <a href="market_data.json">Open data</a>
+  </section>
+
+  <section class="market-summary-grid">{cards}</section>
+
+  <section class="market-radar-page">
+    <div class="market-tabs">{group_buttons}</div>
+    <div class="archive-table-wrap">
+      <table class="archive-table market-table">
+        <thead><tr><th>Company</th><th>状态</th><th>分数</th><th>市值</th><th>价格</th><th>日涨跌</th><th>20日</th><th>60日</th><th>距20日线</th><th>距50日线</th><th>量能</th><th>成交额</th><th>回撤</th><th>吸筹/派发</th><th>60日走势</th><th>观察规则</th></tr></thead>
+        <tbody id="marketRows">{rows}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="market-correlation-section">
+    <div class="section-heading"><p>Correlation</p><h2>分类日收益相关性</h2></div>
+    <p class="market-section-copy">口径：使用当前本地收盘价样本，先计算每只股票日收益率，再计算同一分类内部相关系数。</p>
+    <div class="market-correlation-grid" id="marketCorrelations">{correlation_sections}</div>
+  </section>
+
+  <section class="market-chat">
+    <div class="section-heading"><p>Static Assistant</p><h2>市场数据问答</h2></div>
+    <div id="marketAnswer" class="chat-answer">可以问：云平台总市值、存储谁最强、英伟达现在怎么样、每个类型总市值。</div>
+    <form id="marketChatForm" class="market-chat-form">
+      <input id="marketQuestion" placeholder="输入问题，例如：云平台里谁最强？">
+      <button type="submit">Ask</button>
+    </form>
+  </section>
+</main>
+<footer class="site-footer"><span>MetaFinance</span><span>Market Radar is generated from local market CSV data.</span></footer>
+<script id="marketData" type="application/json">{data_json}</script>
+<script>
+const marketData = JSON.parse(document.getElementById('marketData').textContent);
+const rows = Array.from(document.querySelectorAll('#marketRows tr'));
+const correlationCards = Array.from(document.querySelectorAll('.correlation-card'));
+const groupMap = marketData.groups;
+const byName = Object.fromEntries(marketData.signals.map(row => [row.name, row]));
+function rowGroups(name) {{
+  return Object.entries(groupMap).filter(([_, names]) => names.includes(name)).map(([group]) => group);
+}}
+rows.forEach(row => {{
+  const name = row.querySelector('span').textContent;
+  row.dataset.groups = rowGroups(name).join(',');
+}});
+document.querySelectorAll('.market-tabs button').forEach(button => {{
+  button.addEventListener('click', () => {{
+    document.querySelectorAll('.market-tabs button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    const group = button.dataset.group;
+    rows.forEach(row => row.style.display = group === '全部' || row.dataset.groups.split(',').includes(group) ? '' : 'none');
+    correlationCards.forEach(card => card.style.display = group === '全部' || card.dataset.group === group ? '' : 'none');
+  }});
+}});
+function pct(value) {{ return `${{Number(value || 0).toFixed(2)}}%`; }}
+function cap(value) {{ const n = Number(value || 0); return n >= 1e12 ? `$${{(n/1e12).toFixed(2)}}T` : `$${{(n/1e9).toFixed(1)}}B`; }}
+function answer(question) {{
+  const q = question.toLowerCase();
+  if (question.includes('每个类型总市值') || question.includes('分类总市值') || question.includes('总市值')) {{
+    return marketData.summaries.map(item => `${{item.group}}: ${{item.market_cap_label}}`).join('\\n');
+  }}
+  const group = Object.keys(groupMap).find(g => question.includes(g));
+  if (group) {{
+    const groupRows = groupMap[group].map(name => byName[name]).filter(Boolean);
+    if (question.includes('最强') || question.includes('强')) {{
+      return groupRows.sort((a,b) => Number(b.score)-Number(a.score)).slice(0,5).map(r => `${{r.name}}(${{r.symbol}}): 分数 ${{Number(r.score).toFixed(0)}}，状态 ${{r.state}}，20日 ${{pct(r.ret_20d_pct)}}`).join('\\n');
+    }}
+    return `${{group}} 总市值：${{marketData.summaries.find(item => item.group === group)?.market_cap_label || 'N/A'}}\\n` + groupRows.sort((a,b) => Number(b.market_cap || 0)-Number(a.market_cap || 0)).slice(0,8).map(r => `${{r.name}}(${{r.symbol}}): ${{cap(r.market_cap)}}，${{r.state}}`).join('\\n');
+  }}
+  const row = marketData.signals.find(r => question.includes(r.name) || question.toUpperCase().includes(r.symbol));
+  if (row) return `${{row.name}}(${{row.symbol}}): 状态 ${{row.state}}，分数 ${{Number(row.score).toFixed(0)}}，市值 ${{cap(row.market_cap)}}，20日 ${{pct(row.ret_20d_pct)}}，量能 ${{pct(row.volume_vs_20d_pct)}}，观察规则：${{row.playbook}}`;
+  return '我当前支持：分类总市值、某分类最强、某股票当前状态。LLM 版后续会接入更自由的问答。';
+}}
+document.getElementById('marketChatForm').addEventListener('submit', event => {{
+  event.preventDefault();
+  const input = document.getElementById('marketQuestion');
+  document.getElementById('marketAnswer').textContent = answer(input.value.trim());
+  input.value = '';
+}});
+</script>
+"""
+    return layout("MetaFinance · Market Radar", body, css_href="../assets/styles.css")
+
+
+def market_correlation_section(group: str, item: dict) -> str:
+    names = item.get("names", [])
+    matrix = item.get("matrix", [])
+    if len(names) < 2:
+        return ""
+    head = "".join(f"<th>{escape(name)}</th>" for name in names)
+    rows = []
+    for name, values in zip(names, matrix):
+        cells = []
+        for value in values:
+            intensity = int(255 - min(abs(float(value)), 1) * 110)
+            color = f"rgb({intensity},{244 if value >= 0 else intensity},{intensity if value >= 0 else 244})"
+            cells.append(f'<td style="background:{color}">{float(value):.2f}</td>')
+        rows.append(f"<tr><th>{escape(name)}</th>{''.join(cells)}</tr>")
+    pairs = "".join(
+        f"<li>{escape(pair['a'])} / {escape(pair['b'])}: {float(pair['corr']):.2f}</li>"
+        for pair in item.get("top_pairs", [])[:3]
+    )
+    return f"""
+    <article class="correlation-card" data-group="{escape(group)}">
+      <h3>{escape(group)}</h3>
+      <div class="table-wrap correlation-wrap">
+        <table class="correlation-table">
+          <thead><tr><th></th>{head}</tr></thead>
+          <tbody>{''.join(rows)}</tbody>
+        </table>
+      </div>
+      <ul>{pairs}</ul>
+    </article>
+    """
+
+
+def market_sparkline(close_rows: list[dict], name: str, width: int = 150, height: int = 38) -> str:
+    values = [to_float(row.get(name), default=0.0) for row in close_rows[-60:]]
+    values = [value for value in values if value]
+    if len(values) < 2:
+        return ""
+    low = min(values)
+    high = max(values)
+    span = high - low or 1.0
+    points = []
+    for idx, value in enumerate(values):
+        x = idx * width / (len(values) - 1)
+        y = height - (((value - low) / span) * (height - 6) + 3)
+        points.append(f"{x:.1f},{y:.1f}")
+    return (
+        f'<svg class="market-spark" viewBox="0 0 {width} {height}" preserveAspectRatio="none">'
+        f'<polyline points="{" ".join(points)}"></polyline></svg>'
+    )
+
+
+def write_market_data() -> None:
+    SITE_MARKET_DIR.mkdir(parents=True, exist_ok=True)
+    payload = load_market_payload()
+    (SITE_MARKET_DIR / "market_data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    (SITE_MARKET_DIR / "index.html").write_text(market_page_layout(), encoding="utf-8")
+
+
 def earnings_index_layout(earnings_reports: list[EarningsReport]) -> str:
     rows = []
     for item in earnings_items(earnings_reports):
@@ -549,6 +1002,7 @@ def earnings_index_layout(earnings_reports: list[EarningsReport]) -> str:
   </a>
   <nav>
     <a href="../index.html#reports">Reports</a>
+    <a href="../market/index.html">Market Radar</a>
     <a href="index.html">Earnings</a>
     <a href="../feed.json">Data</a>
   </nav>
@@ -638,6 +1092,7 @@ def earnings_report_layout(report: EarningsReport) -> str:
   </a>
   <nav>
     <a href="../../index.html#reports">Reports</a>
+    <a href="../../market/index.html">Market Radar</a>
     <a href="../index.html">Earnings</a>
     <a href="../../feed.json">Data</a>
   </nav>
@@ -724,6 +1179,7 @@ Oracle 这份财报的主线不是传统数据库业务，而是云基础设施�
   </a>
   <nav>
     <a href="../../index.html#reports">Reports</a>
+    <a href="../../market/index.html">Market Radar</a>
     <a href="../index.html">Earnings</a>
     <a href="../../feed.json">Data</a>
   </nav>
@@ -761,6 +1217,7 @@ def report_layout(report: Report, lang: str = "zh", alt_href_override: str | Non
     home_href = "../index.html" if not is_en else "../index.html"
     data_href = "../feed.json" if not is_en else "../feed.json"
     earnings_href = "../earnings/index.html" if not is_en else "../../earnings/index.html"
+    market_href = "../market/index.html" if not is_en else "../../market/index.html"
     alt_href = alt_href_override or (f"../en/reports/{report.date}.html" if not is_en else f"../../reports/{report.date}.html")
     alt_label = "English" if not is_en else "中文"
     aside_text = (
@@ -780,6 +1237,7 @@ def report_layout(report: Report, lang: str = "zh", alt_href_override: str | Non
   </a>
   <nav>
     <a href="{home_href}">Reports</a>
+    <a href="{market_href}">Market Radar</a>
     <a href="{earnings_href}">Earnings</a>
     <a href="{data_href}">Data</a>
     <a class="lang-link" href="{alt_href}">{alt_label}</a>
@@ -820,6 +1278,7 @@ def index_layout(reports: list[Report], lang: str = "zh", earnings_reports: list
     home_href = "index.html"
     data_href = "feed.json"
     earnings_href = "earnings/index.html" if not is_en else "../earnings/index.html"
+    market_href = "market/index.html" if not is_en else "../market/index.html"
     alt_href = "en/index.html" if not is_en else "../index.html"
     alt_label = "English" if not is_en else "中文"
     hero_kicker = "Global AI Markets · 中文 / English" if not is_en else "Global AI Markets · English Edition"
@@ -845,6 +1304,7 @@ def index_layout(reports: list[Report], lang: str = "zh", earnings_reports: list
   </a>
   <nav>
     <a href="#reports">Reports</a>
+    <a href="{market_href}">Market Radar</a>
     <a href="{earnings_href}">Earnings</a>
     <a href="{data_href}">Data</a>
     <a class="lang-link" href="{alt_href}">{alt_label}</a>
@@ -903,6 +1363,8 @@ def index_layout(reports: list[Report], lang: str = "zh", earnings_reports: list
     </div>
   </section>
 
+  {market_preview()}
+
   {earnings_preview(earnings_reports or [])}
 
   <section id="reports" class="reports-section">
@@ -942,6 +1404,7 @@ def write_feed(path: Path, reports: list[Report]) -> None:
 def build() -> None:
     SITE_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     SITE_EARNINGS_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    SITE_MARKET_DIR.mkdir(parents=True, exist_ok=True)
     SITE_EN_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     for old_page in SITE_EARNINGS_REPORTS_DIR.glob("*.html"):
@@ -971,6 +1434,7 @@ def build() -> None:
 
     (SITE_DIR / "index.html").write_text(index_layout(reports, lang="zh", earnings_reports=earnings_reports), encoding="utf-8")
     (SITE_EARNINGS_DIR / "index.html").write_text(earnings_index_layout(earnings_reports), encoding="utf-8")
+    write_market_data()
     (SITE_DIR / ".nojekyll").write_text("", encoding="utf-8")
     write_feed(SITE_DIR / "feed.json", reports)
 
