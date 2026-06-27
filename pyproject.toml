@@ -3,9 +3,10 @@ name = "ai-invest-agent"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+  "flask",
   "openai",
   "requests",
 ]
 
 [tool.vercel]
-entrypoint = "api.chat:handler"
+entrypoint = "api.chat:app"
