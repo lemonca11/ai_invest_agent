@@ -4,6 +4,7 @@ import html
 import csv
 import json
 import math
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -762,6 +763,7 @@ def market_page_layout() -> str:
     signals = sorted(payload["signals"], key=lambda row: to_float(row.get("market_cap")), reverse=True)
     summaries = payload["summaries"]
     data_json = json.dumps(payload, ensure_ascii=False)
+    chat_api_url = json.dumps(os.environ.get("MARKET_CHAT_API_URL", ""), ensure_ascii=False)
 
     cards = "".join(
         f"""
@@ -862,6 +864,7 @@ def market_page_layout() -> str:
 <script id="marketData" type="application/json">{data_json}</script>
 <script>
 const marketData = JSON.parse(document.getElementById('marketData').textContent);
+const MARKET_CHAT_API_URL = window.METAFINANCE_CHAT_API || {chat_api_url};
 const rows = Array.from(document.querySelectorAll('#marketRows tr'));
 const correlationCards = Array.from(document.querySelectorAll('.correlation-card'));
 const groupMap = marketData.groups;
@@ -901,11 +904,30 @@ function answer(question) {{
   if (row) return `${{row.name}}(${{row.symbol}}): 状态 ${{row.state}}，分数 ${{Number(row.score).toFixed(0)}}，市值 ${{cap(row.market_cap)}}，20日 ${{pct(row.ret_20d_pct)}}，量能 ${{pct(row.volume_vs_20d_pct)}}，观察规则：${{row.playbook}}`;
   return '我当前支持：分类总市值、某分类最强、某股票当前状态。LLM 版后续会接入更自由的问答。';
 }}
-document.getElementById('marketChatForm').addEventListener('submit', event => {{
+document.getElementById('marketChatForm').addEventListener('submit', async event => {{
   event.preventDefault();
   const input = document.getElementById('marketQuestion');
-  document.getElementById('marketAnswer').textContent = answer(input.value.trim());
+  const question = input.value.trim();
+  const answerBox = document.getElementById('marketAnswer');
+  if (!question) return;
+  answerBox.textContent = '正在分析本地市场数据...';
   input.value = '';
+  if (MARKET_CHAT_API_URL) {{
+    try {{
+      const res = await fetch(MARKET_CHAT_API_URL, {{
+        method: 'POST',
+        headers: {{'Content-Type': 'application/json'}},
+        body: JSON.stringify({{question}})
+      }});
+      const data = await res.json();
+      answerBox.textContent = data.answer || answer(question);
+      return;
+    }} catch (error) {{
+      answerBox.textContent = answer(question) + '\\n\\n注：LLM 后端暂不可用，已回退到静态规则问答。';
+      return;
+    }}
+  }}
+  answerBox.textContent = answer(question);
 }});
 </script>
 """
