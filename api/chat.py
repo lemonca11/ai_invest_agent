@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import mimetypes
 import os
 from http.server import BaseHTTPRequestHandler
+from pathlib import Path
 
 import requests
 from openai import OpenAI
@@ -10,6 +12,8 @@ from openai import OpenAI
 
 DEFAULT_MARKET_DATA_URL = "https://lemonca11.github.io/ai_invest_agent/market/market_data.json"
 DEFAULT_ALLOWED_ORIGIN = "https://lemonca11.github.io"
+BASE_DIR = Path(__file__).resolve().parents[1]
+SITE_DIR = BASE_DIR / "site"
 
 
 def env(name: str, default: str = "") -> str:
@@ -27,6 +31,72 @@ def json_response(handler: BaseHTTPRequestHandler, status: int, payload: dict) -
     handler.send_header("Content-Length", str(len(body)))
     handler.end_headers()
     handler.wfile.write(body)
+
+
+def text_response(handler: BaseHTTPRequestHandler, status: int, body: str, content_type: str = "text/plain; charset=utf-8") -> None:
+    payload = body.encode("utf-8")
+    origin = env("ALLOWED_ORIGIN", DEFAULT_ALLOWED_ORIGIN)
+    handler.send_response(status)
+    handler.send_header("Content-Type", content_type)
+    handler.send_header("Access-Control-Allow-Origin", origin)
+    handler.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    handler.send_header("Access-Control-Allow-Headers", "Content-Type")
+    handler.send_header("Content-Length", str(len(payload)))
+    handler.end_headers()
+    handler.wfile.write(payload)
+
+
+def static_file_for_path(path: str) -> Path | None:
+    normalized = path.split("?", 1)[0].split("#", 1)[0]
+    if normalized in {"", "/"}:
+        return SITE_DIR / "index.html"
+    if normalized in {"/market", "/market/"}:
+        return SITE_DIR / "market" / "index.html"
+    if normalized in {"/earnings", "/earnings/"}:
+        return SITE_DIR / "earnings" / "index.html"
+    if normalized in {"/en", "/en/"}:
+        return SITE_DIR / "en" / "index.html"
+    if normalized == "/feed.json":
+        return SITE_DIR / "feed.json"
+    if normalized.startswith("/assets/"):
+        return SITE_DIR / normalized.removeprefix("/").replace("/", os.sep)
+    if normalized.startswith("/market/") or normalized.startswith("/earnings/") or normalized.startswith("/en/"):
+        candidate = SITE_DIR / normalized.removeprefix("/")
+        if candidate.is_file():
+            return candidate
+    candidate = SITE_DIR / normalized.removeprefix("/")
+    if candidate.is_file():
+        return candidate
+    if candidate.is_dir():
+        index_file = candidate / "index.html"
+        if index_file.is_file():
+            return index_file
+    return None
+
+
+def serve_static(handler: BaseHTTPRequestHandler) -> None:
+    file_path = static_file_for_path(handler.path)
+    if not file_path or not file_path.is_file():
+        text_response(
+            handler,
+            404,
+            json.dumps({"error": "Not found", "path": handler.path}, ensure_ascii=False),
+            content_type="application/json; charset=utf-8",
+        )
+        return
+    content = file_path.read_bytes()
+    content_type = mimetypes.guess_type(str(file_path))[0] or "application/octet-stream"
+    if content_type.startswith("text/") or content_type in {"application/javascript", "application/json"}:
+        content_type = f"{content_type}; charset=utf-8" if "charset" not in content_type else content_type
+    origin = env("ALLOWED_ORIGIN", DEFAULT_ALLOWED_ORIGIN)
+    handler.send_response(200)
+    handler.send_header("Content-Type", content_type)
+    handler.send_header("Access-Control-Allow-Origin", origin)
+    handler.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    handler.send_header("Access-Control-Allow-Headers", "Content-Type")
+    handler.send_header("Content-Length", str(len(content)))
+    handler.end_headers()
+    handler.wfile.write(content)
 
 
 def compact_market_context(question: str, market_data: dict) -> dict:
@@ -134,16 +204,22 @@ class handler(BaseHTTPRequestHandler):
         json_response(self, 200, {"ok": True})
 
     def do_GET(self) -> None:
-        json_response(
-            self,
-            405,
-            {
-                "error": "Method not allowed",
-                "message": "Use POST with a JSON body: {\"question\": \"...\"}",
-            },
-        )
+        if self.path.startswith("/api/chat"):
+            json_response(
+                self,
+                405,
+                {
+                    "error": "Method not allowed",
+                    "message": "Use POST with a JSON body: {\"question\": \"...\"}",
+                },
+            )
+            return
+        serve_static(self)
 
     def do_POST(self) -> None:
+        if not self.path.startswith("/api/chat"):
+            json_response(self, 404, {"error": "Not found"})
+            return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             payload = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
