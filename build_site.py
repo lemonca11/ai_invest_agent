@@ -853,22 +853,22 @@ def market_page_layout() -> str:
 
   <section class="market-chat">
     <div class="section-heading"><p>AI Assistant</p><h2>市场数据问答</h2></div>
-    <div class="chat-diagnostics" id="chatDiagnostics">
+    <div class="chat-diagnostics">
       <div class="chat-diagnostic-card">
         <span>本地数据</span>
-        <strong id="diagLocalData">未请求</strong>
+        <strong id="diagLocalDataInline">未请求</strong>
       </div>
       <div class="chat-diagnostic-card">
         <span>模型调用</span>
-        <strong id="diagLlmCall">未请求</strong>
+        <strong id="diagLlmCallInline">未请求</strong>
       </div>
       <div class="chat-diagnostic-card">
         <span>当前结果</span>
-        <strong id="diagResult">未开始</strong>
+        <strong id="diagResultInline">未开始</strong>
       </div>
       <div class="chat-diagnostic-card">
         <span>Fallback 原因</span>
-        <strong id="diagFallback">无</strong>
+        <strong id="diagFallbackInline">无</strong>
       </div>
     </div>
     <div id="marketAnswer" class="chat-answer">可以问：云平台总市值、存储谁最强、英伟达现在怎么样、每个类型总市值。</div>
@@ -877,6 +877,40 @@ def market_page_layout() -> str:
       <button type="submit">Ask</button>
     </form>
   </section>
+
+  <button class="floating-chat-trigger" id="floatingChatTrigger" type="button" aria-expanded="false" aria-controls="floatingChatPanel">市场问答</button>
+  <aside class="floating-chat-panel hidden" id="floatingChatPanel">
+    <div class="floating-chat-head">
+      <div>
+        <p>AI Assistant</p>
+        <strong>悬浮问答</strong>
+      </div>
+      <button type="button" id="floatingChatClose" aria-label="关闭问答面板">关闭</button>
+    </div>
+    <div class="chat-diagnostics compact">
+      <div class="chat-diagnostic-card">
+        <span>本地数据</span>
+        <strong id="diagLocalDataFloat">未请求</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>模型调用</span>
+        <strong id="diagLlmCallFloat">未请求</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>当前结果</span>
+        <strong id="diagResultFloat">未开始</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>Fallback 原因</span>
+        <strong id="diagFallbackFloat">无</strong>
+      </div>
+    </div>
+    <div id="floatingMarketAnswer" class="chat-answer compact">这里会同步显示最近一次问答结果。</div>
+    <form id="floatingMarketChatForm" class="market-chat-form compact">
+      <input id="floatingMarketQuestion" placeholder="例如：英伟达表现怎么样？">
+      <button type="submit">Ask</button>
+    </form>
+  </aside>
 </main>
 <footer class="site-footer"><span>MetaFinance</span><span>Market Radar is generated from local market CSV data.</span></footer>
 <script id="marketData" type="application/json">{data_json}</script>
@@ -905,26 +939,43 @@ document.querySelectorAll('.market-tabs button').forEach(button => {{
 }});
 function pct(value) {{ return `${{Number(value || 0).toFixed(2)}}%`; }}
 function cap(value) {{ const n = Number(value || 0); return n >= 1e12 ? `$${{(n/1e12).toFixed(2)}}T` : `$${{(n/1e9).toFixed(1)}}B`; }}
-function setDiagnostics({{ localData, llmCall, result, fallback }}) {{
-  document.getElementById('diagLocalData').textContent = localData;
-  document.getElementById('diagLlmCall').textContent = llmCall;
-  document.getElementById('diagResult').textContent = result;
-  document.getElementById('diagFallback').textContent = fallback;
+const inlineAnswerBox = document.getElementById('marketAnswer');
+const floatingAnswerBox = document.getElementById('floatingMarketAnswer');
+const inlineInput = document.getElementById('marketQuestion');
+const floatingInput = document.getElementById('floatingMarketQuestion');
+const floatingTrigger = document.getElementById('floatingChatTrigger');
+const floatingPanel = document.getElementById('floatingChatPanel');
+const floatingClose = document.getElementById('floatingChatClose');
+function setDiagnostics(prefix, {{ localData, llmCall, result, fallback }}) {{
+  document.getElementById(`diagLocalData${{prefix}}`).textContent = localData;
+  document.getElementById(`diagLlmCall${{prefix}}`).textContent = llmCall;
+  document.getElementById(`diagResult${{prefix}}`).textContent = result;
+  document.getElementById(`diagFallback${{prefix}}`).textContent = fallback;
 }}
-document.getElementById('marketChatForm').addEventListener('submit', async event => {{
-  event.preventDefault();
-  const input = document.getElementById('marketQuestion');
+function setAllDiagnostics(values) {{
+  setDiagnostics('Inline', values);
+  setDiagnostics('Float', values);
+}}
+function setAllAnswers(text) {{
+  inlineAnswerBox.textContent = text;
+  floatingAnswerBox.textContent = text;
+}}
+function toggleFloatingChat(open) {{
+  floatingPanel.classList.toggle('hidden', !open);
+  floatingTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+}}
+async function submitMarketQuestion(input) {{
   const question = input.value.trim();
-  const answerBox = document.getElementById('marketAnswer');
   if (!question) return;
-  answerBox.textContent = '正在读取本地数据，并等待模型生成回答...';
-  setDiagnostics({{
+  setAllAnswers('正在读取本地数据，并等待模型生成回答...');
+  setAllDiagnostics({{
     localData: '已开始读取',
     llmCall: '准备调用',
     result: '处理中',
     fallback: '无'
   }});
-  input.value = '';
+  inlineInput.value = '';
+  floatingInput.value = '';
   if (MARKET_CHAT_API_URL) {{
     try {{
       const res = await fetch(MARKET_CHAT_API_URL, {{
@@ -941,7 +992,7 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
         lead = `当前没有等到模型完整返回，下面是本地备用解读：\\n\\n${{lead}}`;
       }}
       const diagnostics = data.diagnostics || {{}};
-      setDiagnostics({{
+      setAllDiagnostics({{
         localData: diagnostics.local_data_loaded ? `已加载 (${{diagnostics.latest_date || 'unknown'}})` : '未加载',
         llmCall: diagnostics.llm_attempted ? (diagnostics.llm_success ? '已成功返回' : '已调用但失败') : '未调用',
         result: data.source === 'kimi' ? '模型正式回答' : '本地备用回答',
@@ -953,27 +1004,37 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
       if (typeof data.latency_ms === 'number') meta.push(`延迟: ${{data.latency_ms}}ms`);
       if (data.error) meta.push(`错误: ${{data.error}}`);
       const suffix = meta.length ? `\\n\\n${{meta.join(' · ')}}` : '';
-      answerBox.textContent = lead + suffix;
+      setAllAnswers(lead + suffix);
       return;
     }} catch (error) {{
-      setDiagnostics({{
+      setAllDiagnostics({{
         localData: '未知',
         llmCall: '请求失败',
         result: '无可用回答',
         fallback: error?.message || 'unknown'
       }});
-      answerBox.textContent = `聊天后端暂不可用。\\n\\n错误: ${{error?.message || 'unknown'}}`;
+      setAllAnswers(`聊天后端暂不可用。\\n\\n错误: ${{error?.message || 'unknown'}}`);
       return;
     }}
   }}
-  setDiagnostics({{
+  setAllDiagnostics({{
     localData: '未知',
     llmCall: '未配置',
     result: '无可用回答',
     fallback: '聊天后端未配置'
   }});
-  answerBox.textContent = '聊天后端未配置。';
+  setAllAnswers('聊天后端未配置。');
+}}
+document.getElementById('marketChatForm').addEventListener('submit', async event => {{
+  event.preventDefault();
+  await submitMarketQuestion(inlineInput);
 }});
+document.getElementById('floatingMarketChatForm').addEventListener('submit', async event => {{
+  event.preventDefault();
+  await submitMarketQuestion(floatingInput);
+}});
+floatingTrigger.addEventListener('click', () => toggleFloatingChat(floatingPanel.classList.contains('hidden')));
+floatingClose.addEventListener('click', () => toggleFloatingChat(false));
 </script>
 """
     return layout("MetaFinance · Market Radar", body, css_href="../assets/styles.css")
