@@ -130,38 +130,23 @@ def build_llm_context(question: str, market_data: dict) -> dict:
         "latest_date": market_data.get("latest_date"),
         "group_count": len(market_data.get("groups", {})),
         "signal_count": len(signals),
-        "top_market_cap": [
-            {
-                "name": row.get("name"),
-                "symbol": row.get("symbol"),
-                "market_cap_label": row.get("market_cap_label"),
-                "state": row.get("state"),
-                "score": row.get("score"),
-            }
-            for row in sorted(signals, key=lambda row: float(row.get("market_cap") or 0), reverse=True)[:10]
+        "leaders_by_market_cap": [
+            f"{row.get('name')}({row.get('symbol')}): {row.get('market_cap_label')} / {row.get('state')}"
+            for row in sorted(signals, key=lambda row: float(row.get("market_cap") or 0), reverse=True)[:5]
         ],
-        "top_score": [
-            {
-                "name": row.get("name"),
-                "symbol": row.get("symbol"),
-                "state": row.get("state"),
-                "score": row.get("score"),
-                "market_cap_label": row.get("market_cap_label"),
-                "ret_20d_pct": row.get("ret_20d_pct"),
-                "volume_vs_20d_pct": row.get("volume_vs_20d_pct"),
-            }
-            for row in sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:10]
+        "leaders_by_score": [
+            f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}, "
+            f"20日 {float(row.get('ret_20d_pct') or 0):.2f}%, 量能 {float(row.get('volume_vs_20d_pct') or 0):.2f}%"
+            for row in sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
         ],
-        "summaries": summaries,
-        "correlations": {
-            group: {
-                "top_pairs": item.get("top_pairs", [])[:3],
-                "names": item.get("names", [])[:8],
-            }
-            for group, item in correlations.items()
-            if item.get("names")
-        },
+        "category_summaries": [
+            f"{item.get('group')}: 总市值 {item.get('market_cap_label')}, "
+            f"20日成交额 {item.get('avg_dollar_volume_20d_label')}, 领涨 {item.get('leader')}"
+            for item in summaries
+        ],
     }
+    context["relevant_signals"] = []
+    context["relevant_correlations"] = {}
     return context
 
 
@@ -187,22 +172,21 @@ def call_kimi(question: str, market_context: dict) -> str:
         },
         json={
             "model": model,
-            "temperature": 0.2,
+            "temperature": 0.4,
+            "top_p": 0.9,
             "messages": [
                 {
                     "role": "system",
                     "content": (
                         "你是 MetaFinance 的交易分析助手。"
-                        "你的任务是基于市场数据做归纳分析，而不是逐条复述检索结果。"
-                        "回答必须先给结论，再给证据，再给风险点，再给观察条件。"
-                        "允许做推断，但必须明确标注为推断，不能把推断写成事实。"
+                        "你会收到一组由检索模块整理好的市场证据。"
+                        "检索只负责提供材料，最终回答必须由你自己组织成自然中文。"
+                        "不要复述字段名，不要像表格，不要提检索过程。"
+                        "直接给自然、连贯的分析。"
+                        "可以分成 2-4 段，或者少量项目符号，但不要使用固定模板标题。"
+                        "结论要先说清楚，再解释为什么，再说风险和后续观察。"
+                        "允许推断，但要明确这是推断。"
                         "不要给直接买卖建议。"
-                        "不要提及你在检索或查表。"
-                        "参考回答格式："
-                        "1. 结论：一句话概括。"
-                        "2. 证据：引用 2-4 个关键指标，不要堆表格。"
-                        "3. 风险：说明什么条件下结论会失效。"
-                        "4. 观察：给出接下来该盯的 1-3 个指标。"
                     ),
                 },
                 {
@@ -230,19 +214,14 @@ def call_kimi(question: str, market_context: dict) -> str:
 
 
 def fallback_answer(question: str, market_context: dict) -> str:
-    summaries = market_context.get("summaries", [])
+    summaries = market_context.get("market_overview", {}).get("category_summaries", [])
     top_score = market_context.get("top_score", [])
     selected_group = market_context.get("selected_group")
     selected_stock = market_context.get("selected_stock")
     q = question.lower()
 
     if summaries and ("总市值" in question or "分类" in question or "类型" in question):
-        return "\n".join(
-            f"{item.get('group')}: {item.get('market_cap_label', 'N/A')}，"
-            f"20日成交额 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
-            f"领涨 {item.get('leader', 'N/A')}"
-            for item in summaries
-        )
+        return "\n".join(summaries)
 
     if selected_group:
         signals = market_context.get("group_signals", [])

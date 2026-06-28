@@ -852,7 +852,7 @@ def market_page_layout() -> str:
   </section>
 
   <section class="market-chat">
-    <div class="section-heading"><p>Static Assistant</p><h2>市场数据问答</h2></div>
+    <div class="section-heading"><p>AI Assistant</p><h2>市场数据问答</h2></div>
     <div id="marketAnswer" class="chat-answer">可以问：云平台总市值、存储谁最强、英伟达现在怎么样、每个类型总市值。</div>
     <form id="marketChatForm" class="market-chat-form">
       <input id="marketQuestion" placeholder="输入问题，例如：云平台里谁最强？">
