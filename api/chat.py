@@ -122,7 +122,7 @@ def compact_market_context(question: str, market_data: dict) -> dict:
     return context
 
 
-def interpret_row(row: dict) -> str:
+def make_semantic_sentence(row: dict) -> str:
     name = row.get("name", "Unknown")
     symbol = row.get("symbol", "")
     label = f"{name}({symbol})" if symbol else name
@@ -131,52 +131,60 @@ def interpret_row(row: dict) -> str:
     vol_20d = float(row.get("volume_vs_20d_pct") or 0)
     above_ma20 = float(row.get("above_ma20_pct") or 0)
     above_ma50 = float(row.get("above_ma50_pct") or 0)
-    score = float(row.get("score") or 0)
     drawdown = float(row.get("current_drawdown_pct") or 0)
 
     if state in {"weak", "弱势"}:
-        stance = "最近一段时间偏弱，买盘还没有明显重新接回。"
+        stance = "近期偏弱，买盘还没有重新接回。"
     elif state in {"strong", "强势"}:
-        stance = "走势相对更稳，资金接力还算顺。"
+        stance = "走势相对稳，资金接力还算顺。"
     elif state in {"distribution", "放量承压", "short-term pressure"}:
-        stance = "短线有承压迹象，放量后没有顺畅延续。"
+        stance = "短线承压，放量后没有顺畅延续。"
     elif state in {"accumulation", "吸筹"}:
-        stance = "底部资金在慢慢吸收，但还没完全走成趋势。"
+        stance = "底部资金在吸收，但还没完全走成趋势。"
     else:
         stance = f"当前状态是 {state}。"
 
-    momentum_bits: list[str] = []
+    clues: list[str] = []
     if ret_20d <= -5:
-        momentum_bits.append("20日表现偏弱")
+        clues.append("20日表现偏弱")
     elif ret_20d >= 5:
-        momentum_bits.append("20日表现偏强")
+        clues.append("20日表现偏强")
     if abs(above_ma20) > 1:
-        momentum_bits.append("价格相对 20 日线仍有偏离")
+        clues.append("价格相对 20 日线有偏离")
     if abs(above_ma50) > 1:
-        momentum_bits.append("与 50 日线也有明显偏离")
+        clues.append("与 50 日线也有偏离")
     if abs(vol_20d) > 15:
-        momentum_bits.append("量能没有完全匹配价格变化")
+        clues.append("量能没有完全匹配价格变化")
     if drawdown <= -8:
-        momentum_bits.append("回撤仍然比较深")
+        clues.append("回撤仍然比较深")
 
-    momentum = "，".join(momentum_bits[:3])
-    if momentum:
-        momentum = f"{momentum}。"
+    clue_text = "；".join(clues[:3])
+    if clue_text:
+        clue_text = f" 线索上看，{clue_text}。"
 
-    return (
-        f"{label}：{stance}"
-        f"{momentum}"
-        f"分数大约 {score:.0f}，近期涨跌 {ret_20d:.2f}%，量能变化 {vol_20d:.2f}%。"
-    )
+    return f"{label} {stance}{clue_text}"
 
 
-def interpret_summary(item: dict) -> str:
-    group = item.get("group", "Unknown")
-    return (
-        f"{group} 这个分类当前总市值约 {item.get('market_cap_label', 'N/A')}，"
-        f"20日成交额约 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
-        f"当前领涨的是 {item.get('leader', 'N/A')}。"
-    )
+def group_regime(rows: list[dict]) -> str:
+    if not rows:
+        return "暂无足够数据判断分类状态。"
+    weak = sum(1 for row in rows if str(row.get("state")) in {"weak", "弱势", "distribution", "放量承压", "short-term pressure"})
+    strong = sum(1 for row in rows if str(row.get("state")) in {"strong", "强势", "accumulation", "吸筹"})
+    avg_ret = sum(float(row.get("ret_20d_pct") or 0) for row in rows) / len(rows)
+    if strong > weak and avg_ret > 0:
+        return "整体偏强，说明资金仍在沿着这条线继续做延伸。"
+    if weak > strong and avg_ret < 0:
+        return "整体偏弱，说明这条线目前还没有明显修复。"
+    return "整体处在分化阶段，方向还不算一致。"
+
+
+def topic_label(question: str, context: dict) -> str:
+    if context.get("selected_group"):
+        return f"{context['selected_group']}这条线"
+    if context.get("selected_stock"):
+        row = context["selected_stock"]
+        return f"{row.get('name')}({row.get('symbol')})"
+    return "当前这组市场样本"
 
 
 def build_evidence_cards(question: str, market_data: dict) -> dict:
@@ -185,53 +193,87 @@ def build_evidence_cards(question: str, market_data: dict) -> dict:
     correlations = market_data.get("correlations", {})
     signals = market_data.get("signals", [])
     context = compact_market_context(question, market_data)
-    cards: list[str] = []
-
-    cards.append(
-        f"市场时间点是 {market_data.get('latest_date', 'unknown')}，当前覆盖 {len(groups)} 个分类、{len(signals)} 只标的。"
-    )
-
+    facts: list[str] = []
+    watchpoints: list[str] = []
     summary_by_group = {item.get("group"): item for item in summaries}
     selected_group = context.get("selected_group")
     selected_stock = context.get("selected_stock")
 
+    facts.append(
+        f"市场时间点是 {market_data.get('latest_date', 'unknown')}，当前覆盖 {len(groups)} 个分类、{len(signals)} 只标的。"
+    )
+
     if selected_group:
         summary = summary_by_group.get(selected_group, {})
         if summary:
-            cards.append(interpret_summary(summary))
+            facts.append(
+                f"{selected_group} 这条线的总市值约 {summary.get('market_cap_label', 'N/A')}，"
+                f"20日成交额约 {summary.get('avg_dollar_volume_20d_label', 'N/A')}，"
+                f"领涨标的是 {summary.get('leader', 'N/A')}。"
+            )
         group_rows = sorted(context.get("group_signals", []), key=lambda row: float(row.get("score") or 0), reverse=True)[:4]
-        for row in group_rows:
-            cards.append(interpret_row(row))
+        facts.append(group_regime(group_rows))
+        if group_rows:
+            best = group_rows[0]
+            worst = group_rows[-1]
+            facts.append(
+                f"这条线里，最强的是 {best.get('name')}，最弱的是 {worst.get('name')}，"
+                f"说明内部强弱已经开始分开。"
+            )
         hint = correlations.get(selected_group, {})
         for pair in hint.get("top_pairs", [])[:2]:
-            cards.append(
-                f"{selected_group} 内部相关性里，{pair.get('a')} 和 {pair.get('b')} 的相关系数约 {float(pair.get('corr') or 0):.2f}。"
+            facts.append(
+                f"{selected_group} 内部里，{pair.get('a')} 和 {pair.get('b')} 的联动度约为 {float(pair.get('corr') or 0):.2f}。"
             )
+        watchpoints.extend([
+            f"看 {selected_group} 是否能继续维持内部扩散，而不是只靠单一龙头。",
+            f"看 {selected_group} 里的领涨标的能不能把其它成员一起带起来。",
+        ])
     elif selected_stock:
         row = selected_stock
-        cards.append(interpret_row(row))
+        facts.append(make_semantic_sentence(row))
         for group in context.get("stock_groups", [])[:2]:
             summary = summary_by_group.get(group, {})
             if summary:
-                cards.append(interpret_summary(summary))
+                facts.append(
+                    f"{row.get('name')} 所在的 {group} 这条线，当前总市值约 {summary.get('market_cap_label', 'N/A')}，"
+                    f"领涨的是 {summary.get('leader', 'N/A')}。"
+                )
             related = context.get("related_group_data", {}).get(group, {})
             pair_text = related.get("correlation", {}).get("top_pairs", [])
             if pair_text:
                 pair = pair_text[0]
-                cards.append(
-                    f"在 {group} 里，{pair.get('a')} 和 {pair.get('b')} 的相关系数约 {float(pair.get('corr') or 0):.2f}。"
+                facts.append(
+                    f"{group} 里，{pair.get('a')} 和 {pair.get('b')} 的联动度约为 {float(pair.get('corr') or 0):.2f}。"
                 )
+        watchpoints.extend([
+            f"重点看 {row.get('name')} 能不能重新站稳关键均线，而不是只做弱反弹。",
+            f"重点看它所在分类里，是否有别的标的一起跟上。",
+        ])
     else:
         leaders = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
-        for row in leaders:
-            cards.append(interpret_row(row))
+        market_strength = group_regime(leaders)
+        facts.append(market_strength)
+        if leaders:
+            top = leaders[0]
+            facts.append(
+                f"当前样本里最强的是 {top.get('name')}，但这不一定代表整条链都同步转强。"
+            )
         for item in summaries[:3]:
-            cards.append(interpret_summary(item))
+            facts.append(
+                f"{item.get('group')} 这条线的总市值约 {item.get('market_cap_label', 'N/A')}，"
+                f"当前领涨标的是 {item.get('leader', 'N/A')}。"
+            )
+        watchpoints.extend([
+            "看资金是不是从单点龙头扩散到同一条产业链的其他标的。",
+            "看高分标的之间能否形成同向共振，而不是各走各的。",
+        ])
 
     return {
-        "question": question,
+        "topic": topic_label(question, context),
         "latest_date": market_data.get("latest_date"),
-        "evidence_cards": cards[:8],
+        "facts": facts[:6],
+        "watchpoints": watchpoints[:3],
     }
 
 
@@ -264,9 +306,9 @@ def call_kimi(question: str, market_context: dict) -> str:
                     "role": "system",
                     "content": (
                         "你是一个自然语言市场分析助手。"
-                        "你只会看到问题和若干自然语言证据卡。"
-                        "你的任务不是复述证据卡，而是把它们融成一段自然、连贯、像人说的话的分析。"
-                        "不要输出列表式摘要，不要重复证据卡里的句式，不要提检索过程。"
+                        "你只会看到问题和一份语义事实包。"
+                        "你的任务不是复述事实包，而是把它们融成自然、连贯、像人说的话的分析。"
+                        "不要输出列表式摘要，不要重复事实包里的句式，不要提检索过程。"
                         "写法要像资深分析师对话，允许口语化，但要清楚、具体、自然。"
                         "可以一到三段，先说判断，再说依据，再说风险和观察点。"
                         "允许推断，但必须明确是推断。"
@@ -277,9 +319,12 @@ def call_kimi(question: str, market_context: dict) -> str:
                     "role": "user",
                     "content": (
                         f"问题：{question}\n\n"
-                        f"证据卡：\n- "
-                        + "\n- ".join(market_context.get("evidence_cards", []))
-                        + "\n\n请只基于以上证据写出自然、连贯的分析。"
+                        f"主题：{market_context.get('topic', '当前市场样本')}\n"
+                        f"时间点：{market_context.get('latest_date', 'unknown')}\n\n"
+                        "语义事实包：\n- "
+                        + "\n- ".join(market_context.get("facts", []))
+                        + ("\n\n观察点：\n- " + "\n- ".join(market_context.get("watchpoints", [])) if market_context.get("watchpoints") else "")
+                        + "\n\n请只基于以上材料写出自然、连贯的分析，不要复述字段，不要逐条展开。"
                     ),
                 },
             ],
@@ -297,11 +342,11 @@ def call_kimi(question: str, market_context: dict) -> str:
 
 
 def fallback_answer(question: str, market_context: dict) -> str:
-    cards = market_context.get("evidence_cards", [])
-    if not cards:
+    facts = market_context.get("facts", [])
+    if not facts:
         return "当前没有足够的市场证据来回答这个问题。"
-    lead = cards[0]
-    rest = " ".join(cards[1:4])
+    lead = facts[0]
+    rest = " ".join(facts[1:3])
     return f"基于当前市场证据，我更倾向于这样看：{lead} {rest}".strip()
 
 
