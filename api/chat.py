@@ -122,6 +122,63 @@ def compact_market_context(question: str, market_data: dict) -> dict:
     return context
 
 
+def interpret_row(row: dict) -> str:
+    name = row.get("name", "Unknown")
+    symbol = row.get("symbol", "")
+    label = f"{name}({symbol})" if symbol else name
+    state = str(row.get("state") or "unknown")
+    ret_20d = float(row.get("ret_20d_pct") or 0)
+    vol_20d = float(row.get("volume_vs_20d_pct") or 0)
+    above_ma20 = float(row.get("above_ma20_pct") or 0)
+    above_ma50 = float(row.get("above_ma50_pct") or 0)
+    score = float(row.get("score") or 0)
+    drawdown = float(row.get("current_drawdown_pct") or 0)
+
+    if state in {"weak", "弱势"}:
+        stance = "最近一段时间偏弱，买盘还没有明显重新接回。"
+    elif state in {"strong", "强势"}:
+        stance = "走势相对更稳，资金接力还算顺。"
+    elif state in {"distribution", "放量承压", "short-term pressure"}:
+        stance = "短线有承压迹象，放量后没有顺畅延续。"
+    elif state in {"accumulation", "吸筹"}:
+        stance = "底部资金在慢慢吸收，但还没完全走成趋势。"
+    else:
+        stance = f"当前状态是 {state}。"
+
+    momentum_bits: list[str] = []
+    if ret_20d <= -5:
+        momentum_bits.append("20日表现偏弱")
+    elif ret_20d >= 5:
+        momentum_bits.append("20日表现偏强")
+    if abs(above_ma20) > 1:
+        momentum_bits.append("价格相对 20 日线仍有偏离")
+    if abs(above_ma50) > 1:
+        momentum_bits.append("与 50 日线也有明显偏离")
+    if abs(vol_20d) > 15:
+        momentum_bits.append("量能没有完全匹配价格变化")
+    if drawdown <= -8:
+        momentum_bits.append("回撤仍然比较深")
+
+    momentum = "，".join(momentum_bits[:3])
+    if momentum:
+        momentum = f"{momentum}。"
+
+    return (
+        f"{label}：{stance}"
+        f"{momentum}"
+        f"分数大约 {score:.0f}，近期涨跌 {ret_20d:.2f}%，量能变化 {vol_20d:.2f}%。"
+    )
+
+
+def interpret_summary(item: dict) -> str:
+    group = item.get("group", "Unknown")
+    return (
+        f"{group} 这个分类当前总市值约 {item.get('market_cap_label', 'N/A')}，"
+        f"20日成交额约 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
+        f"当前领涨的是 {item.get('leader', 'N/A')}。"
+    )
+
+
 def build_evidence_cards(question: str, market_data: dict) -> dict:
     groups = market_data.get("groups", {})
     summaries = market_data.get("summaries", [])
@@ -141,18 +198,10 @@ def build_evidence_cards(question: str, market_data: dict) -> dict:
     if selected_group:
         summary = summary_by_group.get(selected_group, {})
         if summary:
-            cards.append(
-                f"{selected_group} 这个分类当前总市值约为 {summary.get('market_cap_label', 'N/A')}，"
-                f"20日成交额约 {summary.get('avg_dollar_volume_20d_label', 'N/A')}，"
-                f"分类领涨标的是 {summary.get('leader', 'N/A')}。"
-            )
+            cards.append(interpret_summary(summary))
         group_rows = sorted(context.get("group_signals", []), key=lambda row: float(row.get("score") or 0), reverse=True)[:4]
         for row in group_rows:
-            cards.append(
-                f"{row.get('name')}({row.get('symbol')}): 当前状态是 {row.get('state')}，"
-                f"分数 {float(row.get('score') or 0):.0f}，20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，"
-                f"量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
-            )
+            cards.append(interpret_row(row))
         hint = correlations.get(selected_group, {})
         for pair in hint.get("top_pairs", [])[:2]:
             cards.append(
@@ -160,18 +209,11 @@ def build_evidence_cards(question: str, market_data: dict) -> dict:
             )
     elif selected_stock:
         row = selected_stock
-        cards.append(
-            f"{row.get('name')}({row.get('symbol')}) 当前状态是 {row.get('state')}，"
-            f"分数 {float(row.get('score') or 0):.0f}，市值约 {row.get('market_cap_label', 'N/A')}，"
-            f"20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
-        )
+        cards.append(interpret_row(row))
         for group in context.get("stock_groups", [])[:2]:
             summary = summary_by_group.get(group, {})
             if summary:
-                cards.append(
-                    f"它所在的 {group} 分类总市值约 {summary.get('market_cap_label', 'N/A')}，"
-                    f"分类领涨标的是 {summary.get('leader', 'N/A')}。"
-                )
+                cards.append(interpret_summary(summary))
             related = context.get("related_group_data", {}).get(group, {})
             pair_text = related.get("correlation", {}).get("top_pairs", [])
             if pair_text:
@@ -182,17 +224,9 @@ def build_evidence_cards(question: str, market_data: dict) -> dict:
     else:
         leaders = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
         for row in leaders:
-            cards.append(
-                f"{row.get('name')}({row.get('symbol')}) 处于 {row.get('state')}，"
-                f"分数 {float(row.get('score') or 0):.0f}，20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，"
-                f"量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
-            )
+            cards.append(interpret_row(row))
         for item in summaries[:3]:
-            cards.append(
-                f"{item.get('group')} 分类的总市值约 {item.get('market_cap_label', 'N/A')}，"
-                f"20日成交额约 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
-                f"当前领涨标的是 {item.get('leader', 'N/A')}。"
-            )
+            cards.append(interpret_summary(item))
 
     return {
         "question": question,
