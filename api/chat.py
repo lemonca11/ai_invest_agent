@@ -122,45 +122,83 @@ def compact_market_context(question: str, market_data: dict) -> dict:
     return context
 
 
-def build_llm_context(question: str, market_data: dict) -> dict:
-    signals = market_data.get("signals", [])
+def build_evidence_cards(question: str, market_data: dict) -> dict:
+    groups = market_data.get("groups", {})
     summaries = market_data.get("summaries", [])
     correlations = market_data.get("correlations", {})
+    signals = market_data.get("signals", [])
     context = compact_market_context(question, market_data)
-    context["market_overview"] = {
+    cards: list[str] = []
+
+    cards.append(
+        f"市场时间点是 {market_data.get('latest_date', 'unknown')}，当前覆盖 {len(groups)} 个分类、{len(signals)} 只标的。"
+    )
+
+    summary_by_group = {item.get("group"): item for item in summaries}
+    selected_group = context.get("selected_group")
+    selected_stock = context.get("selected_stock")
+
+    if selected_group:
+        summary = summary_by_group.get(selected_group, {})
+        if summary:
+            cards.append(
+                f"{selected_group} 这个分类当前总市值约为 {summary.get('market_cap_label', 'N/A')}，"
+                f"20日成交额约 {summary.get('avg_dollar_volume_20d_label', 'N/A')}，"
+                f"分类领涨标的是 {summary.get('leader', 'N/A')}。"
+            )
+        group_rows = sorted(context.get("group_signals", []), key=lambda row: float(row.get("score") or 0), reverse=True)[:4]
+        for row in group_rows:
+            cards.append(
+                f"{row.get('name')}({row.get('symbol')}): 当前状态是 {row.get('state')}，"
+                f"分数 {float(row.get('score') or 0):.0f}，20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，"
+                f"量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
+            )
+        hint = correlations.get(selected_group, {})
+        for pair in hint.get("top_pairs", [])[:2]:
+            cards.append(
+                f"{selected_group} 内部相关性里，{pair.get('a')} 和 {pair.get('b')} 的相关系数约 {float(pair.get('corr') or 0):.2f}。"
+            )
+    elif selected_stock:
+        row = selected_stock
+        cards.append(
+            f"{row.get('name')}({row.get('symbol')}) 当前状态是 {row.get('state')}，"
+            f"分数 {float(row.get('score') or 0):.0f}，市值约 {row.get('market_cap_label', 'N/A')}，"
+            f"20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
+        )
+        for group in context.get("stock_groups", [])[:2]:
+            summary = summary_by_group.get(group, {})
+            if summary:
+                cards.append(
+                    f"它所在的 {group} 分类总市值约 {summary.get('market_cap_label', 'N/A')}，"
+                    f"分类领涨标的是 {summary.get('leader', 'N/A')}。"
+                )
+            related = context.get("related_group_data", {}).get(group, {})
+            pair_text = related.get("correlation", {}).get("top_pairs", [])
+            if pair_text:
+                pair = pair_text[0]
+                cards.append(
+                    f"在 {group} 里，{pair.get('a')} 和 {pair.get('b')} 的相关系数约 {float(pair.get('corr') or 0):.2f}。"
+                )
+    else:
+        leaders = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
+        for row in leaders:
+            cards.append(
+                f"{row.get('name')}({row.get('symbol')}) 处于 {row.get('state')}，"
+                f"分数 {float(row.get('score') or 0):.0f}，20日涨跌 {float(row.get('ret_20d_pct') or 0):.2f}%，"
+                f"量能变化 {float(row.get('volume_vs_20d_pct') or 0):.2f}%。"
+            )
+        for item in summaries[:3]:
+            cards.append(
+                f"{item.get('group')} 分类的总市值约 {item.get('market_cap_label', 'N/A')}，"
+                f"20日成交额约 {item.get('avg_dollar_volume_20d_label', 'N/A')}，"
+                f"当前领涨标的是 {item.get('leader', 'N/A')}。"
+            )
+
+    return {
+        "question": question,
         "latest_date": market_data.get("latest_date"),
-        "group_count": len(market_data.get("groups", {})),
-        "signal_count": len(signals),
-        "leaders": [
-            {
-                "name": row.get("name"),
-                "symbol": row.get("symbol"),
-                "state": row.get("state"),
-                "score": row.get("score"),
-                "market_cap_label": row.get("market_cap_label"),
-                "ret_20d_pct": row.get("ret_20d_pct"),
-                "volume_vs_20d_pct": row.get("volume_vs_20d_pct"),
-            }
-            for row in sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
-        ],
-        "category_summaries": [
-            {
-                "group": item.get("group"),
-                "market_cap_label": item.get("market_cap_label"),
-                "avg_dollar_volume_20d_label": item.get("avg_dollar_volume_20d_label"),
-                "leader": item.get("leader"),
-            }
-            for item in summaries
-        ],
+        "evidence_cards": cards[:8],
     }
-    context["correlation_hint"] = {
-        group: {
-            "top_pairs": item.get("top_pairs", [])[:2],
-        }
-        for group, item in correlations.items()
-        if item.get("top_pairs")
-    }
-    return context
 
 
 def load_market_data() -> dict:
@@ -185,30 +223,29 @@ def call_kimi(question: str, market_context: dict) -> str:
         },
         json={
             "model": model,
-            "temperature": 0.4,
-            "top_p": 0.95,
+            "temperature": 0.6,
+            "top_p": 0.9,
             "messages": [
                 {
                     "role": "system",
                     "content": (
                         "你是一个自然语言市场分析助手。"
-                        "你会基于一组检索到的市场证据写出自然、连贯、像人说的话的分析。"
-                        "不要复述字段名，不要像表格，不要使用固定模板标题。"
-                        "回答可以是一到三段，语气自然，少一点术语堆叠。"
-                        "如果要分点，只保留最关键的两到三个点。"
-                        "先说你怎么看，再说为什么，再说可能的风险。"
+                        "你只会看到问题和若干自然语言证据卡。"
+                        "你的任务不是复述证据卡，而是把它们融成一段自然、连贯、像人说的话的分析。"
+                        "不要输出列表式摘要，不要重复证据卡里的句式，不要提检索过程。"
+                        "写法要像资深分析师对话，允许口语化，但要清楚、具体、自然。"
+                        "可以一到三段，先说判断，再说依据，再说风险和观察点。"
                         "允许推断，但必须明确是推断。"
                         "不要给直接买卖建议。"
                     ),
                 },
                 {
                     "role": "user",
-                    "content": json.dumps(
-                        {
-                            "question": question,
-                            "market_context": market_context,
-                        },
-                        ensure_ascii=False,
+                    "content": (
+                        f"问题：{question}\n\n"
+                        f"证据卡：\n- "
+                        + "\n- ".join(market_context.get("evidence_cards", []))
+                        + "\n\n请只基于以上证据写出自然、连贯的分析。"
                     ),
                 },
             ],
@@ -226,46 +263,12 @@ def call_kimi(question: str, market_context: dict) -> str:
 
 
 def fallback_answer(question: str, market_context: dict) -> str:
-    summaries = market_context.get("market_overview", {}).get("category_summaries", [])
-    top_score = market_context.get("top_score", [])
-    selected_group = market_context.get("selected_group")
-    selected_stock = market_context.get("selected_stock")
-    q = question.lower()
-
-    if summaries and ("总市值" in question or "分类" in question or "类型" in question):
-        return "\n".join(
-            f"{item.get('group')}: 总市值 {item.get('market_cap_label')}, "
-            f"20日成交额 {item.get('avg_dollar_volume_20d_label')}, 领涨 {item.get('leader')}"
-            for item in summaries
-        )
-
-    if selected_group:
-        signals = market_context.get("group_signals", [])
-        if signals:
-            rows = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
-            return "\n".join(
-                f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}，"
-                f"状态 {row.get('state')}，20日 {float(row.get('ret_20d_pct') or 0):.2f}%"
-                for row in rows
-            )
-
-    if selected_stock:
-        row = selected_stock
-        return (
-            f"{row.get('name')}({row.get('symbol')}): 状态 {row.get('state')}，"
-            f"分数 {float(row.get('score') or 0):.0f}，市值 ${float(row.get('market_cap') or 0)/1e9:.1f}B，"
-            f"20日 {float(row.get('ret_20d_pct') or 0):.2f}%，量能 {float(row.get('volume_vs_20d_pct') or 0):.2f}%，"
-            f"观察规则：{row.get('playbook', '')}"
-        )
-
-    if top_score:
-        rows = top_score[:5]
-        return "\n".join(
-            f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}，状态 {row.get('state')}"
-            for row in rows
-        )
-
-    return "我当前支持：分类总市值、某分类最强、某股票当前状态。"
+    cards = market_context.get("evidence_cards", [])
+    if not cards:
+        return "当前没有足够的市场证据来回答这个问题。"
+    lead = cards[0]
+    rest = " ".join(cards[1:4])
+    return f"基于当前市场证据，我更倾向于这样看：{lead} {rest}".strip()
 
 
 @app.after_request
@@ -304,7 +307,7 @@ def chat_post() -> Response:
             return json_response({"answer": "问题不能为空。"}, status=400)
 
         market_data = load_market_data()
-        market_context = build_llm_context(question, market_data)
+        market_context = build_evidence_cards(question, market_data)
         model = env("KIMI_MODEL", "kimi-k2.5")
         started_at = time.perf_counter()
         try:
