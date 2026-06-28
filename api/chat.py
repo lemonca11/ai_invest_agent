@@ -331,7 +331,9 @@ def call_kimi(question: str, market_context: dict) -> str:
         },
         timeout=12,
     )
-    response.raise_for_status()
+    if not response.ok:
+        snippet = response.text[:400].strip()
+        raise RuntimeError(f"Kimi HTTP {response.status_code}: {snippet}")
     payload = response.json()
     return (
         payload.get("choices", [{}])[0]
@@ -393,10 +395,10 @@ def chat_post() -> Response:
             answer = call_kimi(question, market_context)
             source = "kimi"
             error = None
-        except Exception:
+        except Exception as exc:
             answer = fallback_answer(question, market_context)
             source = "fallback"
-            error = "Kimi request failed; returned local fallback."
+            error = str(exc)
         latency_ms = int((time.perf_counter() - started_at) * 1000)
         return json_response(
             {
