@@ -1439,23 +1439,6 @@ document.querySelectorAll('.market-tabs button').forEach(button => {
 });
 function pct(value) { return `${Number(value || 0).toFixed(2)}%`; }
 function cap(value) { const n = Number(value || 0); return n >= 1e12 ? `$${(n/1e12).toFixed(2)}T` : `$${(n/1e9).toFixed(1)}B`; }
-function answer(question) {
-  const q = question.toLowerCase();
-  if (question.includes('每个类型总市值') || question.includes('分类总市值') || question.includes('总市值')) {
-    return marketData.summaries.map(item => `${item.group}: ${item.market_cap_label}`).join('\n');
-  }
-  const group = Object.keys(groupMap).find(g => question.includes(g));
-  if (group) {
-    const groupRows = groupMap[group].map(name => byName[name]).filter(Boolean);
-    if (question.includes('最强') || question.includes('强')) {
-      return groupRows.sort((a,b) => Number(b.score)-Number(a.score)).slice(0,5).map(r => `${r.name}(${r.symbol}): 分数 ${Number(r.score).toFixed(0)}，状态 ${r.state}，20日 ${pct(r.ret_20d_pct)}`).join('\n');
-    }
-    return `${group} 总市值：${marketData.summaries.find(item => item.group === group)?.market_cap_label || 'N/A'}\n` + groupRows.sort((a,b) => Number(b.market_cap || 0)-Number(a.market_cap || 0)).slice(0,8).map(r => `${r.name}(${r.symbol}): ${cap(r.market_cap)}，${r.state}`).join('\n');
-  }
-  const row = marketData.signals.find(r => question.includes(r.name) || question.toUpperCase().includes(r.symbol));
-  if (row) return `${row.name}(${row.symbol}): 状态 ${row.state}，分数 ${Number(row.score).toFixed(0)}，市值 ${cap(row.market_cap)}，20日 ${pct(row.ret_20d_pct)}，量能 ${pct(row.volume_vs_20d_pct)}，观察规则：${row.playbook}`;
-  return '我当前支持：分类总市值、某分类最强、某股票当前状态。LLM 版后续会接入更自由的问答。';
-}
 document.getElementById('marketChatForm').addEventListener('submit', async event => {
   event.preventDefault();
   const input = document.getElementById('marketQuestion');
@@ -1471,6 +1454,9 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({question})
       });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
       const data = await res.json();
       const meta = [];
       if (data.source) meta.push(`来源: ${data.source}`);
@@ -1478,14 +1464,14 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
       if (typeof data.latency_ms === 'number') meta.push(`延迟: ${data.latency_ms}ms`);
       if (data.error) meta.push(`错误: ${data.error}`);
       const suffix = meta.length ? `\n\n${meta.join(' · ')}` : '';
-      answerBox.textContent = (data.answer || answer(question)) + suffix;
+      answerBox.textContent = (data.answer || '聊天后端没有返回可用内容。') + suffix;
       return;
     } catch (error) {
-      answerBox.textContent = answer(question) + '\n\n注：LLM 后端暂不可用，已回退到静态规则问答。';
+      answerBox.textContent = `聊天后端暂不可用。\n\n错误: ${error?.message || 'unknown'}`;
       return;
     }
   }
-  answerBox.textContent = answer(question);
+  answerBox.textContent = '聊天后端未配置。';
 });
 </script>
 
