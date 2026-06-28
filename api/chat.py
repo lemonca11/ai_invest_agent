@@ -405,18 +405,30 @@ def chat_post() -> Response:
             return json_response({"answer": "问题不能为空。"}, status=400)
 
         market_data = load_market_data()
+        local_data_loaded = bool(market_data.get("signals"))
         market_context = build_evidence_cards(question, market_data)
         model = env("KIMI_MODEL", "kimi-k2.5")
         started_at = time.perf_counter()
+        llm_attempted = True
         try:
             answer = call_kimi(question, market_context)
             source = "kimi"
             error = None
+            llm_success = True
         except Exception as exc:
             answer = fallback_answer(question, market_context)
             source = "fallback"
             error = str(exc)
+            llm_success = False
         latency_ms = int((time.perf_counter() - started_at) * 1000)
+        diagnostics = {
+            "local_data_loaded": local_data_loaded,
+            "latest_date": market_data.get("latest_date"),
+            "llm_attempted": llm_attempted,
+            "llm_success": llm_success,
+            "fallback_triggered": source == "fallback",
+            "fallback_reason": error if source == "fallback" else None,
+        }
         return json_response(
             {
                 "answer": answer,
@@ -424,6 +436,7 @@ def chat_post() -> Response:
                 "model": model,
                 "latency_ms": latency_ms,
                 "error": error,
+                "diagnostics": diagnostics,
             },
             status=200,
         )

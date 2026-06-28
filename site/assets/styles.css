@@ -1114,6 +1114,35 @@ h1 {
   white-space: pre-wrap;
 }
 
+.chat-diagnostics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0 12px;
+}
+
+.chat-diagnostic-card {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.chat-diagnostic-card span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.chat-diagnostic-card strong {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
 .market-chat-form {
   display: flex;
   gap: 10px;
@@ -1157,5 +1186,9 @@ h1 {
   .market-radar-copy,
   .market-chat-form {
     flex-direction: column;
+  }
+
+  .chat-diagnostics {
+    grid-template-columns: 1fr;
   }
 }

@@ -1405,6 +1405,24 @@
 
   <section class="market-chat">
     <div class="section-heading"><p>AI Assistant</p><h2>市场数据问答</h2></div>
+    <div class="chat-diagnostics" id="chatDiagnostics">
+      <div class="chat-diagnostic-card">
+        <span>本地数据</span>
+        <strong id="diagLocalData">未请求</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>模型调用</span>
+        <strong id="diagLlmCall">未请求</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>当前结果</span>
+        <strong id="diagResult">未开始</strong>
+      </div>
+      <div class="chat-diagnostic-card">
+        <span>Fallback 原因</span>
+        <strong id="diagFallback">无</strong>
+      </div>
+    </div>
     <div id="marketAnswer" class="chat-answer">可以问：云平台总市值、存储谁最强、英伟达现在怎么样、每个类型总市值。</div>
     <form id="marketChatForm" class="market-chat-form">
       <input id="marketQuestion" placeholder="输入问题，例如：云平台里谁最强？">
@@ -1439,6 +1457,12 @@ document.querySelectorAll('.market-tabs button').forEach(button => {
 });
 function pct(value) { return `${Number(value || 0).toFixed(2)}%`; }
 function cap(value) { const n = Number(value || 0); return n >= 1e12 ? `$${(n/1e12).toFixed(2)}T` : `$${(n/1e9).toFixed(1)}B`; }
+function setDiagnostics({ localData, llmCall, result, fallback }) {
+  document.getElementById('diagLocalData').textContent = localData;
+  document.getElementById('diagLlmCall').textContent = llmCall;
+  document.getElementById('diagResult').textContent = result;
+  document.getElementById('diagFallback').textContent = fallback;
+}
 document.getElementById('marketChatForm').addEventListener('submit', async event => {
   event.preventDefault();
   const input = document.getElementById('marketQuestion');
@@ -1446,6 +1470,12 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
   const answerBox = document.getElementById('marketAnswer');
   if (!question) return;
   answerBox.textContent = '正在读取本地数据，并等待模型生成回答...';
+  setDiagnostics({
+    localData: '已开始读取',
+    llmCall: '准备调用',
+    result: '处理中',
+    fallback: '无'
+  });
   input.value = '';
   if (MARKET_CHAT_API_URL) {
     try {
@@ -1462,6 +1492,13 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
       if (data.source === 'fallback') {
         lead = `当前没有等到模型完整返回，下面是本地备用解读：\n\n${lead}`;
       }
+      const diagnostics = data.diagnostics || {};
+      setDiagnostics({
+        localData: diagnostics.local_data_loaded ? `已加载 (${diagnostics.latest_date || 'unknown'})` : '未加载',
+        llmCall: diagnostics.llm_attempted ? (diagnostics.llm_success ? '已成功返回' : '已调用但失败') : '未调用',
+        result: data.source === 'kimi' ? '模型正式回答' : '本地备用回答',
+        fallback: diagnostics.fallback_triggered ? (diagnostics.fallback_reason || 'unknown') : '无'
+      });
       const meta = [];
       if (data.source) meta.push(`来源: ${data.source}`);
       if (data.model) meta.push(`模型: ${data.model}`);
@@ -1471,10 +1508,22 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
       answerBox.textContent = lead + suffix;
       return;
     } catch (error) {
+      setDiagnostics({
+        localData: '未知',
+        llmCall: '请求失败',
+        result: '无可用回答',
+        fallback: error?.message || 'unknown'
+      });
       answerBox.textContent = `聊天后端暂不可用。\n\n错误: ${error?.message || 'unknown'}`;
       return;
     }
   }
+  setDiagnostics({
+    localData: '未知',
+    llmCall: '未配置',
+    result: '无可用回答',
+    fallback: '聊天后端未配置'
+  });
   answerBox.textContent = '聊天后端未配置。';
 });
 </script>
