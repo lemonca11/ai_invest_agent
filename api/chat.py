@@ -291,45 +291,62 @@ def call_kimi(question: str, market_context: dict) -> str:
 
     model = env("KIMI_MODEL", "kimi-k2.5")
     base_url = env("KIMI_BASE_URL", "https://api.moonshot.cn/v1").rstrip("/")
-    response = requests.post(
-        f"{base_url}/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "temperature": 1,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": (
-                        "你是一个自然语言市场分析助手。"
-                        "你只会看到问题和一份语义事实包。"
-                        "你的任务不是复述事实包，而是把它们融成自然、连贯、像人说的话的分析。"
-                        "不要输出列表式摘要，不要重复事实包里的句式，不要提检索过程。"
-                        "写法要像资深分析师对话，允许口语化，但要清楚、具体、自然。"
-                        "可以一到三段，先说判断，再说依据，再说风险和观察点。"
-                        "允许推断，但必须明确是推断。"
-                        "不要给直接买卖建议。"
-                    ),
+    timeout_sec = max(10, int(env("KIMI_TIMEOUT_SEC", "25") or "25"))
+    payload = {
+        "model": model,
+        "temperature": 1,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "你是一个自然语言市场分析助手。"
+                    "你只会看到问题和一份语义事实包。"
+                    "你的任务不是复述事实包，而是把它们融成自然、连贯、像人说的话的分析。"
+                    "不要输出列表式摘要，不要重复事实包里的句式，不要提检索过程。"
+                    "写法要像资深分析师对话，允许口语化，但要清楚、具体、自然。"
+                    "可以一到三段，先说判断，再说依据，再说风险和观察点。"
+                    "允许推断，但必须明确是推断。"
+                    "不要给直接买卖建议。"
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"问题：{question}\n\n"
+                    f"主题：{market_context.get('topic', '当前市场样本')}\n"
+                    f"时间点：{market_context.get('latest_date', 'unknown')}\n\n"
+                    "语义事实包：\n- "
+                    + "\n- ".join(market_context.get("facts", []))
+                    + ("\n\n观察点：\n- " + "\n- ".join(market_context.get("watchpoints", [])) if market_context.get("watchpoints") else "")
+                    + "\n\n请只基于以上材料写出自然、连贯的分析，不要复述字段，不要逐条展开。"
+                ),
+            },
+        ],
+    }
+
+    last_error: Exception | None = None
+    for attempt in range(2):
+        try:
+            response = requests.post(
+                f"{base_url}/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
                 },
-                {
-                    "role": "user",
-                    "content": (
-                        f"问题：{question}\n\n"
-                        f"主题：{market_context.get('topic', '当前市场样本')}\n"
-                        f"时间点：{market_context.get('latest_date', 'unknown')}\n\n"
-                        "语义事实包：\n- "
-                        + "\n- ".join(market_context.get("facts", []))
-                        + ("\n\n观察点：\n- " + "\n- ".join(market_context.get("watchpoints", [])) if market_context.get("watchpoints") else "")
-                        + "\n\n请只基于以上材料写出自然、连贯的分析，不要复述字段，不要逐条展开。"
-                    ),
-                },
-            ],
-        },
-        timeout=12,
-    )
+                json=payload,
+                timeout=(5, timeout_sec),
+            )
+            break
+        except requests.Timeout as exc:
+            last_error = exc
+            if attempt == 1:
+                raise RuntimeError(
+                    f"Kimi request timed out after {timeout_sec}s read timeout on 2 attempts"
+                ) from exc
+            time.sleep(0.6)
+    else:
+        raise RuntimeError(f"Kimi request failed: {last_error}")
+
     if not response.ok:
         snippet = response.text[:400].strip()
         raise RuntimeError(f"Kimi HTTP {response.status_code}: {snippet}")
