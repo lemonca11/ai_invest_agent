@@ -920,7 +920,8 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
         body: JSON.stringify({{question}})
       }});
       const data = await res.json();
-      answerBox.textContent = data.answer || answer(question);
+      const source = data.source ? `\\n\\n来源: ${{data.source}}` : '';
+      answerBox.textContent = (data.answer || answer(question)) + source;
       return;
     }} catch (error) {{
       answerBox.textContent = answer(question) + '\\n\\n注：LLM 后端暂不可用，已回退到静态规则问答。';

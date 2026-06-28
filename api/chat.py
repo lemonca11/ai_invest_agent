@@ -133,37 +133,48 @@ def call_kimi(question: str, market_context: dict) -> str:
     if not api_key:
         raise RuntimeError("KIMI_API_KEY is not configured")
 
-    client = OpenAI(
-        api_key=api_key,
-        base_url=env("KIMI_BASE_URL", "https://api.moonshot.cn/v1"),
-        timeout=8.0,
-    )
     model = env("KIMI_MODEL", "kimi-k2.5")
-    response = client.chat.completions.create(
-        model=model,
-        temperature=0.2,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "你是 MetaFinance 的市场数据助手。"
-                    "你只能基于用户提供的 market_context 回答，不要编造缺失数据。"
-                    "不要给直接买卖建议；输出应简洁、可操作、说明口径。"
-                ),
-            },
-            {
-                "role": "user",
-                "content": json.dumps(
-                    {
-                        "question": question,
-                        "market_context": market_context,
-                    },
-                    ensure_ascii=False,
-                ),
-            },
-        ],
+    base_url = env("KIMI_BASE_URL", "https://api.moonshot.cn/v1").rstrip("/")
+    response = requests.post(
+        f"{base_url}/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "temperature": 0.2,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": (
+                        "你是 MetaFinance 的市场数据助手。"
+                        "你只能基于用户提供的 market_context 回答，不要编造缺失数据。"
+                        "不要给直接买卖建议；输出应简洁、可操作、说明口径。"
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(
+                        {
+                            "question": question,
+                            "market_context": market_context,
+                        },
+                        ensure_ascii=False,
+                    ),
+                },
+            ],
+        },
+        timeout=12,
     )
-    return response.choices[0].message.content or ""
+    response.raise_for_status()
+    payload = response.json()
+    return (
+        payload.get("choices", [{}])[0]
+        .get("message", {})
+        .get("content", "")
+        .strip()
+    )
 
 
 def fallback_answer(question: str, market_context: dict) -> str:
@@ -249,11 +260,13 @@ def chat_post() -> Response:
         market_context = compact_market_context(question, market_data)
         try:
             answer = call_kimi(question, market_context)
+            source = "kimi"
         except Exception:
             answer = fallback_answer(question, market_context)
-        return json_response({"answer": answer}, status=200)
+            source = "fallback"
+        return json_response({"answer": answer, "source": source}, status=200)
     except Exception as exc:
-        return json_response({"answer": f"市场数据暂不可用：{exc}"}, status=500)
+        return json_response({"answer": f"市场数据暂不可用：{exc}", "source": "error"}, status=500)
 
 
 @app.route("/", defaults={"path": ""}, methods=["GET"])
