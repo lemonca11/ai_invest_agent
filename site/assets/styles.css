@@ -1,15 +1,15 @@
 :root {
-  --ink: #162033;
-  --muted: #5b667a;
-  --line: #d6deea;
-  --paper: #eff5ff;
+  --ink: #1b2430;
+  --muted: #5f6b7a;
+  --line: #d9dde3;
+  --paper: #f5f6f8;
   --surface: #ffffff;
-  --surface-2: #f6f9fe;
-  --accent: #0a8f7a;
-  --accent-2: #f06a3f;
-  --accent-3: #5f60ff;
-  --dark: #111827;
-  --shadow: 0 18px 40px rgba(38, 54, 89, 0.10);
+  --surface-2: #f8f9fb;
+  --accent: #0b3a67;
+  --accent-2: #8a6a3f;
+  --accent-3: #325b88;
+  --dark: #141b24;
+  --shadow: 0 14px 32px rgba(19, 30, 45, 0.06);
   --font-ui: "Inter", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
   --font-display: "Inter", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
   --font-numeric: "Inter", "SF Pro Display", "Segoe UI", system-ui, sans-serif;
@@ -21,8 +21,7 @@
 
 body {
   margin: 0;
-  background:
-    linear-gradient(180deg, #f4f8ff 0%, #eef8f3 48%, #fff7ed 100%);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-ui);
   line-height: 1.65;
@@ -43,8 +42,8 @@ a:hover {
   justify-content: space-between;
   gap: 24px;
   padding: 22px clamp(20px, 5vw, 72px);
-  border-bottom: 1px solid rgba(214, 222, 234, 0.9);
-  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid var(--line);
+  background: rgba(245, 246, 248, 0.92);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -66,10 +65,10 @@ a:hover {
   place-items: center;
   width: 38px;
   height: 38px;
-  border: 1px solid rgba(95, 96, 255, 0.28);
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent-3), var(--accent));
-  color: #f7efe0;
+  border: 1px solid var(--dark);
+  border-radius: 0;
+  background: var(--dark);
+  color: #f8fafc;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -107,7 +106,7 @@ nav a::after {
   width: 100%;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent-3), var(--accent-2));
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 180ms ease;
@@ -149,7 +148,7 @@ main {
 .section-heading p,
 .card-kicker {
   margin: 0 0 8px;
-  color: var(--accent-2);
+  color: var(--accent);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -429,11 +428,10 @@ h1 {
   align-items: flex-end;
   padding: 34px 28px 24px;
   margin-top: 18px;
-  border: 1px solid rgba(214, 222, 234, 0.9);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(95, 96, 255, 0.06), rgba(10, 143, 122, 0.05) 48%, rgba(240, 106, 63, 0.06));
-  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
 }
 
 .earnings-desk-head h1 {
@@ -453,13 +451,13 @@ h1 {
   min-height: 38px;
   flex: 0 0 auto;
   padding: 0 14px;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--accent-3), var(--accent));
+  border: 1px solid var(--dark);
+  border-radius: 0;
+  background: var(--dark);
   color: #f8fbff;
   font-size: 13px;
   font-weight: 800;
-  box-shadow: 0 10px 22px rgba(56, 83, 197, 0.18);
+  box-shadow: none;
 }
 
 .earnings-hero {
@@ -547,29 +545,29 @@ h1 {
 }
 
 .status-pill.弱势 {
-  border-color: rgba(239, 68, 68, 0.24);
-  background: rgba(239, 68, 68, 0.08);
-  color: #c2410c;
+  border-color: rgba(132, 38, 38, 0.16);
+  background: rgba(132, 38, 38, 0.06);
+  color: #8a3b2e;
 }
 
 .status-pill.强趋势过热,
 .status-pill.趋势强 {
-  border-color: rgba(16, 185, 129, 0.24);
-  background: rgba(16, 185, 129, 0.10);
-  color: #047857;
+  border-color: rgba(19, 88, 52, 0.18);
+  background: rgba(19, 88, 52, 0.06);
+  color: #24583e;
 }
 
 .status-pill.短线整理,
 .status-pill.中性观察 {
-  border-color: rgba(95, 96, 255, 0.22);
-  background: rgba(95, 96, 255, 0.08);
-  color: #4f46e5;
+  border-color: rgba(11, 58, 103, 0.16);
+  background: rgba(11, 58, 103, 0.06);
+  color: var(--accent);
 }
 
 .status-pill.放量承压 {
-  border-color: rgba(245, 158, 11, 0.26);
-  background: rgba(245, 158, 11, 0.10);
-  color: #b45309;
+  border-color: rgba(138, 106, 63, 0.18);
+  background: rgba(138, 106, 63, 0.08);
+  color: #7b5e39;
 }
 
 .status-pill.analyzed {
@@ -639,9 +637,9 @@ h1 {
 .archive-table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
   margin-bottom: 18px;
 }
 
@@ -661,8 +659,8 @@ h1 {
 }
 
 .archive-table th {
-  background: linear-gradient(180deg, #f8fbff, #eef4ff);
-  color: #546177;
+  background: #f3f5f7;
+  color: #5f6b7a;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -670,7 +668,7 @@ h1 {
 }
 
 .archive-table tbody tr:hover td {
-  background: rgba(95, 96, 255, 0.04);
+  background: rgba(11, 58, 103, 0.03);
 }
 
 .archive-table tr:last-child td {
@@ -725,7 +723,7 @@ h1 {
   gap: 20px;
   padding: 24px clamp(20px, 5vw, 72px);
   border-top: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.72);
+  background: transparent;
   color: var(--muted);
   font-size: 13px;
 }
@@ -996,14 +994,14 @@ h1 {
   align-items: center;
   min-height: 38px;
   padding: 0 14px;
-  border-radius: 6px;
-  border: 1px solid rgba(17, 24, 39, 0.06);
-  background: linear-gradient(135deg, var(--accent-3), var(--accent));
+  border-radius: 0;
+  border: 1px solid var(--dark);
+  background: var(--dark);
   color: #f8fbff;
   font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
-  box-shadow: 0 12px 22px rgba(56, 83, 197, 0.18);
+  box-shadow: none;
 }
 
 .market-radar-cards,
@@ -1020,10 +1018,10 @@ h1 {
 .market-radar-card {
   position: relative;
   padding: 18px;
-  border: 1px solid rgba(214, 222, 234, 0.95);
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 255, 0.98));
-  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
   overflow: hidden;
 }
 
@@ -1032,8 +1030,8 @@ h1 {
   position: absolute;
   inset: 0 auto auto 0;
   width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-3), var(--accent), var(--accent-2));
+  height: 2px;
+  background: var(--accent);
 }
 
 .market-radar-card span {
@@ -1076,10 +1074,10 @@ h1 {
 .market-correlation-section {
   margin-top: 24px;
   padding: 20px;
-  border: 1px solid rgba(214, 222, 234, 0.95);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
 }
 
 .market-tabs {
@@ -1092,9 +1090,9 @@ h1 {
 .market-tabs button {
   min-height: 34px;
   padding: 0 12px;
-  border: 1px solid rgba(214, 222, 234, 0.95);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--surface);
   color: var(--ink);
   cursor: pointer;
   font-weight: 700;
@@ -1103,15 +1101,15 @@ h1 {
 
 .market-tabs button:hover {
   transform: translateY(-1px);
-  border-color: rgba(95, 96, 255, 0.28);
-  box-shadow: 0 8px 18px rgba(77, 97, 188, 0.10);
+  border-color: var(--accent);
+  box-shadow: none;
 }
 
 .market-tabs button.active {
-  background: linear-gradient(135deg, var(--accent-3), var(--accent));
-  border-color: transparent;
+  background: var(--dark);
+  border-color: var(--dark);
   color: #f8fbff;
-  box-shadow: 0 10px 20px rgba(56, 83, 197, 0.20);
+  box-shadow: none;
 }
 
 .market-table td span,
@@ -1231,10 +1229,10 @@ h1 {
 
 .chat-diagnostic-card {
   padding: 12px;
-  border: 1px solid rgba(214, 222, 234, 0.95);
-  border-radius: 6px;
-  background: linear-gradient(180deg, #ffffff, #f8fbff);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: none;
 }
 
 .chat-diagnostic-card span {
@@ -1283,12 +1281,12 @@ h1 {
   bottom: 22px;
   min-height: 46px;
   padding: 0 16px;
-  border: 1px solid rgba(17, 24, 39, 0.06);
+  border: 1px solid var(--dark);
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent-3), var(--accent));
+  background: var(--dark);
   color: #f8fbff;
   font-weight: 800;
-  box-shadow: 0 16px 30px rgba(56, 83, 197, 0.24);
+  box-shadow: 0 10px 24px rgba(20, 27, 36, 0.14);
   cursor: pointer;
   z-index: 40;
 }
@@ -1299,10 +1297,10 @@ h1 {
   bottom: 78px;
   width: min(420px, calc(100vw - 28px));
   padding: 16px;
-  border: 1px solid rgba(214, 222, 234, 0.95);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 24px 48px rgba(38, 54, 89, 0.16);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 20px 40px rgba(20, 27, 36, 0.12);
   z-index: 41;
 }
 
@@ -1331,8 +1329,8 @@ h1 {
   min-height: 32px;
   padding: 0 10px;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface-2);
+  border-radius: 0;
+  background: var(--surface);
   color: var(--ink);
   cursor: pointer;
 }
