@@ -121,6 +121,50 @@ def compact_market_context(question: str, market_data: dict) -> dict:
     return context
 
 
+def build_llm_context(question: str, market_data: dict) -> dict:
+    signals = market_data.get("signals", [])
+    summaries = market_data.get("summaries", [])
+    correlations = market_data.get("correlations", {})
+    context = compact_market_context(question, market_data)
+    context["market_overview"] = {
+        "latest_date": market_data.get("latest_date"),
+        "group_count": len(market_data.get("groups", {})),
+        "signal_count": len(signals),
+        "top_market_cap": [
+            {
+                "name": row.get("name"),
+                "symbol": row.get("symbol"),
+                "market_cap_label": row.get("market_cap_label"),
+                "state": row.get("state"),
+                "score": row.get("score"),
+            }
+            for row in sorted(signals, key=lambda row: float(row.get("market_cap") or 0), reverse=True)[:10]
+        ],
+        "top_score": [
+            {
+                "name": row.get("name"),
+                "symbol": row.get("symbol"),
+                "state": row.get("state"),
+                "score": row.get("score"),
+                "market_cap_label": row.get("market_cap_label"),
+                "ret_20d_pct": row.get("ret_20d_pct"),
+                "volume_vs_20d_pct": row.get("volume_vs_20d_pct"),
+            }
+            for row in sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:10]
+        ],
+        "summaries": summaries,
+        "correlations": {
+            group: {
+                "top_pairs": item.get("top_pairs", [])[:3],
+                "names": item.get("names", [])[:8],
+            }
+            for group, item in correlations.items()
+            if item.get("names")
+        },
+    }
+    return context
+
+
 def load_market_data() -> dict:
     local_path = SITE_DIR / "market" / "market_data.json"
     if local_path.is_file():
@@ -148,9 +192,17 @@ def call_kimi(question: str, market_context: dict) -> str:
                 {
                     "role": "system",
                     "content": (
-                        "你是 MetaFinance 的市场数据助手。"
-                        "你只能基于用户提供的 market_context 回答，不要编造缺失数据。"
-                        "不要给直接买卖建议；输出应简洁、可操作、说明口径。"
+                        "你是 MetaFinance 的交易分析助手。"
+                        "你的任务是基于市场数据做归纳分析，而不是逐条复述检索结果。"
+                        "回答必须先给结论，再给证据，再给风险点，再给观察条件。"
+                        "允许做推断，但必须明确标注为推断，不能把推断写成事实。"
+                        "不要给直接买卖建议。"
+                        "不要提及你在检索或查表。"
+                        "参考回答格式："
+                        "1. 结论：一句话概括。"
+                        "2. 证据：引用 2-4 个关键指标，不要堆表格。"
+                        "3. 风险：说明什么条件下结论会失效。"
+                        "4. 观察：给出接下来该盯的 1-3 个指标。"
                     ),
                 },
                 {
@@ -257,7 +309,7 @@ def chat_post() -> Response:
             return json_response({"answer": "问题不能为空。"}, status=400)
 
         market_data = load_market_data()
-        market_context = compact_market_context(question, market_data)
+        market_context = build_llm_context(question, market_data)
         try:
             answer = call_kimi(question, market_context)
             source = "kimi"
