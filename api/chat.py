@@ -125,8 +125,7 @@ def load_market_data() -> dict:
     local_path = SITE_DIR / "market" / "market_data.json"
     if local_path.is_file():
         return json.loads(local_path.read_text(encoding="utf-8"))
-    market_data_url = env("MARKET_DATA_URL", DEFAULT_MARKET_DATA_URL)
-    return requests.get(market_data_url, timeout=10).json()
+    return {}
 
 
 def call_kimi(question: str, market_context: dict) -> str:
@@ -137,6 +136,7 @@ def call_kimi(question: str, market_context: dict) -> str:
     client = OpenAI(
         api_key=api_key,
         base_url=env("KIMI_BASE_URL", "https://api.moonshot.cn/v1"),
+        timeout=8.0,
     )
     model = env("KIMI_MODEL", "kimi-k2.5")
     response = client.chat.completions.create(
@@ -217,12 +217,10 @@ def add_cors_headers(response: Response) -> Response:
 
 @app.route("/api/health", methods=["GET"])
 def health() -> Response:
-    market_data = load_market_data()
     return json_response(
         {
             "ok": True,
-            "latest_date": market_data.get("latest_date"),
-            "signals": len(market_data.get("signals", [])),
+            "service": "chat-api",
         },
         status=200,
     )
