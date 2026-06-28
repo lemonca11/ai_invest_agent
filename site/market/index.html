@@ -1472,8 +1472,13 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
         body: JSON.stringify({question})
       });
       const data = await res.json();
-      const source = data.source ? `\n\n来源: ${data.source}` : '';
-      answerBox.textContent = (data.answer || answer(question)) + source;
+      const meta = [];
+      if (data.source) meta.push(`来源: ${data.source}`);
+      if (data.model) meta.push(`模型: ${data.model}`);
+      if (typeof data.latency_ms === 'number') meta.push(`延迟: ${data.latency_ms}ms`);
+      if (data.error) meta.push(`错误: ${data.error}`);
+      const suffix = meta.length ? `\n\n${meta.join(' · ')}` : '';
+      answerBox.textContent = (data.answer || answer(question)) + suffix;
       return;
     } catch (error) {
       answerBox.textContent = answer(question) + '\n\n注：LLM 后端暂不可用，已回退到静态规则问答。';

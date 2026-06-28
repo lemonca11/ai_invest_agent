@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 
 from flask import Flask, Response, jsonify, make_response, request, send_file
@@ -304,15 +305,38 @@ def chat_post() -> Response:
 
         market_data = load_market_data()
         market_context = build_llm_context(question, market_data)
+        model = env("KIMI_MODEL", "kimi-k2.5")
+        started_at = time.perf_counter()
         try:
             answer = call_kimi(question, market_context)
             source = "kimi"
+            error = None
         except Exception:
             answer = fallback_answer(question, market_context)
             source = "fallback"
-        return json_response({"answer": answer, "source": source}, status=200)
+            error = "Kimi request failed; returned local fallback."
+        latency_ms = int((time.perf_counter() - started_at) * 1000)
+        return json_response(
+            {
+                "answer": answer,
+                "source": source,
+                "model": model,
+                "latency_ms": latency_ms,
+                "error": error,
+            },
+            status=200,
+        )
     except Exception as exc:
-        return json_response({"answer": f"市场数据暂不可用：{exc}", "source": "error"}, status=500)
+        return json_response(
+            {
+                "answer": f"市场数据暂不可用：{exc}",
+                "source": "error",
+                "model": env("KIMI_MODEL", "kimi-k2.5"),
+                "latency_ms": 0,
+                "error": str(exc),
+            },
+            status=500,
+        )
 
 
 @app.route("/", defaults={"path": ""}, methods=["GET"])
