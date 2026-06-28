@@ -893,7 +893,7 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
   const question = input.value.trim();
   const answerBox = document.getElementById('marketAnswer');
   if (!question) return;
-  answerBox.textContent = '正在分析本地市场数据...';
+  answerBox.textContent = '正在读取本地数据，并等待模型生成回答...';
   input.value = '';
   if (MARKET_CHAT_API_URL) {{
     try {{
@@ -906,13 +906,17 @@ document.getElementById('marketChatForm').addEventListener('submit', async event
         throw new Error(`HTTP ${{res.status}}`);
       }}
       const data = await res.json();
+      let lead = data.answer || '聊天后端没有返回可用内容。';
+      if (data.source === 'fallback') {{
+        lead = `当前没有等到模型完整返回，下面是本地备用解读：\\n\\n${{lead}}`;
+      }}
       const meta = [];
       if (data.source) meta.push(`来源: ${{data.source}}`);
       if (data.model) meta.push(`模型: ${{data.model}}`);
       if (typeof data.latency_ms === 'number') meta.push(`延迟: ${{data.latency_ms}}ms`);
       if (data.error) meta.push(`错误: ${{data.error}}`);
       const suffix = meta.length ? `\\n\\n${{meta.join(' · ')}}` : '';
-      answerBox.textContent = (data.answer || '聊天后端没有返回可用内容。') + suffix;
+      answerBox.textContent = lead + suffix;
       return;
     }} catch (error) {{
       answerBox.textContent = `聊天后端暂不可用。\\n\\n错误: ${{error?.message || 'unknown'}}`;
