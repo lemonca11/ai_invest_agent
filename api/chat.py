@@ -116,8 +116,8 @@ def compact_market_context(question: str, market_data: dict) -> dict:
             for group in stock_groups[:2]
         }
     else:
-        context["top_score"] = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:15]
-        context["bottom_score"] = sorted(signals, key=lambda row: float(row.get("score") or 0))[:10]
+        context["top_score"] = sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:6]
+        context["bottom_score"] = sorted(signals, key=lambda row: float(row.get("score") or 0))[:4]
     return context
 
 
@@ -130,23 +130,35 @@ def build_llm_context(question: str, market_data: dict) -> dict:
         "latest_date": market_data.get("latest_date"),
         "group_count": len(market_data.get("groups", {})),
         "signal_count": len(signals),
-        "leaders_by_market_cap": [
-            f"{row.get('name')}({row.get('symbol')}): {row.get('market_cap_label')} / {row.get('state')}"
-            for row in sorted(signals, key=lambda row: float(row.get("market_cap") or 0), reverse=True)[:5]
-        ],
-        "leaders_by_score": [
-            f"{row.get('name')}({row.get('symbol')}): 分数 {float(row.get('score') or 0):.0f}, "
-            f"20日 {float(row.get('ret_20d_pct') or 0):.2f}%, 量能 {float(row.get('volume_vs_20d_pct') or 0):.2f}%"
+        "leaders": [
+            {
+                "name": row.get("name"),
+                "symbol": row.get("symbol"),
+                "state": row.get("state"),
+                "score": row.get("score"),
+                "market_cap_label": row.get("market_cap_label"),
+                "ret_20d_pct": row.get("ret_20d_pct"),
+                "volume_vs_20d_pct": row.get("volume_vs_20d_pct"),
+            }
             for row in sorted(signals, key=lambda row: float(row.get("score") or 0), reverse=True)[:5]
         ],
         "category_summaries": [
-            f"{item.get('group')}: 总市值 {item.get('market_cap_label')}, "
-            f"20日成交额 {item.get('avg_dollar_volume_20d_label')}, 领涨 {item.get('leader')}"
+            {
+                "group": item.get("group"),
+                "market_cap_label": item.get("market_cap_label"),
+                "avg_dollar_volume_20d_label": item.get("avg_dollar_volume_20d_label"),
+                "leader": item.get("leader"),
+            }
             for item in summaries
         ],
     }
-    context["relevant_signals"] = []
-    context["relevant_correlations"] = {}
+    context["correlation_hint"] = {
+        group: {
+            "top_pairs": item.get("top_pairs", [])[:2],
+        }
+        for group, item in correlations.items()
+        if item.get("top_pairs")
+    }
     return context
 
 
@@ -173,19 +185,18 @@ def call_kimi(question: str, market_context: dict) -> str:
         json={
             "model": model,
             "temperature": 0.4,
-            "top_p": 0.9,
+            "top_p": 0.95,
             "messages": [
                 {
                     "role": "system",
                     "content": (
-                        "你是 MetaFinance 的交易分析助手。"
-                        "你会收到一组由检索模块整理好的市场证据。"
-                        "检索只负责提供材料，最终回答必须由你自己组织成自然中文。"
-                        "不要复述字段名，不要像表格，不要提检索过程。"
-                        "直接给自然、连贯的分析。"
-                        "可以分成 2-4 段，或者少量项目符号，但不要使用固定模板标题。"
-                        "结论要先说清楚，再解释为什么，再说风险和后续观察。"
-                        "允许推断，但要明确这是推断。"
+                        "你是一个自然语言市场分析助手。"
+                        "你会基于一组检索到的市场证据写出自然、连贯、像人说的话的分析。"
+                        "不要复述字段名，不要像表格，不要使用固定模板标题。"
+                        "回答可以是一到三段，语气自然，少一点术语堆叠。"
+                        "如果要分点，只保留最关键的两到三个点。"
+                        "先说你怎么看，再说为什么，再说可能的风险。"
+                        "允许推断，但必须明确是推断。"
                         "不要给直接买卖建议。"
                     ),
                 },
@@ -221,7 +232,11 @@ def fallback_answer(question: str, market_context: dict) -> str:
     q = question.lower()
 
     if summaries and ("总市值" in question or "分类" in question or "类型" in question):
-        return "\n".join(summaries)
+        return "\n".join(
+            f"{item.get('group')}: 总市值 {item.get('market_cap_label')}, "
+            f"20日成交额 {item.get('avg_dollar_volume_20d_label')}, 领涨 {item.get('leader')}"
+            for item in summaries
+        )
 
     if selected_group:
         signals = market_context.get("group_signals", [])
