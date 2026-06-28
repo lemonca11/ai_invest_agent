@@ -299,8 +299,7 @@ def call_kimi(question: str, market_context: dict) -> str:
         },
         json={
             "model": model,
-            "temperature": 0.6,
-            "top_p": 0.9,
+            "temperature": 1,
             "messages": [
                 {
                     "role": "system",
