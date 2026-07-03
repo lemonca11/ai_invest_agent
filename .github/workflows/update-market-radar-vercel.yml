@@ -1,0 +1,86 @@
+name: Update Market Radar on Vercel
+
+on:
+  schedule:
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-market-radar-vercel
+  cancel-in-progress: false
+
+env:
+  TZ: Asia/Shanghai
+  MARKET_MAX_AGE_DAYS: "4"
+
+jobs:
+  update-market-radar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Refresh Market Radar artifacts
+        run: bash scripts/update_market_radar.sh
+
+      - name: Validate data freshness
+        run: python3 scripts/check_market_data_freshness.py
+
+      - name: Detect generated changes
+        id: changes
+        run: |
+          if git diff --quiet -- data/market_close.csv data/market_volume.csv data/market_signals.csv data/market_fetch_errors.csv site; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No Market Radar changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Market Radar artifacts changed."
+          fi
+
+      - name: Commit generated artifacts
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/market_close.csv data/market_volume.csv data/market_signals.csv data/market_fetch_errors.csv site
+          git commit -m "chore: refresh market radar data"
+
+      - name: Push generated artifacts
+        if: steps.changes.outputs.changed == 'true'
+        run: git push
+
+      - name: Pull Vercel project settings
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy to Vercel production
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
