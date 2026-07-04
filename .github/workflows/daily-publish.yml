@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -76,6 +76,40 @@ jobs:
 
       - name: Build static site
         run: python3 build_site.py
+
+      - name: Commit generated daily artifacts
+        run: |
+          TODAY=$(date +%F)
+          if git diff --quiet -- \
+            "reports/${TODAY}.md" \
+            "reports/source_iteration_${TODAY}.md" \
+            "data/raw_items_${TODAY}.json" \
+            config/source_candidates.yaml \
+            config/source_health.yaml \
+            data/market_close.csv \
+            data/market_volume.csv \
+            data/market_signals.csv \
+            data/market_fetch_errors.csv \
+            site; then
+            echo "No generated daily artifacts changed."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            "reports/${TODAY}.md" \
+            "reports/source_iteration_${TODAY}.md" \
+            "data/raw_items_${TODAY}.json" \
+            config/source_candidates.yaml \
+            config/source_health.yaml \
+            data/market_close.csv \
+            data/market_volume.csv \
+            data/market_signals.csv \
+            data/market_fetch_errors.csv \
+            site
+          git commit -m "chore: publish daily report for ${TODAY}" || exit 0
+          git push
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
