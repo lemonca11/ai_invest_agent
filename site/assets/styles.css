@@ -1200,7 +1200,8 @@ h1 {
 .metric-tooltip {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 10px);
+  top: calc(100% + 10px);
+  bottom: auto;
   width: 220px;
   padding: 10px 12px;
   border: 1px solid rgba(22, 32, 51, 0.08);
@@ -1225,12 +1226,13 @@ h1 {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -6px;
+  top: -6px;
+  bottom: auto;
   width: 12px;
   height: 12px;
   background: rgba(17, 24, 39, 0.96);
-  border-right: 1px solid rgba(22, 32, 51, 0.08);
-  border-bottom: 1px solid rgba(22, 32, 51, 0.08);
+  border-left: 1px solid rgba(22, 32, 51, 0.08);
+  border-top: 1px solid rgba(22, 32, 51, 0.08);
   transform: translateX(-50%) rotate(45deg);
 }
 
@@ -1244,13 +1246,16 @@ h1 {
 @media (max-width: 900px) {
   .metric-tooltip {
     left: 0;
-    bottom: calc(100% + 8px);
+    top: calc(100% + 8px);
+    bottom: auto;
     width: min(240px, calc(100vw - 48px));
     transform: none;
   }
 
   .metric-tooltip::after {
     left: 14px;
+    top: -6px;
+    bottom: auto;
     transform: rotate(45deg);
   }
 }
