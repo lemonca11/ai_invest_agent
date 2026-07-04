@@ -638,6 +638,9 @@ h1 {
 
 .archive-table-wrap {
   overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  z-index: 2;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.96);
@@ -1083,6 +1086,8 @@ h1 {
 }
 
 .market-tabs {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -1156,6 +1161,7 @@ h1 {
   align-items: center;
   margin-left: 6px;
   vertical-align: middle;
+  z-index: 3;
 }
 
 .metric-help {
@@ -1212,7 +1218,7 @@ h1 {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 140ms ease;
-  z-index: 20;
+  z-index: 30;
 }
 
 .metric-tooltip::after {
