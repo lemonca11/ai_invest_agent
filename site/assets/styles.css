@@ -1121,6 +1121,23 @@ h1 {
   font-size: 12px;
 }
 
+.metric-tone {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-tone.negative {
+  color: #0f9f6e;
+}
+
+.metric-tone.positive {
+  color: #b45309;
+}
+
+.metric-tone.flat {
+  color: var(--ink);
+}
+
 .market-table {
   min-width: 1500px;
 }

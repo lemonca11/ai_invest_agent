@@ -554,7 +554,12 @@ def fmt_billions(value: float) -> str:
 
 
 def fmt_percent(value: float) -> str:
-    return f"{value:.2f}%"
+    tone = "flat"
+    if value < 0:
+        tone = "negative"
+    elif value > 0:
+        tone = "positive"
+    return f'<span class="metric-tone {tone}">{value:.2f}%</span>'
 
 
 def market_data_paths() -> tuple[Path, Path, Path, Path]:
