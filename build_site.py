@@ -562,13 +562,19 @@ def fmt_percent(value: float) -> str:
     return f'<span class="metric-tone {tone}">{value:.2f}%</span>'
 
 
-def market_header(label: str, hint: str | None = None) -> str:
+def market_header(label: str, hint: str | None = None, key: str | None = None) -> str:
     if not hint:
         return f"<th>{escape(label)}</th>"
+    tooltip_id = f"metric-tooltip-{escape(key or label.lower())}"
     return (
         f'<th><span class="th-label">{escape(label)}</span>'
-        f'<span class="metric-help" tabindex="0" aria-label="{escape(hint)}">!'
-        f'<span class="metric-tooltip">{escape(hint)}</span></span></th>'
+        f'<span class="metric-help-wrap">'
+        f'<button class="metric-help" type="button" aria-label="{escape(label)} 计算口径" '
+        f'aria-expanded="false" aria-controls="{tooltip_id}">'
+        f'<span class="metric-help-icon" aria-hidden="true">i</span>'
+        f'</button>'
+        f'<span class="metric-tooltip" role="tooltip" id="{tooltip_id}">{escape(hint)}</span>'
+        f"</span></th>"
     )
 
 
@@ -826,22 +832,22 @@ def market_page_layout() -> str:
     )
     header_row = "".join(
         [
-            market_header("Company", "股票代码和公司名称。"),
-            market_header("状态", "基于均线位置、趋势强弱和量能规则生成的观察状态。"),
-            market_header("分数", "横向排序分数，不是收益预测。由20日、60日、均线偏离、量能、吸筹/派发综合排名组成。"),
-            market_header("市值", "公司市场资本化，可能来自缓存或备用网页抓取，存在延迟。"),
-            market_header("价格", "最新一个有效交易日的收盘价。"),
-            market_header("日涨跌", "最新收盘价 / 上一交易日收盘价 - 1。"),
-            market_header("20日", "最新收盘价 / 20个交易日前收盘价 - 1。这里的20日指20个交易日。"),
-            market_header("60日", "最新收盘价 / 60个交易日前收盘价 - 1。这里的60日指60个交易日。"),
-            market_header("距20日线", "最新收盘价 / 最近20个交易日平均收盘价 - 1。"),
-            market_header("距50日线", "最新收盘价 / 最近50个交易日平均收盘价 - 1。"),
-            market_header("量能", "最新成交量 / 最近20个交易日平均成交量 - 1。"),
-            market_header("成交额", "最新收盘价 × 最新成交量。"),
-            market_header("回撤", "最新收盘价 / 当前样本窗口内最高收盘价 - 1。"),
-            market_header("吸筹/派发", "吸筹日 / 派发日。吸筹日=放量上涨；派发日=放量下跌。"),
-            market_header("60日走势", "最近60个有效收盘价绘制的迷你走势图，只显示相对路径。"),
-            market_header("观察规则", "根据当前状态生成的规则化提示，不构成投资建议。"),
+            market_header("Company", "股票代码和公司名称。", "company"),
+            market_header("状态", "基于均线位置、趋势强弱和量能规则生成的观察状态。", "state"),
+            market_header("分数", "横向排序分数，不是收益预测。由20日、60日、均线偏离、量能、吸筹/派发综合排名组成。", "score"),
+            market_header("市值", "公司市场资本化，可能来自缓存或备用网页抓取，存在延迟。", "market-cap"),
+            market_header("价格", "最新一个有效交易日的收盘价。", "price"),
+            market_header("日涨跌", "最新收盘价 / 上一交易日收盘价 - 1。", "day-return"),
+            market_header("20日", "最新收盘价 / 20个交易日前收盘价 - 1。这里的20日指20个交易日。", "ret-20d"),
+            market_header("60日", "最新收盘价 / 60个交易日前收盘价 - 1。这里的60日指60个交易日。", "ret-60d"),
+            market_header("距20日线", "最新收盘价 / 最近20个交易日平均收盘价 - 1。", "above-ma20"),
+            market_header("距50日线", "最新收盘价 / 最近50个交易日平均收盘价 - 1。", "above-ma50"),
+            market_header("量能", "最新成交量 / 最近20个交易日平均成交量 - 1。", "volume-vs-20d"),
+            market_header("成交额", "最新收盘价 × 最新成交量。", "dollar-volume"),
+            market_header("回撤", "最新收盘价 / 当前样本窗口内最高收盘价 - 1。", "drawdown"),
+            market_header("吸筹/派发", "吸筹日 / 派发日。吸筹日=放量上涨；派发日=放量下跌。", "acc-dist"),
+            market_header("60日走势", "最近60个有效收盘价绘制的迷你走势图，只显示相对路径。", "spark-60d"),
+            market_header("观察规则", "根据当前状态生成的规则化提示，不构成投资建议。", "playbook"),
         ]
     )
 
@@ -971,6 +977,30 @@ document.querySelectorAll('.market-tabs button').forEach(button => {{
     rows.forEach(row => row.style.display = group === '全部' || row.dataset.groups.split(',').includes(group) ? '' : 'none');
     correlationCards.forEach(card => card.style.display = group === '全部' || card.dataset.group === group ? '' : 'none');
   }});
+}});
+const metricHelpButtons = Array.from(document.querySelectorAll('.metric-help'));
+function closeMetricHelp(exceptButton) {{
+  metricHelpButtons.forEach(button => {{
+    if (button !== exceptButton) {{
+      button.classList.remove('is-open');
+      button.setAttribute('aria-expanded', 'false');
+    }}
+  }});
+}}
+metricHelpButtons.forEach(button => {{
+  button.addEventListener('click', event => {{
+    event.stopPropagation();
+    const willOpen = button.getAttribute('aria-expanded') !== 'true';
+    closeMetricHelp(button);
+    button.classList.toggle('is-open', willOpen);
+    button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  }});
+}});
+document.addEventListener('click', () => closeMetricHelp());
+document.addEventListener('keydown', event => {{
+  if (event.key === 'Escape') {{
+    closeMetricHelp();
+  }}
 }});
 function pct(value) {{ return `${{Number(value || 0).toFixed(2)}}%`; }}
 function cap(value) {{ const n = Number(value || 0); return n >= 1e12 ? `$${{(n/1e12).toFixed(2)}}T` : `$${{(n/1e9).toFixed(1)}}B`; }}
