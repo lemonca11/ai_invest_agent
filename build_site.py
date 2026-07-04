@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import csv
+import hashlib
 import json
 import math
 import os
@@ -71,6 +72,16 @@ class EarningsReport:
 
 def escape(text: str) -> str:
     return html.escape(text, quote=True)
+
+
+def asset_version(path: Path) -> str:
+    return hashlib.sha1(path.read_bytes()).hexdigest()[:10]
+
+
+def versioned_asset_href(href: str) -> str:
+    if href.endswith("assets/styles.css"):
+        return f"{href}?v={asset_version(ASSETS_DIR / 'styles.css')}"
+    return href
 
 
 def inline_markdown(text: str) -> str:
@@ -354,6 +365,7 @@ def report_table(reports: list[Report], lang: str = "zh") -> str:
 
 def layout(title: str, body: str, description: str = "", lang: str = "zh-CN", css_href: str = "assets/styles.css") -> str:
     desc = description or "MetaFinance publishes bilingual AI investment intelligence for global markets."
+    css_href = versioned_asset_href(css_href)
     return f"""<!doctype html>
 <html lang="{escape(lang)}">
 <head>
