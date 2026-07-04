@@ -562,6 +562,16 @@ def fmt_percent(value: float) -> str:
     return f'<span class="metric-tone {tone}">{value:.2f}%</span>'
 
 
+def market_header(label: str, hint: str | None = None) -> str:
+    if not hint:
+        return f"<th>{escape(label)}</th>"
+    return (
+        f'<th><span class="th-label">{escape(label)}</span>'
+        f'<span class="metric-help" tabindex="0" aria-label="{escape(hint)}">!'
+        f'<span class="metric-tooltip">{escape(hint)}</span></span></th>'
+    )
+
+
 def market_data_paths() -> tuple[Path, Path, Path, Path]:
     external_data = EXTERNAL_MARKET_DIR / "data"
     if (external_data / "signals.csv").exists() and (EXTERNAL_MARKET_DIR / "watchlist.json").exists():
@@ -814,6 +824,26 @@ def market_page_layout() -> str:
         for group, item in payload.get("correlations", {}).items()
         if item.get("names")
     )
+    header_row = "".join(
+        [
+            market_header("Company", "股票代码和公司名称。"),
+            market_header("状态", "基于均线位置、趋势强弱和量能规则生成的观察状态。"),
+            market_header("分数", "横向排序分数，不是收益预测。由20日、60日、均线偏离、量能、吸筹/派发综合排名组成。"),
+            market_header("市值", "公司市场资本化，可能来自缓存或备用网页抓取，存在延迟。"),
+            market_header("价格", "最新一个有效交易日的收盘价。"),
+            market_header("日涨跌", "最新收盘价 / 上一交易日收盘价 - 1。"),
+            market_header("20日", "最新收盘价 / 20个交易日前收盘价 - 1。这里的20日指20个交易日。"),
+            market_header("60日", "最新收盘价 / 60个交易日前收盘价 - 1。这里的60日指60个交易日。"),
+            market_header("距20日线", "最新收盘价 / 最近20个交易日平均收盘价 - 1。"),
+            market_header("距50日线", "最新收盘价 / 最近50个交易日平均收盘价 - 1。"),
+            market_header("量能", "最新成交量 / 最近20个交易日平均成交量 - 1。"),
+            market_header("成交额", "最新收盘价 × 最新成交量。"),
+            market_header("回撤", "最新收盘价 / 当前样本窗口内最高收盘价 - 1。"),
+            market_header("吸筹/派发", "吸筹日 / 派发日。吸筹日=放量上涨；派发日=放量下跌。"),
+            market_header("60日走势", "最近60个有效收盘价绘制的迷你走势图，只显示相对路径。"),
+            market_header("观察规则", "根据当前状态生成的规则化提示，不构成投资建议。"),
+        ]
+    )
 
     body = f"""
 <header class="site-header compact">
@@ -844,7 +874,7 @@ def market_page_layout() -> str:
     <div class="market-tabs">{group_buttons}</div>
     <div class="archive-table-wrap">
       <table class="archive-table market-table">
-        <thead><tr><th>Company</th><th>状态</th><th>分数</th><th>市值</th><th>价格</th><th>日涨跌</th><th>20日</th><th>60日</th><th>距20日线</th><th>距50日线</th><th>量能</th><th>成交额</th><th>回撤</th><th>吸筹/派发</th><th>60日走势</th><th>观察规则</th></tr></thead>
+        <thead><tr>{header_row}</tr></thead>
         <tbody id="marketRows">{rows}</tbody>
       </table>
     </div>

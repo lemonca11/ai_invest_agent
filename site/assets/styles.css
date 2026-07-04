@@ -1142,6 +1142,62 @@ h1 {
   min-width: 1500px;
 }
 
+.market-table th {
+  white-space: nowrap;
+}
+
+.th-label {
+  vertical-align: middle;
+}
+
+.metric-help {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: rgba(95, 96, 255, 0.12);
+  color: var(--accent-3);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: help;
+  vertical-align: middle;
+}
+
+.metric-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  width: 220px;
+  padding: 10px 12px;
+  border: 1px solid rgba(22, 32, 51, 0.08);
+  border-radius: 8px;
+  background: rgba(17, 24, 39, 0.96);
+  color: #f8fbff;
+  font-size: 12px;
+  line-height: 1.45;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: normal;
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.18);
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 140ms ease;
+  z-index: 20;
+}
+
+.metric-help:hover .metric-tooltip,
+.metric-help:focus-visible .metric-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 .market-table .playbook-cell {
   min-width: 230px;
   color: var(--muted);
