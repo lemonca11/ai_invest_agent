@@ -1,5 +1,46 @@
 [
   {
+    "date": "2026-07-05",
+    "title": "AI 投资情报日报 - 2026-07-05",
+    "url": "reports/2026-07-05.html",
+    "overview": [
+      "**核心判断**：今天的有效信号集中在infrastructure 基础设施层、applications 应用层和models 模型层，共筛出 22 条 recent_signal；主线应围绕这些层级的事实更新判断，而不是沿用上一日报告的叙事。",
+      "**今日重点**：Google 侧信号偏基础设施和开发者工具，重点不是单点爆款产品，而是 Colab CLI、Gemma / DiffusionGemma、Apigee 等能力对本地 AI、agent 可调用算力和企业 API 管理的补齐。",
+      "**投资含义**：短期应重点验证云平台用量、开发者采用和企业部署；模型能力、访问限制、安全合规和客户采购风险；企业工作流嵌入、付费转化和留存。",
+      "**风险提示**：7 个来源抓取失败；12 条缺少明确发布时间；6 条 discovery 信号仍需验证"
+    ],
+    "events": [
+      "Anthropic 因美国政府指令暂停 Fable 5 和 Mythos 5 访问",
+      "Anthropic News：模型 / 产品更新",
+      "Anthropic News：模型 / 产品更新",
+      "Anthropic Claude Release Notes：发布说明更新",
+      "Claude Compliance API 企业合规集成更新",
+      "Claude Design 研究预览更新",
+      "NVIDIA Developer Blog：博客更新",
+      "NVIDIA Developer Blog：博客更新",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "Google Cloud Release Notes：变更日志更新",
+      "Google Developers Blog：博客更新",
+      "GitHub 开发者生态观察信号",
+      "Google Developers Blog：博客更新",
+      "Meta AI Blog：模型 / 产品更新",
+      "Mistral AI News：模型 / 产品更新",
+      "SK Hynix 与 NVIDIA 建立多年技术合作推进 AI 工厂内存",
+      "Cursor Changelog：编程 Agent 更新",
+      "Cloudflare AI Blog：云基础设施更新",
+      "Arm Newsroom：芯片 / 算力更新",
+      "Salesforce Newsroom：应用信号",
+      "Salesforce Newsroom：应用信号",
+      "OpenAI API Changelog 背景页：需继续跟踪具体 API 变更",
+      "OpenAI Apps SDK Changelog 背景页：需继续跟踪具体应用生态变更",
+      "CoreWeave 博客页信号：AI 云基础设施持续扩展",
+      "Broadcom 新闻页信号：AI 网络和定制芯片链需继续跟踪",
+      "Marvell Newsroom：芯片 / 算力更新",
+      "Palantir 新闻页信号：AIP 企业和政府落地需继续跟踪"
+    ]
+  },
+  {
     "date": "2026-07-04",
     "title": "AI 投资情报日报 - 2026-07-04",
     "url": "reports/2026-07-04.html",
