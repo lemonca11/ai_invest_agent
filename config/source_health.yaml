@@ -4,7 +4,7 @@ sources:
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -20,7 +20,7 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -36,7 +36,7 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 4
     failure_runs: 2
     unknown_time_runs: 2
@@ -53,7 +53,7 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
@@ -69,7 +69,7 @@ sources:
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -85,10 +85,10 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -104,7 +104,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -120,7 +120,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -136,7 +136,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -152,11 +152,11 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 5
+    confirmed_event_runs: 6
     last_checked_at: '2026-07-07'
     last_item_count: 3
     last_failed_count: 0
@@ -169,7 +169,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -185,7 +185,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -201,7 +201,7 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -217,7 +217,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -233,7 +233,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -249,7 +249,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -265,7 +265,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -281,7 +281,7 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
@@ -297,7 +297,7 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -313,7 +313,7 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -329,10 +329,10 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -348,10 +348,10 @@ sources:
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -365,10 +365,10 @@ sources:
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -382,7 +382,7 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -398,7 +398,7 @@ sources:
     layer: energy
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -414,7 +414,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -430,7 +430,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -446,7 +446,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -462,7 +462,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -478,7 +478,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -494,7 +494,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -510,10 +510,10 @@ sources:
     layer: models
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -527,10 +527,10 @@ sources:
     layer: models
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -544,7 +544,7 @@ sources:
     layer: infrastructure
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
@@ -560,10 +560,10 @@ sources:
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
-    unknown_time_runs: 13
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -577,7 +577,7 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -593,8 +593,8 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 4
@@ -611,7 +611,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -627,11 +627,11 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 5
+    confirmed_event_runs: 6
     last_checked_at: '2026-07-07'
     last_item_count: 3
     last_failed_count: 0
@@ -644,7 +644,7 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -660,7 +660,7 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -676,7 +676,7 @@ sources:
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -692,7 +692,7 @@ sources:
     layer: infrastructure
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
@@ -708,8 +708,8 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 6
@@ -726,11 +726,11 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 1
+    confirmed_event_runs: 2
     last_checked_at: '2026-07-07'
     last_item_count: 3
     last_failed_count: 0
@@ -743,8 +743,8 @@ sources:
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 11
+    runs: 14
+    success_runs: 12
     failure_runs: 2
     unknown_time_runs: 10
     confirmed_event_runs: 0
@@ -760,10 +760,10 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
-    failure_runs: 13
-    unknown_time_runs: 13
+    failure_runs: 14
+    unknown_time_runs: 14
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -779,7 +779,7 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 4
     failure_runs: 2
     unknown_time_runs: 2
@@ -796,10 +796,10 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
-    failure_runs: 12
-    unknown_time_runs: 12
+    failure_runs: 13
+    unknown_time_runs: 13
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -815,8 +815,8 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 10
+    runs: 14
+    success_runs: 11
     failure_runs: 2
     unknown_time_runs: 5
     confirmed_event_runs: 0
@@ -834,10 +834,10 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 10
+    runs: 14
+    success_runs: 11
     failure_runs: 2
-    unknown_time_runs: 12
+    unknown_time_runs: 13
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -853,11 +853,11 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
-    success_runs: 10
+    runs: 14
+    success_runs: 11
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 8
+    confirmed_event_runs: 9
     last_checked_at: '2026-07-07'
     last_item_count: 1
     last_failed_count: 0
@@ -870,7 +870,7 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 13
+    runs: 14
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
@@ -886,10 +886,10 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
-    failure_runs: 9
-    unknown_time_runs: 9
+    failure_runs: 10
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -905,10 +905,10 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
-    success_runs: 8
+    runs: 11
+    success_runs: 9
     failure_runs: 1
-    unknown_time_runs: 9
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -924,7 +924,7 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 7
     failure_runs: 1
     unknown_time_runs: 1
@@ -941,10 +941,10 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
-    failure_runs: 9
-    unknown_time_runs: 9
+    failure_runs: 10
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -960,7 +960,7 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
@@ -976,7 +976,7 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 1
     failure_runs: 1
     unknown_time_runs: 1
@@ -993,10 +993,10 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
-    failure_runs: 9
-    unknown_time_runs: 9
+    failure_runs: 10
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -1012,8 +1012,8 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
-    success_runs: 8
+    runs: 11
+    success_runs: 9
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 0
@@ -1030,10 +1030,10 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
-    success_runs: 7
+    runs: 11
+    success_runs: 8
     failure_runs: 2
-    unknown_time_runs: 9
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -1049,8 +1049,8 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
-    success_runs: 8
+    runs: 11
+    success_runs: 9
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 0
@@ -1067,10 +1067,10 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
-    failure_runs: 9
-    unknown_time_runs: 9
+    failure_runs: 10
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -1086,7 +1086,7 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 5
     failure_runs: 1
     unknown_time_runs: 1
@@ -1103,7 +1103,7 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 1
     failure_runs: 1
     unknown_time_runs: 1
@@ -1120,10 +1120,10 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
-    success_runs: 8
+    runs: 11
+    success_runs: 9
     failure_runs: 1
-    unknown_time_runs: 9
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -1139,7 +1139,7 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
     failure_runs: 1
     unknown_time_runs: 1
@@ -1155,10 +1155,10 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 10
+    runs: 11
     success_runs: 0
-    failure_runs: 9
-    unknown_time_runs: 9
+    failure_runs: 10
+    unknown_time_runs: 10
     confirmed_event_runs: 0
     last_checked_at: '2026-07-07'
     last_item_count: 1
@@ -1169,4 +1169,4 @@ sources:
     - 连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-updated_at: '2026-07-07T12:03:38'
+updated_at: '2026-07-07T13:40:03'
