@@ -529,39 +529,72 @@ def llm_article_digest(item):
 
 
 def call_chat_model(prompt):
+    candidates = []
+
     kimi_key = env_first("KIMI_API_KEY", "MOONSHOT_API_KEY")
     if kimi_key:
-        api_key = kimi_key
-        base_url = env_first("KIMI_BASE_URL", "MOONSHOT_BASE_URL", "AI_AGENT_BASE_URL", default="https://api.moonshot.cn/v1").rstrip("/")
-        model = env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5")
-    else:
-        api_key = env_first("OPENAI_API_KEY")
-        base_url = env_first("OPENAI_BASE_URL", default="https://api.openai.com/v1").rstrip("/")
-        model = env_first("OPENAI_MODEL", default="gpt-5-mini")
-    if not api_key:
+        candidates.append(
+            {
+                "name": "kimi",
+                "api_key": kimi_key,
+                "base_url": env_first(
+                    "KIMI_BASE_URL",
+                    "MOONSHOT_BASE_URL",
+                    "AI_AGENT_BASE_URL",
+                    default="https://api.moonshot.cn/v1",
+                ).rstrip("/"),
+                "model": env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5"),
+            }
+        )
+
+    openai_key = env_first("OPENAI_API_KEY")
+    if openai_key:
+        candidates.append(
+            {
+                "name": "openai",
+                "api_key": openai_key,
+                "base_url": env_first("OPENAI_BASE_URL", default="https://api.openai.com/v1").rstrip("/"),
+                "model": env_first("OPENAI_MODEL", default="gpt-5-mini"),
+            }
+        )
+
+    if not candidates:
         return ""
 
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": "你只基于用户提供的正文做中文概括和翻译整理。"},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0.2,
-    }
-    req = Request(
-        f"{base_url}/chat/completions",
-        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
     timeout = int(os.getenv("REPORT_TRANSLATION_TIMEOUT_SEC", "45"))
-    with urlopen(req, timeout=timeout) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-    return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+    last_error = None
+
+    for candidate in candidates:
+        payload = {
+            "model": candidate["model"],
+            "messages": [
+                {"role": "system", "content": "你只基于用户提供的正文做中文概括和翻译整理。"},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0.2,
+        }
+        req = Request(
+            f"{candidate['base_url']}/chat/completions",
+            data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {candidate['api_key']}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urlopen(req, timeout=timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            text = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+            if text:
+                return text
+            last_error = f"{candidate['name']} returned empty content"
+        except Exception as exc:
+            last_error = f"{candidate['name']} {type(exc).__name__}: {exc}"
+
+    if last_error:
+        raise RuntimeError(f"Translation backend failed: {last_error}")
+    return ""
 
 
 def item_haystack(item, content_chars=1600):
