@@ -30,7 +30,7 @@
 - **xAI News**：连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。；多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
 - **Mistral AI News**：多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
 - **CoreWeave Blog**：多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
-- **SK Hynix Newsroom**：连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。；多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
+- **SK Hynix Newsroom**：连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。；多次缺少发布时间，建议写专项解析器或降级为 background。
 - **Perplexity Blog**：连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。；多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
 - **Broadcom News**：多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
 - **Schneider Electric Newsroom**：连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。；多次缺少发布时间，建议写专项解析器或降级为 background。；近期没有 confirmed_event，继续观察，暂不降级。
