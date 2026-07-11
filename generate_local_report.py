@@ -298,6 +298,68 @@ def item_haystack(item, content_chars=1600):
     ).lower()
 
 
+WEAK_SUMMARY_PHRASES = [
+    "背景页",
+    "官网级背景页",
+    "博客入口",
+    "newsroom 入口",
+    "新闻聚合入口",
+    "趋势页本身",
+    "没有稳定提取到",
+    "没有结构化提取",
+    "缺少明确发布日期",
+    "缺少明确发布时间",
+    "不是具体公告",
+    "不是具体文章",
+    "不能形成强投资结论",
+    "不能直接作为投资结论",
+]
+
+
+def curated_summary(item):
+    haystack = item_haystack(item)
+    for keyword, summary in SUMMARY_TRANSLATIONS:
+        if keyword in haystack:
+            return summary
+    return ""
+
+
+def has_curated_summary(item):
+    summary = curated_summary(item)
+    return bool(summary) and not is_weak_summary(summary)
+
+
+def is_weak_summary(summary):
+    return any(phrase in summary for phrase in WEAK_SUMMARY_PHRASES)
+
+
+def has_reportable_content(item):
+    if item.get("error"):
+        return False
+    summary = curated_summary(item)
+    if summary and is_weak_summary(summary):
+        return False
+    content = clean_inline(item.get("content") or "", 240)
+    if summary:
+        return True
+    if not content:
+        return False
+    weak_markers = [
+        "skip to content",
+        "no items found",
+        "load more",
+        "sign up",
+        "all news",
+        "news archive",
+    ]
+    lower_content = content.lower()
+    if len(content) < 120:
+        return False
+    if sum(1 for marker in weak_markers if marker in lower_content) >= 2:
+        return False
+    return True
+
+
 def should_exclude_from_report(item):
     url = (item.get("url") or "").rstrip("/")
     title = (item.get("title") or "").strip().lower()
@@ -334,18 +396,11 @@ def content_summary(item, max_len=360):
     if not content:
         return "该条没有可用正文，只能作为弱信号处理。"
 
-    for keyword, summary in SUMMARY_TRANSLATIONS:
-        if keyword in haystack:
-            return summary
+    summary = curated_summary(item)
+    if summary:
+        return summary
 
-    source = item.get("company") or "该来源"
-    event_name = chinese_event_title(item)
-    published_at = item.get("published_at") or "发布时间未知"
-    return (
-        f"{source} 本次抓取到“{event_name}”，{published_at}。"
-        "该条更接近背景页、目录页或弱结构化页面，当前没有稳定的单一事件正文；"
-        "报告中仅作为覆盖提示或背景信息处理，不作为强投资结论。"
-    )
+    return clean_inline(content, max_len)
 
 
 def company_product(item):
@@ -730,7 +785,10 @@ def render_layer_section(items):
 
 
 def render_watch_table(items):
-    watch_items = [item for item in items if item.get("event_grade") == "watch_signal"]
+    watch_items = [
+        item for item in items
+        if item.get("event_grade") == "watch_signal" and has_reportable_content(item)
+    ]
     if not watch_items:
         return []
 
@@ -784,8 +842,14 @@ def render_risk_section(items):
 
 
 def render_followups(items):
-    confirmed = [item for item in items if item.get("event_grade") == "confirmed_event"]
-    recent = [item for item in items if item.get("event_grade") == "recent_signal"]
+    confirmed = [
+        item for item in items
+        if item.get("event_grade") == "confirmed_event" and has_reportable_content(item)
+    ]
+    recent = [
+        item for item in items
+        if item.get("event_grade") == "recent_signal" and has_reportable_content(item)
+    ]
     failed = [item for item in items if item.get("event_grade") == "failed_source" or item.get("error")]
 
     candidates = confirmed[:5] + recent[:3] + failed[:2]
@@ -826,23 +890,27 @@ def generate_report(payload, report_date):
         item for item in raw_items
         if not should_exclude_from_report(item)
     ]
-    grouped = group_items(items)
+    reportable_items = [
+        item for item in items
+        if has_reportable_content(item)
+    ]
+    grouped = group_items(reportable_items)
 
     lines = [
         f"# AI 投资情报日报 - {report_date}",
         "",
     ]
 
-    lines.extend(make_overview(payload, items))
+    lines.extend(make_overview(payload, reportable_items))
 
     for grade in ["confirmed_event", "recent_signal"]:
         lines.extend(render_event_section(grouped.get(grade, []), grade))
 
-    lines.extend(render_watch_table(items))
+    lines.extend(render_watch_table(reportable_items))
     lines.extend(render_event_section(grouped.get("background_ref", []), "background_ref"))
-    lines.extend(render_layer_section(items))
+    lines.extend(render_layer_section(reportable_items))
     lines.extend(render_risk_section(items))
-    lines.extend(render_followups(items))
+    lines.extend(render_followups(reportable_items))
 
     return "\n".join(lines)
 

@@ -344,14 +344,14 @@
     "title": "AI 投资情报日报 - 2026-06-13",
     "url": "reports/2026-06-13.html",
     "overview": [
-      "**核心判断**：今天的 AI 投资主线不是单纯模型能力竞赛，而是“模型监管风险 + 企业级落地能力 + agentic AI 算力平台”三条线同时推进。",
+      "**核心判断**：今天的有效信号集中在applications 应用层、infrastructure 基础设施层和chips 芯片 / 计算层，共筛出 11 条 confirmed_event 和 11 条 recent_signal；主线应围绕这些层级的事实更新判断，而不是沿用上一日报告的叙事。",
       "**今日重点**：Anthropic 的 Fable 5 / Mythos 5 被美国政府要求暂停外国国民访问，是今天最重要的风险信号：高能力模型开始直接面对出口控制、国家安全和跨境可用性约束。",
       "**延伸观察**：Claude 的企业化动作明显加速：Compliance API、角色权限和 Claude Design 分别指向合规审计、组织治理和设计工作流，说明模型厂商正在把竞争从单纯模型能力推进到企业工作台和管理能力。",
       "**延伸观察**：NVIDIA 的主线是 agentic AI 基础设施：GB300 的 agentic coding 吞吐叙事和 MiniMax M3 长上下文部署方案，都在强化 Blackwell/GB300 不只是训练硬件，而是面向并发 agent、工具调用和长上下文推理的平台。",
       "**延伸观察**：Google 侧信号偏基础设施和开发者工具，重点不是单点爆款产品，而是 Colab CLI、Gemma / DiffusionGemma、Apigee 等能力对本地 AI、agent 可调用算力和企业 API 管理的补齐。",
       "**延伸观察**：AMD 英国 20 亿英镑 AI 投资仍是近期重要资本与算力信号，说明主权 AI 和科研算力市场继续为 NVIDIA 之外的供应商提供叙事空间，但短期收入转化仍需订单和交付数据验证。",
-      "**投资含义**：短期应把 Anthropic 的监管与企业产品进展、NVIDIA 的 agentic workload 能效叙事、Google 的开发者基础设施补齐放在同一张图里看；真正能转化为投资判断的，还需要后续验证客户采用、订单、云消耗和第三方 benchmark。",
-      "**风险提示**：部分 discovery 和 release note 来源仍是目录页或文档页，不能直接当成强事件；能源层和资本层今天的有效信号不足。"
+      "**投资含义**：短期应重点验证算力供给、硬件生态和订单验证；云平台用量、开发者采用和企业部署；企业工作流嵌入、付费转化和留存。",
+      "**风险提示**：4 条缺少明确发布时间；4 条 discovery 信号仍需验证"
     ],
     "events": [
       "Anthropic 因美国政府指令暂停 Fable 5 和 Mythos 5 访问",
@@ -375,13 +375,7 @@
       "Cloudflare 以自身架构演示如何防御前沿网络攻击模型",
       "Arm 发布 Neural Dawn 展示移动端 AI 图形和神经渲染能力",
       "Salesforce 将能耗和碳排放指标纳入 AI Model Cards",
-      "Salesforce 用 Slackbot 展示 Agentic Enterprise 内部知识工作流",
-      "OpenAI API Changelog 背景页：需继续跟踪具体 API 变更",
-      "OpenAI Apps SDK Changelog 背景页：需继续跟踪具体应用生态变更",
-      "Mistral 官网信号：前沿模型、助手、Agent 和企业服务",
-      "CoreWeave 博客页信号：AI 云基础设施持续扩展",
-      "Broadcom 新闻页信号：AI 网络和定制芯片链需继续跟踪",
-      "Palantir 新闻页信号：AIP 企业和政府落地需继续跟踪"
+      "Salesforce 用 Slackbot 展示 Agentic Enterprise 内部知识工作流"
     ]
   },
   {
