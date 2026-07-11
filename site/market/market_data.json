@@ -1248,7 +1248,7 @@
       "above_ma20_pct": -2.1857485783356334,
       "above_ma50_pct": -0.2375082146691465,
       "volume": "293215",
-      "volume_vs_20d_pct": -52.40448147643745,
+      "volume_vs_20d_pct": -52.41168087399623,
       "dollar_volume": 143950972.81585693,
       "current_drawdown_pct": -11.994259401777763,
       "last20_volatility_pct": "2.822224014384205",
@@ -1717,7 +1717,7 @@
       "count": 13,
       "market_cap": 1541650000000.0,
       "market_cap_label": "$1.54T",
-      "avg_dollar_volume_20d": 12990057681.717958,
+      "avg_dollar_volume_20d": 12990102921.9303,
       "avg_dollar_volume_20d_label": "$12.99B",
       "leader": "GE Vernova",
       "leader_score": 61.69230769230769
