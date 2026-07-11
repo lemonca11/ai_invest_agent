@@ -1,14 +1,24 @@
 import argparse
+import hashlib
 import json
 import os
 import re
 from datetime import datetime
 from pathlib import Path
+from urllib.request import Request, urlopen
 
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 REPORTS_DIR = BASE_DIR / "reports"
+NEWS_DETAILS_DIR = REPORTS_DIR / "news_details"
+LLM_DIGEST_CACHE = {}
+LLM_DIGEST_DISABLED_REASON = None
+LOCAL_ENV_FILES = [
+    BASE_DIR / ".env.local",
+    BASE_DIR / ".env",
+    BASE_DIR / "config" / ".env",
+]
 
 GRADE_TITLES = {
     "confirmed_event": "今日重大事件 confirmed_event",
@@ -244,6 +254,33 @@ SUMMARY_TRANSLATIONS = [
 ]
 
 
+def load_local_env_files():
+    for path in LOCAL_ENV_FILES:
+        if not path.exists():
+            continue
+        for raw_line in path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("export "):
+                line = line[len("export "):].strip()
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+def env_first(*names, default=""):
+    for name in names:
+        value = os.getenv(name)
+        if value:
+            return value.strip()
+    return default
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Generate a local AI investment daily report from raw_items JSON."
@@ -287,6 +324,244 @@ def clean_inline(text, max_len=220):
     if len(text) <= max_len:
         return text
     return text[: max_len - 1].rstrip() + "…"
+
+
+def markdown_anchor(text):
+    cleaned = re.sub(r"[^\w\u4e00-\u9fff-]+", "-", text.lower()).strip("-")
+    return cleaned or "section"
+
+
+def detail_heading(item):
+    suffix = hashlib.sha1((item.get("url") or item.get("title") or "").encode("utf-8")).hexdigest()[:8]
+    return f"新闻详情 {suffix}：{clean_inline(chinese_event_title(item), 90)}"
+
+
+def detail_id(item):
+    return hashlib.sha1((item.get("url") or item.get("title") or "").encode("utf-8")).hexdigest()[:8]
+
+
+def detail_link(item, report_date):
+    return f"[查看新闻全文中文页](news_details/{report_date}/{detail_id(item)}.html)"
+
+
+def clean_article_content(content):
+    content = re.sub(r"\s+", " ", content or "").strip()
+    noise_phrases = [
+        "Skip to main content",
+        "Skip to footer",
+        "Download as PDF",
+        "Navigation Menu",
+        "Toggle navigation",
+        "Sign in",
+        "Sign up",
+        "Load More",
+        "No items found",
+    ]
+    for phrase in noise_phrases:
+        content = content.replace(phrase, " ")
+    return re.sub(r"\s+", " ", content).strip()
+
+
+def article_sentences(item, limit=24):
+    content = clean_article_content(item.get("content") or "")
+    if not content:
+        return []
+    chunks = re.split(r"(?<=[.!?。！？])\s+", content)
+    sentences = []
+    seen = set()
+    for chunk in chunks:
+        chunk = clean_inline(chunk, 520)
+        lower = chunk.lower()
+        if len(chunk) < 45:
+            continue
+        if any(marker in lower for marker in ["cookie", "privacy policy", "all rights reserved", "search docs"]):
+            continue
+        if lower in seen:
+            continue
+        seen.add(lower)
+        sentences.append(chunk)
+        if len(sentences) >= limit:
+            break
+    return sentences
+
+
+def sentence_score(sentence, item):
+    title_terms = {
+        term.lower()
+        for term in re.findall(r"[A-Za-z][A-Za-z0-9.+-]{2,}", item.get("title") or "")
+        if term.lower() not in {"the", "and", "with", "from", "for"}
+    }
+    lower = sentence.lower()
+    score = sum(2 for term in title_terms if term in lower)
+    score += 2 if re.search(r"\d", sentence) else 0
+    for keyword in [
+        "announce",
+        "launch",
+        "release",
+        "update",
+        "customer",
+        "enterprise",
+        "investment",
+        "revenue",
+        "performance",
+        "model",
+        "gpu",
+        "cloud",
+        "agent",
+        "security",
+        "compliance",
+    ]:
+        if keyword in lower:
+            score += 1
+    return score
+
+
+TRANSLATION_REPLACEMENTS = [
+    (r"\bannounced\b", "宣布"),
+    (r"\bannounces\b", "宣布"),
+    (r"\blaunch(?:ed|es)?\b", "推出"),
+    (r"\breleas(?:ed|es)?\b", "发布"),
+    (r"\bintroduc(?:ed|es|ing)?\b", "推出"),
+    (r"\bupdate(?:d|s)?\b", "更新"),
+    (r"\binvestment\b", "投资"),
+    (r"\binvest\b", "投资"),
+    (r"\bpartnerships?\b", "合作"),
+    (r"\bcustomers?\b", "客户"),
+    (r"\benterprises?\b", "企业"),
+    (r"\bdevelopers?\b", "开发者"),
+    (r"\bmodels?\b", "模型"),
+    (r"\bmultimodal\b", "多模态"),
+    (r"\breasoning\b", "推理"),
+    (r"\bagentic\b", "Agent 化"),
+    (r"\bagents?\b", "Agent"),
+    (r"\bcloud\b", "云"),
+    (r"\bdata centers?\b", "数据中心"),
+    (r"\bAI factories\b", "AI 工厂"),
+    (r"\bperformance\b", "性能"),
+    (r"\bsecurity\b", "安全"),
+    (r"\bcompliance\b", "合规"),
+    (r"\baccess\b", "访问"),
+    (r"\bgovernment\b", "政府"),
+    (r"\bnational security\b", "国家安全"),
+    (r"\bexport control\b", "出口管制"),
+    (r"\brevenue\b", "收入"),
+    (r"\bresearch\b", "研究"),
+    (r"\bworkforce\b", "劳动力"),
+    (r"\bopen source\b", "开源"),
+]
+
+
+def content_based_summary(item, max_sentences=3):
+    sentences = article_sentences(item)
+    if not sentences:
+        return ""
+    ranked = sorted(sentences[:12], key=lambda sentence: sentence_score(sentence, item), reverse=True)
+    chosen = ranked[:max_sentences]
+    return "；".join(clean_inline(sentence, 260).rstrip(".") for sentence in chosen)
+
+
+def translated_detail_lines(item, max_sentences=10):
+    llm_detail = llm_article_digest(item)
+    if llm_detail:
+        return llm_detail
+    local_lines = local_article_detail_lines(item, max_sentences=max_sentences)
+    if local_lines:
+        return local_lines
+    if not has_translation_api():
+        return ["未生成 Kimi 译文：当前进程没有读取到 KIMI_API_KEY / MOONSHOT_API_KEY / OPENAI_API_KEY。"]
+    return ["Kimi 翻译暂不可用：API 调用失败或返回为空，已无可用正文可供本地整理。"]
+
+
+def local_article_detail_lines(item, max_sentences=10):
+    lines = []
+    summary = curated_summary(item)
+    if summary:
+        lines.append(summary)
+    elif item.get("summary"):
+        lines.append(clean_inline(item.get("summary"), 520))
+
+    impact = impact_note(item)
+    if impact:
+        lines.append(f"投资观察：{impact}")
+    return lines[:max_sentences]
+
+
+def has_translation_api():
+    return bool(env_first("KIMI_API_KEY", "MOONSHOT_API_KEY", "OPENAI_API_KEY"))
+
+
+def llm_article_digest(item):
+    global LLM_DIGEST_DISABLED_REASON
+    if LLM_DIGEST_DISABLED_REASON:
+        return []
+    if not has_translation_api():
+        return []
+    cache_key = item.get("url") or item.get("title") or json.dumps(item, sort_keys=True, ensure_ascii=False)
+    if cache_key in LLM_DIGEST_CACHE:
+        return LLM_DIGEST_CACHE[cache_key]
+
+    content = clean_article_content(item.get("content") or "")
+    if not content:
+        return []
+    prompt = (
+        "你是财经新闻翻译和投资情报编辑。请基于下面 URL 抓取正文，输出中文内容，不要编造。"
+        "要求：1）先用 3-5 条要点概括新闻事实；2）再用 5-8 条翻译/整理正文关键内容；"
+        "3）保留公司名、产品名、模型名、技术名英文；4）不要输出免责声明；5）每条独立成句。\n\n"
+        f"标题：{item.get('title') or ''}\n"
+        f"来源：{item.get('company') or ''}\n"
+        f"URL：{item.get('url') or item.get('source_url') or ''}\n"
+        f"正文：{content[:7000]}"
+    )
+    try:
+        text = call_chat_model(prompt)
+    except Exception as exc:
+        LLM_DIGEST_DISABLED_REASON = f"{type(exc).__name__}: {exc}"
+        return []
+    lines = [
+        clean_inline(re.sub(r"^\s*[-*\d.、]+\s*", "", line), 520)
+        for line in text.splitlines()
+        if clean_inline(re.sub(r"^\s*[-*\d.、]+\s*", "", line), 520)
+    ]
+    if not lines and text.strip():
+        lines = [clean_inline(part, 520) for part in re.split(r"[。；]\s*", text) if clean_inline(part, 520)]
+    LLM_DIGEST_CACHE[cache_key] = lines[:12]
+    return LLM_DIGEST_CACHE[cache_key]
+
+
+def call_chat_model(prompt):
+    kimi_key = env_first("KIMI_API_KEY", "MOONSHOT_API_KEY")
+    if kimi_key:
+        api_key = kimi_key
+        base_url = env_first("KIMI_BASE_URL", "MOONSHOT_BASE_URL", "AI_AGENT_BASE_URL", default="https://api.moonshot.cn/v1").rstrip("/")
+        model = env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5")
+    else:
+        api_key = env_first("OPENAI_API_KEY")
+        base_url = env_first("OPENAI_BASE_URL", default="https://api.openai.com/v1").rstrip("/")
+        model = env_first("OPENAI_MODEL", default="gpt-5-mini")
+    if not api_key:
+        return ""
+
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "你只基于用户提供的正文做中文概括和翻译整理。"},
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.2,
+    }
+    req = Request(
+        f"{base_url}/chat/completions",
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    timeout = int(os.getenv("REPORT_TRANSLATION_TIMEOUT_SEC", "45"))
+    with urlopen(req, timeout=timeout) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+    return data.get("choices", [{}])[0].get("message", {}).get("content", "")
 
 
 def item_haystack(item, content_chars=1600):
@@ -388,7 +663,6 @@ def should_exclude_from_report(item):
 
 def content_summary(item, max_len=360):
     content = item.get("content") or ""
-    haystack = item_haystack(item)
 
     if item.get("error"):
         return "该来源抓取失败，本地报告无法读取正文。"
@@ -396,9 +670,17 @@ def content_summary(item, max_len=360):
     if not content:
         return "该条没有可用正文，只能作为弱信号处理。"
 
+    llm_lines = llm_article_digest(item)
+    if llm_lines:
+        return clean_inline("；".join(llm_lines[:3]), max_len)
+
     summary = curated_summary(item)
     if summary:
         return summary
+
+    content_summary_text = content_based_summary(item)
+    if content_summary_text:
+        return clean_inline(content_summary_text, max_len)
 
     return clean_inline(content, max_len)
 
@@ -701,7 +983,7 @@ def make_overview(payload, items):
     return lines
 
 
-def render_event_section(items, grade, start_index=1):
+def render_event_section(items, grade, report_date, start_index=1):
     if not items:
         return []
 
@@ -728,6 +1010,7 @@ def render_event_section(items, grade, start_index=1):
                 f"- **事件类型**：{event_type_name(item)}",
                 f"- **发布时间**：{item.get('published_at') or '未知'}",
                 f"- **中文摘要**：{content_summary(item)}",
+                f"- **新闻详情**：{detail_link(item, report_date)}",
                 f"- **投资含义**：{impact_note(item)}",
                 f"- **置信度**：{confidence(item)}",
                 f"- **来源 URL**：{item.get('url') or item.get('source_url') or '未知'}",
@@ -884,6 +1167,48 @@ def render_followups(items):
     return lines
 
 
+def news_detail_markdown(item, report_date):
+    lines = [
+        f"# {detail_heading(item)}",
+        "",
+        f"[返回日报](../../{report_date}.html)",
+        "",
+        f"- **来源 / 公司**：{company_product(item)}",
+        original_title_line(item),
+        f"- **AI 六层分类**：{item.get('layer') or 'unknown'}",
+        f"- **发布时间**：{item.get('published_at') or '未知'}",
+        f"- **原文 URL**：{item.get('url') or item.get('source_url') or '未知'}",
+        "",
+        "## 中文摘要",
+        "",
+        content_summary(item),
+        "",
+        "## 正文中文译文",
+        "",
+    ]
+    for line in translated_detail_lines(item):
+        lines.append(f"- {line}")
+    lines.extend(["", "---", "", "[返回日报](../../{date}.html)".format(date=report_date), ""])
+    return "\n".join(lines)
+
+
+def write_news_detail_pages(items, report_date):
+    detail_items = [
+        item for item in items
+        if item.get("event_grade") in {"confirmed_event", "recent_signal"} and has_reportable_content(item)
+    ]
+    detail_dir = NEWS_DETAILS_DIR / report_date
+    detail_dir.mkdir(parents=True, exist_ok=True)
+    existing = set()
+    for item in detail_items:
+        path = detail_dir / f"{detail_id(item)}.md"
+        path.write_text(news_detail_markdown(item, report_date), encoding="utf-8")
+        existing.add(path.name)
+    for old in detail_dir.glob("*.md"):
+        if old.name not in existing:
+            old.unlink()
+
+
 def generate_report(payload, report_date):
     raw_items = payload.get("items") or []
     items = [
@@ -904,10 +1229,10 @@ def generate_report(payload, report_date):
     lines.extend(make_overview(payload, reportable_items))
 
     for grade in ["confirmed_event", "recent_signal"]:
-        lines.extend(render_event_section(grouped.get(grade, []), grade))
+        lines.extend(render_event_section(grouped.get(grade, []), grade, report_date))
 
     lines.extend(render_watch_table(reportable_items))
-    lines.extend(render_event_section(grouped.get("background_ref", []), "background_ref"))
+    lines.extend(render_event_section(grouped.get("background_ref", []), "background_ref", report_date))
     lines.extend(render_layer_section(reportable_items))
     lines.extend(render_risk_section(items))
     lines.extend(render_followups(reportable_items))
@@ -916,6 +1241,7 @@ def generate_report(payload, report_date):
 
 
 def main():
+    load_local_env_files()
     args = parse_args()
     input_path = Path(args.input) if args.input else DATA_DIR / f"raw_items_{args.date}.json"
     output_path = Path(args.output) if args.output else REPORTS_DIR / f"{args.date}.md"
@@ -927,6 +1253,12 @@ def main():
 
     payload = load_payload(input_path)
     report = generate_report(payload, args.date)
+    raw_items = payload.get("items") or []
+    reportable_items = [
+        item for item in raw_items
+        if not should_exclude_from_report(item) and has_reportable_content(item)
+    ]
+    write_news_detail_pages(reportable_items, args.date)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report, encoding="utf-8")

@@ -21,6 +21,14 @@ def env(name: str, default: str = "") -> str:
     return os.environ.get(name, default).strip()
 
 
+def env_first(*names: str, default: str = "") -> str:
+    for name in names:
+        value = env(name)
+        if value:
+            return value
+    return default
+
+
 def with_cors(response: Response) -> Response:
     origin = env("ALLOWED_ORIGIN", DEFAULT_ALLOWED_ORIGIN)
     response.headers["Access-Control-Allow-Origin"] = origin
@@ -285,12 +293,17 @@ def load_market_data() -> dict:
 
 
 def call_kimi(question: str, market_context: dict) -> str:
-    api_key = env("KIMI_API_KEY")
+    api_key = env_first("KIMI_API_KEY", "MOONSHOT_API_KEY")
     if not api_key:
-        raise RuntimeError("KIMI_API_KEY is not configured")
+        raise RuntimeError("KIMI_API_KEY / MOONSHOT_API_KEY is not configured")
 
-    model = env("KIMI_MODEL", "kimi-k2.5")
-    base_url = env("KIMI_BASE_URL", "https://api.moonshot.cn/v1").rstrip("/")
+    model = env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5")
+    base_url = env_first(
+        "KIMI_BASE_URL",
+        "MOONSHOT_BASE_URL",
+        "AI_AGENT_BASE_URL",
+        default="https://api.moonshot.cn/v1",
+    ).rstrip("/")
     timeout_sec = max(10, int(env("KIMI_TIMEOUT_SEC", "25") or "25"))
     payload = {
         "model": model,
@@ -407,7 +420,7 @@ def chat_post() -> Response:
         market_data = load_market_data()
         local_data_loaded = bool(market_data.get("signals"))
         market_context = build_evidence_cards(question, market_data)
-        model = env("KIMI_MODEL", "kimi-k2.5")
+        model = env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5")
         started_at = time.perf_counter()
         llm_attempted = True
         try:
@@ -445,7 +458,7 @@ def chat_post() -> Response:
             {
                 "answer": f"市场数据暂不可用：{exc}",
                 "source": "error",
-                "model": env("KIMI_MODEL", "kimi-k2.5"),
+                "model": env_first("KIMI_MODEL", "MOONSHOT_MODEL", "AI_AGENT_MODEL", default="kimi-k2.5"),
                 "latency_ms": 0,
                 "error": str(exc),
             },

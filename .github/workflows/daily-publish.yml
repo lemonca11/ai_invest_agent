@@ -31,8 +31,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install dependencies
         run: python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
 
       - name: Fetch sources
         run: python3 main.py
@@ -62,6 +70,17 @@ jobs:
           PY
 
       - name: Generate daily report
+        env:
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+          KIMI_BASE_URL: ${{ secrets.KIMI_BASE_URL }}
+          KIMI_MODEL: ${{ secrets.KIMI_MODEL }}
+          MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
+          MOONSHOT_BASE_URL: ${{ secrets.MOONSHOT_BASE_URL }}
+          MOONSHOT_MODEL: ${{ secrets.MOONSHOT_MODEL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          REPORT_TRANSLATION_TIMEOUT_SEC: "60"
         run: |
           TODAY=$(date +%F)
           python3 generate_local_report.py --date "$TODAY"
@@ -82,6 +101,7 @@ jobs:
           TODAY=$(date +%F)
           if git diff --quiet -- \
             "reports/${TODAY}.md" \
+            "reports/news_details/${TODAY}" \
             "reports/source_iteration_${TODAY}.md" \
             "data/raw_items_${TODAY}.json" \
             config/source_candidates.yaml \
@@ -99,6 +119,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
             "reports/${TODAY}.md" \
+            "reports/news_details/${TODAY}" \
             "reports/source_iteration_${TODAY}.md" \
             "data/raw_items_${TODAY}.json" \
             config/source_candidates.yaml \
@@ -115,6 +136,28 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
+
+      - name: Validate Vercel secrets
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          [ -n "$VERCEL_TOKEN" ] || { echo "VERCEL_TOKEN is missing"; exit 1; }
+          [ -n "$VERCEL_ORG_ID" ] || { echo "VERCEL_ORG_ID is missing"; exit 1; }
+          [ -n "$VERCEL_PROJECT_ID" ] || { echo "VERCEL_PROJECT_ID is missing"; exit 1; }
+
+      - name: Pull Vercel project settings
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy to Vercel production
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
 
   deploy:
     environment:
