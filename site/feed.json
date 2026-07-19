@@ -1,5 +1,44 @@
 [
   {
+    "date": "2026-07-19",
+    "title": "AI 投资情报日报 - 2026-07-19",
+    "url": "reports/2026-07-19.html",
+    "overview": [
+      "**核心判断**：今天的有效信号集中在infrastructure 基础设施层、chips 芯片 / 计算层和models 模型层，共筛出 24 条 recent_signal；主线应围绕这些层级的事实更新判断，而不是沿用上一日报告的叙事。",
+      "**今日重点**：Google 侧信号偏基础设施和开发者工具，重点不是单点爆款产品，而是 Colab CLI、Gemma / DiffusionGemma、Apigee 等能力对本地 AI、agent 可调用算力和企业 API 管理的补齐。",
+      "**投资含义**：短期应重点验证算力供给、硬件生态和订单验证；云平台用量、开发者采用和企业部署；模型能力、访问限制、安全合规和客户采购风险。",
+      "**风险提示**：3 条缺少明确发布时间；1 条 discovery 信号仍需验证"
+    ],
+    "events": [
+      "AMD Press Releases：芯片 / 算力更新",
+      "ASML Press Releases：半导体设备更新",
+      "Anthropic News：模型 / 产品更新",
+      "Anthropic News：模型 / 产品更新",
+      "Anthropic News：模型 / 产品更新",
+      "GitHub 开发者生态观察信号",
+      "GitHub 开发者生态观察信号",
+      "GitHub 开发者生态观察信号",
+      "Anthropic Claude Release Notes：发布说明更新",
+      "Anthropic Claude Release Notes：发布说明更新",
+      "NVIDIA Developer Blog：博客更新",
+      "NVIDIA Developer Blog：博客更新",
+      "GitHub 开发者生态观察信号",
+      "GitHub 开发者生态观察信号",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "Google Cloud Apigee hybrid 升级与文档更新",
+      "Google Cloud Release Notes：变更日志更新",
+      "Google Developers Blog：博客更新",
+      "Google Developers Blog：博客更新",
+      "Google Developers Blog：博客更新",
+      "Cursor Changelog：编程 Agent 更新",
+      "Cohere Blog：模型 / 产品更新",
+      "Cloudflare AI Blog：云基础设施更新",
+      "Arm Newsroom：芯片 / 算力更新",
+      "Mistral AI News：模型 / 产品更新",
+      "Marvell Newsroom：芯片 / 算力更新"
+    ]
+  },
+  {
     "date": "2026-07-18",
     "title": "AI 投资情报日报 - 2026-07-18",
     "url": "reports/2026-07-18.html",
