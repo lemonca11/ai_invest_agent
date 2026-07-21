@@ -4,12 +4,12 @@ sources:
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -20,12 +20,12 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -36,48 +36,47 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 18
+    runs: 32
+    success_runs: 19
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 2
-    last_checked_at: '2026-07-20'
-    last_item_count: 1
+    confirmed_event_runs: 3
+    last_checked_at: '2026-07-21'
+    last_item_count: 2
     last_failed_count: 0
     last_unknown_time_count: 0
-    last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
-    recommendations:
-    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_confirmed_event_count: 1
+    last_success_at: '2026-07-21'
+    recommendations: []
   https://www.asml.com/news/press-releases:
     company: ASML Press Releases
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 5
+    runs: 32
+    success_runs: 6
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 1
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations:
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://www.micron.com/about/press/news:
     company: Micron Newsroom
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -88,17 +87,17 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
@@ -107,12 +106,12 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -123,12 +122,12 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -139,12 +138,12 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -155,30 +154,29 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 9
-    last_checked_at: '2026-07-20'
-    last_item_count: 3
+    confirmed_event_runs: 10
+    last_checked_at: '2026-07-21'
+    last_item_count: 2
     last_failed_count: 0
     last_unknown_time_count: 0
-    last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
-    recommendations:
-    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_confirmed_event_count: 1
+    last_success_at: '2026-07-21'
+    recommendations: []
   https://deepmind.google/discover/blog:
     company: Google DeepMind Blog
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -189,12 +187,12 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -205,12 +203,12 @@ sources:
     layer: models
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -221,12 +219,12 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -237,12 +235,12 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -253,12 +251,12 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -269,12 +267,12 @@ sources:
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -285,12 +283,12 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -301,12 +299,12 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -317,12 +315,12 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -333,17 +331,17 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
@@ -352,46 +350,46 @@ sources:
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://huggingface.co/spaces:
     company: HuggingFace Spaces
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://www.gevernova.com/news/media-hub:
     company: GE Vernova News
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -402,12 +400,12 @@ sources:
     layer: energy
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -418,12 +416,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -434,12 +432,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -450,12 +448,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -466,12 +464,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -482,12 +480,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -498,12 +496,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -514,80 +512,80 @@ sources:
     layer: models
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://artificialanalysis.ai:
     company: Artificial Analysis
     layer: models
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://github.com/openai/openai-python/releases:
     company: OpenAI Python Releases
     layer: infrastructure
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 14
+    runs: 32
+    success_runs: 15
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 3
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 3
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations: []
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://github.com/anthropics/claude-code/releases:
     company: Claude Code Releases
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 31
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://help.openai.com/en/articles/6825453-chatgpt-release-notes:
     company: OpenAI ChatGPT Release Notes
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -598,30 +596,29 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 29
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 7
-    last_checked_at: '2026-07-20'
-    last_item_count: 2
+    last_checked_at: '2026-07-21'
+    last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     last_success_at: '2026-07-20'
-    recommendations:
-    - 近期没有 confirmed_event，继续观察，暂不降级。
+    recommendations: []
   https://platform.claude.com/docs/en/release-notes/overview:
     company: Anthropic API Release Notes
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -632,30 +629,29 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 19
-    last_checked_at: '2026-07-20'
+    confirmed_event_runs: 20
+    last_checked_at: '2026-07-21'
     last_item_count: 3
     last_failed_count: 0
     last_unknown_time_count: 0
-    last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
-    recommendations:
-    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_confirmed_event_count: 3
+    last_success_at: '2026-07-21'
+    recommendations: []
   https://azure.microsoft.com/en-us/updates:
     company: Azure Updates
     layer: infrastructure
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -666,12 +662,12 @@ sources:
     layer: applications
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -682,12 +678,12 @@ sources:
     layer: chips
     source_group: background
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -698,34 +694,34 @@ sources:
     layer: infrastructure
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 15
+    runs: 32
+    success_runs: 16
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 4
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 2
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations: []
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://docs.cloud.google.com/release-notes:
     company: Google Cloud Release Notes
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 13
-    last_checked_at: '2026-07-20'
-    last_item_count: 3
+    last_checked_at: '2026-07-21'
+    last_item_count: 2
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations:
     - 近期没有 confirmed_event，继续观察，暂不降级。
   https://developers.googleblog.com:
@@ -733,47 +729,46 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
     unknown_time_runs: 2
-    confirmed_event_runs: 6
-    last_checked_at: '2026-07-20'
+    confirmed_event_runs: 7
+    last_checked_at: '2026-07-21'
     last_item_count: 3
     last_failed_count: 0
     last_unknown_time_count: 0
-    last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
-    recommendations:
-    - 近期没有 confirmed_event，继续观察，暂不降级。
+    last_confirmed_event_count: 3
+    last_success_at: '2026-07-21'
+    recommendations: []
   https://techcrunch.com/category/artificial-intelligence:
     company: TechCrunch AI
     layer: applications
     source_group: discovery
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 29
+    runs: 32
+    success_runs: 30
     failure_runs: 2
-    unknown_time_runs: 26
+    unknown_time_runs: 27
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
     last_confirmed_event_count: 0
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
     recommendations: []
   https://www.eaton.com/us/en-us/company/news-insights/news-releases.html:
     company: Eaton News
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
-    failure_runs: 31
-    unknown_time_runs: 31
+    failure_runs: 32
+    unknown_time_runs: 32
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -787,12 +782,12 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 16
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 2
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -804,12 +799,12 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
-    failure_runs: 30
-    unknown_time_runs: 30
+    failure_runs: 31
+    unknown_time_runs: 31
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -823,12 +818,12 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
-    success_runs: 28
+    runs: 32
+    success_runs: 29
     failure_runs: 2
-    unknown_time_runs: 10
+    unknown_time_runs: 11
     confirmed_event_runs: 2
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
@@ -836,37 +831,36 @@ sources:
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://www.coreweave.com/blog:
     company: CoreWeave Blog
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 28
     failure_runs: 2
     unknown_time_runs: 24
     confirmed_event_runs: 1
-    last_checked_at: '2026-07-20'
-    last_item_count: 1
+    last_checked_at: '2026-07-21'
+    last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
-    - 近期没有 confirmed_event，继续观察，暂不降级。
     last_success_at: '2026-07-20'
   https://news.skhynix.com:
     company: SK Hynix Newsroom
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 16
     failure_runs: 13
     unknown_time_runs: 13
     confirmed_event_runs: 12
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -880,12 +874,12 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 31
+    runs: 32
     success_runs: 0
     failure_runs: 2
     unknown_time_runs: 2
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -896,12 +890,12 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
-    failure_runs: 27
-    unknown_time_runs: 27
+    failure_runs: 28
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -915,12 +909,12 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 26
+    runs: 29
+    success_runs: 27
     failure_runs: 1
-    unknown_time_runs: 27
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
@@ -928,36 +922,36 @@ sources:
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://cursor.com/changelog:
     company: Cursor Changelog
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 20
+    runs: 29
+    success_runs: 21
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 6
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 3
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations:
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://www.se.com/ww/en/about-us/newsroom:
     company: Schneider Electric Newsroom
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
-    failure_runs: 27
-    unknown_time_runs: 27
+    failure_runs: 28
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -971,12 +965,12 @@ sources:
     layer: capital
     source_group: capital_event
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
     failure_runs: 0
     unknown_time_runs: 0
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -987,30 +981,30 @@ sources:
     layer: models
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 17
+    runs: 29
+    success_runs: 18
     failure_runs: 2
     unknown_time_runs: 1
     confirmed_event_runs: 9
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 3
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations:
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://blogs.oracle.com/cloud-infrastructure:
     company: Oracle Cloud Infrastructure Blog
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
-    failure_runs: 27
-    unknown_time_runs: 27
+    failure_runs: 28
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -1024,12 +1018,12 @@ sources:
     layer: infrastructure
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 15
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 1
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -1041,12 +1035,12 @@ sources:
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 25
+    runs: 29
+    success_runs: 26
     failure_runs: 2
-    unknown_time_runs: 27
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
@@ -1054,36 +1048,36 @@ sources:
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://newsroom.arm.com:
     company: Arm Newsroom
     layer: chips
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 26
+    runs: 29
+    success_runs: 27
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 5
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 0
     last_confirmed_event_count: 0
     recommendations:
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://www.servicenow.com/company/media/press-room.html:
     company: ServiceNow Newsroom
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
-    failure_runs: 27
-    unknown_time_runs: 27
+    failure_runs: 28
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -1097,12 +1091,12 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 15
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 1
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -1114,12 +1108,12 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 1
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 1
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -1131,12 +1125,12 @@ sources:
     layer: applications
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
-    success_runs: 26
+    runs: 29
+    success_runs: 27
     failure_runs: 1
-    unknown_time_runs: 27
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 0
     last_unknown_time_count: 1
@@ -1144,18 +1138,18 @@ sources:
     recommendations:
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-    last_success_at: '2026-07-20'
+    last_success_at: '2026-07-21'
   https://www.constellationenergy.com/newsroom.html:
     company: Constellation Newsroom
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
     failure_runs: 1
     unknown_time_runs: 1
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 0
     last_failed_count: 0
     last_unknown_time_count: 0
@@ -1166,12 +1160,12 @@ sources:
     layer: energy
     source_group: core_watchlist
     first_seen_at: '2026-06-13'
-    runs: 28
+    runs: 29
     success_runs: 0
-    failure_runs: 27
-    unknown_time_runs: 27
+    failure_runs: 28
+    unknown_time_runs: 28
     confirmed_event_runs: 0
-    last_checked_at: '2026-07-20'
+    last_checked_at: '2026-07-21'
     last_item_count: 1
     last_failed_count: 1
     last_unknown_time_count: 1
@@ -1180,4 +1174,4 @@ sources:
     - 连续或累计失败偏多，建议检查 URL、超时、反爬或降级为 manual。
     - 多次缺少发布时间，建议写专项解析器或降级为 background。
     - 近期没有 confirmed_event，继续观察，暂不降级。
-updated_at: '2026-07-20T13:07:45'
+updated_at: '2026-07-21T12:49:18'
