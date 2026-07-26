@@ -1,5 +1,5 @@
-updated_at: '2026-07-25T12:44:26'
-date: '2026-07-25'
+updated_at: '2026-07-26T12:59:25'
+date: '2026-07-26'
 policy:
   auto_promote_candidate: Official or stable high-score source; safe to add after
     review or with --apply-official.
