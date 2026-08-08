@@ -788,7 +788,7 @@
       "above_ma20_pct": 5.648716911008145,
       "above_ma50_pct": 4.701896983759868,
       "volume": "283307",
-      "volume_vs_20d_pct": -54.31328459612806,
+      "volume_vs_20d_pct": -54.33475088755304,
       "dollar_volume": 145616962.16333008,
       "current_drawdown_pct": -7.862326301169809,
       "last20_volatility_pct": "2.3212212596857613",
@@ -1717,7 +1717,7 @@
       "count": 13,
       "market_cap": 1541650000000.0,
       "market_cap_label": "$1.54T",
-      "avg_dollar_volume_20d": 10834280233.731073,
+      "avg_dollar_volume_20d": 10834428237.029276,
       "avg_dollar_volume_20d_label": "$10.83B",
       "leader": "Schneider Electric",
       "leader_score": 68.92307692307692
