@@ -1,4 +1,5 @@
 name,symbol,error
 Pure Storage,PSTG,HTTP Error 404: Not Found
+Pure Storage,PSTG,market_cap: HTTP Error 404: Not Found
 ASM International,ASMIY,market_cap: HTTP Error 404: Not Found
 Tokyo Electron,TOELY,market_cap: HTTP Error 404: Not Found
