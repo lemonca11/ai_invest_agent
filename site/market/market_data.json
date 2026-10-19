@@ -173,10 +173,10 @@
       "last20_volatility_pct": "3.2367893882550782",
       "accumulation_days": 10,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "6.4618930956458485",
+      "high_volume_avg_return_pct": "6.4418742810617875",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 93.984375
+      "score": 94.140625
     },
     {
       "name": "ServiceNow",
@@ -195,11 +195,11 @@
       "current_drawdown_pct": -4.4423542963908496,
       "last20_volatility_pct": "2.4771435136812276",
       "accumulation_days": 9,
-      "distribution_days": 5,
-      "high_volume_avg_return_pct": "0.009026069664217744",
+      "distribution_days": 4,
+      "high_volume_avg_return_pct": "-0.3060175147127232",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 87.8125
+      "score": 87.96875
     },
     {
       "name": "GitLab",
@@ -219,10 +219,10 @@
       "last20_volatility_pct": "3.2713424314647086",
       "accumulation_days": 8,
       "distribution_days": 5,
-      "high_volume_avg_return_pct": "0.043862214425556136",
+      "high_volume_avg_return_pct": "0.08189282172654383",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 84.921875
+      "score": 84.765625
     },
     {
       "name": "Microsoft",
@@ -242,10 +242,10 @@
       "last20_volatility_pct": "1.4073595075471022",
       "accumulation_days": 7,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "2.120906928377361",
+      "high_volume_avg_return_pct": "2.3638796899012284",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 84.296875
+      "score": 83.984375
     },
     {
       "name": "Zscaler",
@@ -264,11 +264,11 @@
       "current_drawdown_pct": -11.273688155731175,
       "last20_volatility_pct": "3.975709114309964",
       "accumulation_days": 11,
-      "distribution_days": 4,
-      "high_volume_avg_return_pct": "-1.5506034992669893",
+      "distribution_days": 3,
+      "high_volume_avg_return_pct": "-1.6424520417317388",
       "state": "短线整理",
       "playbook": "看 50 日线是否守住，以及放量日方向。",
-      "score": 82.421875
+      "score": 82.734375
     },
     {
       "name": "Palantir",
@@ -287,11 +287,11 @@
       "current_drawdown_pct": -11.01172156728527,
       "last20_volatility_pct": "2.6256323285498424",
       "accumulation_days": 6,
-      "distribution_days": 3,
-      "high_volume_avg_return_pct": "2.1587520658471058",
+      "distribution_days": 2,
+      "high_volume_avg_return_pct": "2.1295785996903356",
       "state": "短线整理",
       "playbook": "看 50 日线是否守住，以及放量日方向。",
-      "score": 81.328125
+      "score": 82.265625
     },
     {
       "name": "NetApp",
@@ -311,7 +311,7 @@
       "last20_volatility_pct": "2.9811460732858177",
       "accumulation_days": 11,
       "distribution_days": 1,
-      "high_volume_avg_return_pct": "3.3460452547703037",
+      "high_volume_avg_return_pct": "3.636727439421018",
       "state": "短线整理",
       "playbook": "看 50 日线是否守住，以及放量日方向。",
       "score": 79.0625
@@ -334,10 +334,10 @@
       "last20_volatility_pct": "2.02425076233155",
       "accumulation_days": 4,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "1.0830030871924807",
+      "high_volume_avg_return_pct": "1.5400745816210766",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 77.890625
+      "score": 77.734375
     },
     {
       "name": "Meta",
@@ -357,10 +357,33 @@
       "last20_volatility_pct": "3.612408866300038",
       "accumulation_days": 7,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "0.8516496482279334",
+      "high_volume_avg_return_pct": "0.9440853769931278",
       "state": "短线整理",
       "playbook": "看 50 日线是否守住，以及放量日方向。",
       "score": 76.796875
+    },
+    {
+      "name": "Datadog",
+      "symbol": "DDOG",
+      "market_cap": 85350000000.0,
+      "last_date": "2026-10-16",
+      "last_close": 247.11000061035156,
+      "day_return_pct": -7.1887321651261775,
+      "ret_20d_pct": 7.476514691329728,
+      "ret_60d_pct": 1.112975664919258,
+      "above_ma20_pct": -8.14147372698466,
+      "above_ma50_pct": 0.004532703651971559,
+      "volume": "3748800",
+      "volume_vs_20d_pct": 28.69626712851947,
+      "dollar_volume": 926365970.2880859,
+      "current_drawdown_pct": -15.736891365500794,
+      "last20_volatility_pct": "3.352664240404666",
+      "accumulation_days": 7,
+      "distribution_days": 3,
+      "high_volume_avg_return_pct": "2.903309393847874",
+      "state": "短线整理",
+      "playbook": "看 50 日线是否守住，以及放量日方向。",
+      "score": 75.625
     },
     {
       "name": "Southern Company",
@@ -380,33 +403,10 @@
       "last20_volatility_pct": "1.0227526996007716",
       "accumulation_days": 3,
       "distribution_days": 3,
-      "high_volume_avg_return_pct": "0.0545500614106102",
+      "high_volume_avg_return_pct": "-0.08220651576406265",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
       "score": 75.0
-    },
-    {
-      "name": "Datadog",
-      "symbol": "DDOG",
-      "market_cap": 85350000000.0,
-      "last_date": "2026-10-16",
-      "last_close": 247.11000061035156,
-      "day_return_pct": -7.1887321651261775,
-      "ret_20d_pct": 7.476514691329728,
-      "ret_60d_pct": 1.112975664919258,
-      "above_ma20_pct": -8.14147372698466,
-      "above_ma50_pct": 0.004532703651971559,
-      "volume": "3748800",
-      "volume_vs_20d_pct": 28.69626712851947,
-      "dollar_volume": 926365970.2880859,
-      "current_drawdown_pct": -15.736891365500794,
-      "last20_volatility_pct": "3.352664240404666",
-      "accumulation_days": 7,
-      "distribution_days": 4,
-      "high_volume_avg_return_pct": "2.653937351089476",
-      "state": "短线整理",
-      "playbook": "看 50 日线是否守住，以及放量日方向。",
-      "score": 74.6875
     },
     {
       "name": "Amazon",
@@ -426,10 +426,10 @@
       "last20_volatility_pct": "1.536510291090149",
       "accumulation_days": 8,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "1.88046238183209",
+      "high_volume_avg_return_pct": "1.9625514163798041",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
-      "score": 70.859375
+      "score": 70.703125
     },
     {
       "name": "CrowdStrike",
@@ -448,11 +448,11 @@
       "current_drawdown_pct": -18.457286332072766,
       "last20_volatility_pct": "3.365988513348787",
       "accumulation_days": 8,
-      "distribution_days": 6,
-      "high_volume_avg_return_pct": "1.7864032132503243",
+      "distribution_days": 5,
+      "high_volume_avg_return_pct": "1.5120240473490545",
       "state": "放量承压",
       "playbook": "不急着接，观察后续是否能收回放量阴线。",
-      "score": 67.8125
+      "score": 68.125
     },
     {
       "name": "American Electric Power",
@@ -472,7 +472,7 @@
       "last20_volatility_pct": "0.9426475509791803",
       "accumulation_days": 3,
       "distribution_days": 5,
-      "high_volume_avg_return_pct": "-0.33736963633760525",
+      "high_volume_avg_return_pct": "-0.41546890180751833",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
       "score": 65.546875
@@ -495,9 +495,32 @@
       "last20_volatility_pct": "3.3134918392793575",
       "accumulation_days": 11,
       "distribution_days": 4,
-      "high_volume_avg_return_pct": "2.9592906792340945",
+      "high_volume_avg_return_pct": "3.498691571614449",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
+      "score": 65.078125
+    },
+    {
+      "name": "Snowflake",
+      "symbol": "SNOW",
+      "market_cap": 86290000000.0,
+      "last_date": "2026-10-16",
+      "last_close": 306.8399963378906,
+      "day_return_pct": -8.425108296551398,
+      "ret_20d_pct": -7.697860271846324,
+      "ret_60d_pct": 15.731901590509878,
+      "above_ma20_pct": -9.44599095900286,
+      "above_ma50_pct": -7.884736342299425,
+      "volume": "8774600",
+      "volume_vs_20d_pct": 95.13269071893274,
+      "dollar_volume": 2692398231.866455,
+      "current_drawdown_pct": -16.820736763417756,
+      "last20_volatility_pct": "3.2589644120448797",
+      "accumulation_days": 13,
+      "distribution_days": 6,
+      "high_volume_avg_return_pct": "3.86762446239243",
+      "state": "弱势",
+      "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 65.078125
     },
     {
@@ -518,10 +541,10 @@
       "last20_volatility_pct": "0.9301218286516453",
       "accumulation_days": 1,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "-0.40867936175484965",
+      "high_volume_avg_return_pct": "-0.448773682153375",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
-      "score": 65.0
+      "score": 64.84375
     },
     {
       "name": "Vistra",
@@ -541,56 +564,10 @@
       "last20_volatility_pct": "3.7059236614399973",
       "accumulation_days": 6,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-0.3371944549654432",
+      "high_volume_avg_return_pct": "0.048620184085183815",
       "state": "趋势强",
       "playbook": "优先观察回踩 20 日线是否缩量企稳。",
       "score": 64.6875
-    },
-    {
-      "name": "Snowflake",
-      "symbol": "SNOW",
-      "market_cap": 86290000000.0,
-      "last_date": "2026-10-16",
-      "last_close": 306.8399963378906,
-      "day_return_pct": -8.425108296551398,
-      "ret_20d_pct": -7.697860271846324,
-      "ret_60d_pct": 15.731901590509878,
-      "above_ma20_pct": -9.44599095900286,
-      "above_ma50_pct": -7.884736342299425,
-      "volume": "8774600",
-      "volume_vs_20d_pct": 95.13269071893274,
-      "dollar_volume": 2692398231.866455,
-      "current_drawdown_pct": -16.820736763417756,
-      "last20_volatility_pct": "3.2589644120448797",
-      "accumulation_days": 13,
-      "distribution_days": 7,
-      "high_volume_avg_return_pct": "3.893013275165384",
-      "state": "弱势",
-      "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 64.453125
-    },
-    {
-      "name": "Amphenol",
-      "symbol": "APH",
-      "market_cap": 201410000000.0,
-      "last_date": "2026-10-16",
-      "last_close": 79.3499984741211,
-      "day_return_pct": -2.6260884105383964,
-      "ret_20d_pct": 2.321077177987907,
-      "ret_60d_pct": 0.8067104945348236,
-      "above_ma20_pct": -6.118007879612608,
-      "above_ma50_pct": -3.51375495977857,
-      "volume": "12025900",
-      "volume_vs_20d_pct": 5.646782253020266,
-      "dollar_volume": 954255146.6499329,
-      "current_drawdown_pct": -10.460397184786219,
-      "last20_volatility_pct": "1.9455830641921377",
-      "accumulation_days": 6,
-      "distribution_days": 5,
-      "high_volume_avg_return_pct": "1.1869542259064185",
-      "state": "中性观察",
-      "playbook": "等待价格和成交量给出更明确方向。",
-      "score": 63.828125
     },
     {
       "name": "Google",
@@ -610,10 +587,33 @@
       "last20_volatility_pct": "1.425709559015242",
       "accumulation_days": 3,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "-0.2919662701919241",
+      "high_volume_avg_return_pct": "-0.03286289063250958",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 63.75
+    },
+    {
+      "name": "Amphenol",
+      "symbol": "APH",
+      "market_cap": 201410000000.0,
+      "last_date": "2026-10-16",
+      "last_close": 79.3499984741211,
+      "day_return_pct": -2.6260884105383964,
+      "ret_20d_pct": 2.321077177987907,
+      "ret_60d_pct": 0.8067104945348236,
+      "above_ma20_pct": -6.118007879612608,
+      "above_ma50_pct": -3.51375495977857,
+      "volume": "12025900",
+      "volume_vs_20d_pct": 5.646782253020266,
+      "dollar_volume": 954255146.6499329,
+      "current_drawdown_pct": -10.460397184786219,
+      "last20_volatility_pct": "1.9455830641921377",
+      "accumulation_days": 6,
+      "distribution_days": 5,
+      "high_volume_avg_return_pct": "1.4578840893130212",
+      "state": "中性观察",
+      "playbook": "等待价格和成交量给出更明确方向。",
+      "score": 63.671875
     },
     {
       "name": "Constellation Energy",
@@ -633,7 +633,7 @@
       "last20_volatility_pct": "3.8208542833672943",
       "accumulation_days": 3,
       "distribution_days": 9,
-      "high_volume_avg_return_pct": "-2.2221370935600393",
+      "high_volume_avg_return_pct": "-2.259514428315215",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 63.59375
@@ -656,7 +656,7 @@
       "last20_volatility_pct": "2.2028203038386494",
       "accumulation_days": 4,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "-0.43190642172289206",
+      "high_volume_avg_return_pct": "0.015096562262477409",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 62.578125
@@ -679,10 +679,10 @@
       "last20_volatility_pct": "1.3385257394323757",
       "accumulation_days": 2,
       "distribution_days": 3,
-      "high_volume_avg_return_pct": "-0.18897463686963994",
+      "high_volume_avg_return_pct": "-0.3994890387644383",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
-      "score": 60.625
+      "score": 60.46875
     },
     {
       "name": "NextEra Energy",
@@ -702,10 +702,10 @@
       "last20_volatility_pct": "1.1492264294440042",
       "accumulation_days": 4,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "-0.00963147117942503",
+      "high_volume_avg_return_pct": "0.1033729268990792",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
-      "score": 60.234375
+      "score": 60.078125
     },
     {
       "name": "Cisco",
@@ -725,10 +725,33 @@
       "last20_volatility_pct": "2.230579512206186",
       "accumulation_days": 7,
       "distribution_days": 4,
-      "high_volume_avg_return_pct": "-0.09927608951367208",
+      "high_volume_avg_return_pct": "-0.24462871276083667",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
-      "score": 58.359375
+      "score": 58.203125
+    },
+    {
+      "name": "Palo Alto Networks",
+      "symbol": "PANW",
+      "market_cap": 247920000000.0,
+      "last_date": "2026-10-16",
+      "last_close": 342.0,
+      "day_return_pct": -7.634966336045135,
+      "ret_20d_pct": -5.935416516105829,
+      "ret_60d_pct": 5.027176510677722,
+      "above_ma20_pct": -12.52391523173715,
+      "above_ma50_pct": -8.376528513356385,
+      "volume": "8762600",
+      "volume_vs_20d_pct": 62.45011841806443,
+      "dollar_volume": 2996809200.0,
+      "current_drawdown_pct": -18.553976562273455,
+      "last20_volatility_pct": "3.509738585494097",
+      "accumulation_days": 8,
+      "distribution_days": 6,
+      "high_volume_avg_return_pct": "0.45347846744413567",
+      "state": "弱势",
+      "playbook": "先等重新站回 20 日线，再看 50 日线。",
+      "score": 58.046875
     },
     {
       "name": "Dominion Energy",
@@ -748,7 +771,7 @@
       "last20_volatility_pct": "0.9377779604363385",
       "accumulation_days": 2,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "0.5391423313715736",
+      "high_volume_avg_return_pct": "0.5836287881251345",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 57.578125
@@ -770,34 +793,11 @@
       "current_drawdown_pct": -17.90652098587684,
       "last20_volatility_pct": "3.5696341181955504",
       "accumulation_days": 9,
-      "distribution_days": 5,
-      "high_volume_avg_return_pct": "0.8699517995969633",
+      "distribution_days": 4,
+      "high_volume_avg_return_pct": "1.1416789324619627",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 57.34375
-    },
-    {
-      "name": "Palo Alto Networks",
-      "symbol": "PANW",
-      "market_cap": 247920000000.0,
-      "last_date": "2026-10-16",
-      "last_close": 342.0,
-      "day_return_pct": -7.634966336045135,
-      "ret_20d_pct": -5.935416516105829,
-      "ret_60d_pct": 5.027176510677722,
-      "above_ma20_pct": -12.52391523173715,
-      "above_ma50_pct": -8.376528513356385,
-      "volume": "8762600",
-      "volume_vs_20d_pct": 62.45011841806443,
-      "dollar_volume": 2996809200.0,
-      "current_drawdown_pct": -18.553976562273455,
-      "last20_volatility_pct": "3.509738585494097",
-      "accumulation_days": 8,
-      "distribution_days": 7,
-      "high_volume_avg_return_pct": "0.19696589866031278",
-      "state": "弱势",
-      "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 57.109375
+      "score": 57.5
     },
     {
       "name": "Quanta Services",
@@ -817,7 +817,7 @@
       "last20_volatility_pct": "2.329886664714341",
       "accumulation_days": 3,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "-0.5040776181281168",
+      "high_volume_avg_return_pct": "-0.4485982699719788",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 56.953125
@@ -840,7 +840,7 @@
       "last20_volatility_pct": "1.5569941166663104",
       "accumulation_days": 1,
       "distribution_days": 4,
-      "high_volume_avg_return_pct": "0.6838878194952402",
+      "high_volume_avg_return_pct": "0.7402726955699157",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 56.640625
@@ -863,7 +863,7 @@
       "last20_volatility_pct": "3.5335002178165467",
       "accumulation_days": 9,
       "distribution_days": 2,
-      "high_volume_avg_return_pct": "2.8297136349059215",
+      "high_volume_avg_return_pct": "2.7377827535789887",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 56.40625
@@ -884,12 +884,12 @@
       "dollar_volume": 4877065717.196655,
       "current_drawdown_pct": -27.999871344530668,
       "last20_volatility_pct": "3.5736593743042917",
-      "accumulation_days": 10,
+      "accumulation_days": 9,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "3.545427555990771",
+      "high_volume_avg_return_pct": "3.8217531049978075",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 55.15625
+      "score": 54.0625
     },
     {
       "name": "TSMC",
@@ -909,7 +909,7 @@
       "last20_volatility_pct": "1.8678810967195412",
       "accumulation_days": 2,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-0.8145507151721191",
+      "high_volume_avg_return_pct": "-0.7592810956575553",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 53.59375
@@ -932,7 +932,7 @@
       "last20_volatility_pct": "1.9203699470483788",
       "accumulation_days": 4,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "-1.852600121332481",
+      "high_volume_avg_return_pct": "-1.863719920782205",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 51.640625
@@ -955,7 +955,7 @@
       "last20_volatility_pct": "2.1543029604169246",
       "accumulation_days": 4,
       "distribution_days": 10,
-      "high_volume_avg_return_pct": "-0.8548777318088772",
+      "high_volume_avg_return_pct": "-0.8065055079638589",
       "state": "中性观察",
       "playbook": "等待价格和成交量给出更明确方向。",
       "score": 50.859375
@@ -978,7 +978,7 @@
       "last20_volatility_pct": "1.8979351257607742",
       "accumulation_days": 6,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "0.3424183475830851",
+      "high_volume_avg_return_pct": "0.24263469472830743",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 50.78125
@@ -1000,11 +1000,11 @@
       "current_drawdown_pct": -28.52484676433489,
       "last20_volatility_pct": "5.3452129381354325",
       "accumulation_days": 11,
-      "distribution_days": 6,
-      "high_volume_avg_return_pct": "-0.14564488421504596",
+      "distribution_days": 5,
+      "high_volume_avg_return_pct": "0.3384442066300126",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 47.65625
+      "score": 47.96875
     },
     {
       "name": "Oracle",
@@ -1024,7 +1024,7 @@
       "last20_volatility_pct": "3.544246499283495",
       "accumulation_days": 7,
       "distribution_days": 11,
-      "high_volume_avg_return_pct": "-0.36331330671162315",
+      "high_volume_avg_return_pct": "-0.24784673593066311",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 44.453125
@@ -1047,7 +1047,7 @@
       "last20_volatility_pct": "2.525530340441865",
       "accumulation_days": 2,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "0.7305570433831202",
+      "high_volume_avg_return_pct": "1.0073922534882576",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 43.671875
@@ -1068,12 +1068,12 @@
       "dollar_volume": 1189182722.4731445,
       "current_drawdown_pct": -40.82646395072304,
       "last20_volatility_pct": "5.1045894676630805",
-      "accumulation_days": 12,
+      "accumulation_days": 11,
       "distribution_days": 4,
-      "high_volume_avg_return_pct": "3.5419061895161077",
+      "high_volume_avg_return_pct": "4.078375009101739",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 42.421875
+      "score": 42.109375
     },
     {
       "name": "Broadcom",
@@ -1093,10 +1093,10 @@
       "last20_volatility_pct": "2.292717230279168",
       "accumulation_days": 4,
       "distribution_days": 5,
-      "high_volume_avg_return_pct": "-0.6730817317496487",
+      "high_volume_avg_return_pct": "-0.42699162594334594",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 41.875
+      "score": 41.71875
     },
     {
       "name": "Schneider Electric",
@@ -1116,7 +1116,7 @@
       "last20_volatility_pct": "3.1457980283104465",
       "accumulation_days": 7,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "-0.38070760234442963",
+      "high_volume_avg_return_pct": "-0.6293428659924855",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 41.5625
@@ -1139,10 +1139,10 @@
       "last20_volatility_pct": "4.6559797573397175",
       "accumulation_days": 7,
       "distribution_days": 4,
-      "high_volume_avg_return_pct": "2.5225553433782673",
+      "high_volume_avg_return_pct": "3.0405829498712373",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 40.15625
+      "score": 40.0
     },
     {
       "name": "Ciena",
@@ -1162,7 +1162,7 @@
       "last20_volatility_pct": "5.735718415925126",
       "accumulation_days": 6,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-1.3233238812442942",
+      "high_volume_avg_return_pct": "-1.650296953074616",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 37.65625
@@ -1185,7 +1185,7 @@
       "last20_volatility_pct": "2.6407135383346354",
       "accumulation_days": 4,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-1.8572620327920946",
+      "high_volume_avg_return_pct": "-2.066169052414857",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 37.1875
@@ -1208,7 +1208,7 @@
       "last20_volatility_pct": "2.903141132419672",
       "accumulation_days": 8,
       "distribution_days": 11,
-      "high_volume_avg_return_pct": "0.35311512153964164",
+      "high_volume_avg_return_pct": "0.5424702147265592",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 36.5625
@@ -1231,10 +1231,10 @@
       "last20_volatility_pct": "4.198974102538553",
       "accumulation_days": 7,
       "distribution_days": 1,
-      "high_volume_avg_return_pct": "5.596999397307504",
+      "high_volume_avg_return_pct": "6.259447383408388",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 36.015625
+      "score": 35.859375
     },
     {
       "name": "Micron",
@@ -1254,10 +1254,10 @@
       "last20_volatility_pct": "3.030690083198425",
       "accumulation_days": 5,
       "distribution_days": 3,
-      "high_volume_avg_return_pct": "2.6688307975391115",
+      "high_volume_avg_return_pct": "2.144440959764783",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 35.3125
+      "score": 35.15625
     },
     {
       "name": "Lam Research",
@@ -1277,7 +1277,7 @@
       "last20_volatility_pct": "2.9013992637504247",
       "accumulation_days": 5,
       "distribution_days": 5,
-      "high_volume_avg_return_pct": "1.0007862459512973",
+      "high_volume_avg_return_pct": "0.7339990785249627",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 34.609375
@@ -1300,10 +1300,10 @@
       "last20_volatility_pct": "5.020504436118264",
       "accumulation_days": 8,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "-0.11745914419099067",
+      "high_volume_avg_return_pct": "-0.3684505670938386",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 29.84375
+      "score": 29.6875
     },
     {
       "name": "Teradyne",
@@ -1323,7 +1323,7 @@
       "last20_volatility_pct": "3.6608363073714636",
       "accumulation_days": 5,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-0.9951134037659681",
+      "high_volume_avg_return_pct": "-1.6652440281178695",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 29.21875
@@ -1344,12 +1344,12 @@
       "dollar_volume": 5824474416.091919,
       "current_drawdown_pct": -55.508043708834684,
       "last20_volatility_pct": "5.467960995968664",
-      "accumulation_days": 14,
+      "accumulation_days": 13,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "1.3810442464387471",
+      "high_volume_avg_return_pct": "1.0745735934054665",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 29.140625
+      "score": 28.359375
     },
     {
       "name": "Applied Materials",
@@ -1369,7 +1369,7 @@
       "last20_volatility_pct": "3.0920687640652615",
       "accumulation_days": 3,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "0.7048286051525723",
+      "high_volume_avg_return_pct": "0.981455384235387",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 27.734375
@@ -1392,7 +1392,7 @@
       "last20_volatility_pct": "5.878753173157506",
       "accumulation_days": 14,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "7.057105745426258",
+      "high_volume_avg_return_pct": "6.747419784026648",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 25.46875
@@ -1414,11 +1414,11 @@
       "current_drawdown_pct": -45.56235528916244,
       "last20_volatility_pct": "5.668351601451891",
       "accumulation_days": 5,
-      "distribution_days": 6,
-      "high_volume_avg_return_pct": "2.4966786122172544",
+      "distribution_days": 5,
+      "high_volume_avg_return_pct": "2.29883768971842",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 23.828125
+      "score": 24.765625
     },
     {
       "name": "Nebius",
@@ -1438,10 +1438,10 @@
       "last20_volatility_pct": "5.26439683339256",
       "accumulation_days": 9,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "2.5350684408308224",
+      "high_volume_avg_return_pct": "2.138695287743412",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 22.421875
+      "score": 22.265625
     },
     {
       "name": "Core Scientific",
@@ -1461,33 +1461,10 @@
       "last20_volatility_pct": "4.208621551772306",
       "accumulation_days": 5,
       "distribution_days": 5,
-      "high_volume_avg_return_pct": "-0.3211383955268458",
+      "high_volume_avg_return_pct": "0.11795444872136074",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 21.171875
-    },
-    {
-      "name": "Seagate",
-      "symbol": "STX",
-      "market_cap": 203600000000.0,
-      "last_date": "2026-10-16",
-      "last_close": 639.010009765625,
-      "day_return_pct": -7.498442115203341,
-      "ret_20d_pct": -25.591818009632274,
-      "ret_60d_pct": -30.037441970959257,
-      "above_ma20_pct": -23.460718558000615,
-      "above_ma50_pct": -24.076497367395323,
-      "volume": "6095300",
-      "volume_vs_20d_pct": 25.604422212033317,
-      "dollar_volume": 3894957712.524414,
-      "current_drawdown_pct": -41.59171630380158,
-      "last20_volatility_pct": "4.179172536525521",
-      "accumulation_days": 9,
-      "distribution_days": 5,
-      "high_volume_avg_return_pct": "0.017908334572655015",
-      "state": "弱势",
-      "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 20.9375
+      "score": 21.015625
     },
     {
       "name": "Vertiv",
@@ -1507,10 +1484,33 @@
       "last20_volatility_pct": "2.4268428078497966",
       "accumulation_days": 4,
       "distribution_days": 12,
-      "high_volume_avg_return_pct": "-4.235383244483037",
+      "high_volume_avg_return_pct": "-4.10805696773279",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 20.9375
+    },
+    {
+      "name": "Seagate",
+      "symbol": "STX",
+      "market_cap": 203600000000.0,
+      "last_date": "2026-10-16",
+      "last_close": 639.010009765625,
+      "day_return_pct": -7.498442115203341,
+      "ret_20d_pct": -25.591818009632274,
+      "ret_60d_pct": -30.037441970959257,
+      "above_ma20_pct": -23.460718558000615,
+      "above_ma50_pct": -24.076497367395323,
+      "volume": "6095300",
+      "volume_vs_20d_pct": 25.604422212033317,
+      "dollar_volume": 3894957712.524414,
+      "current_drawdown_pct": -41.59171630380158,
+      "last20_volatility_pct": "4.179172536525521",
+      "accumulation_days": 9,
+      "distribution_days": 5,
+      "high_volume_avg_return_pct": "0.6680050653781688",
+      "state": "弱势",
+      "playbook": "先等重新站回 20 日线，再看 50 日线。",
+      "score": 20.625
     },
     {
       "name": "Applied Digital",
@@ -1530,10 +1530,10 @@
       "last20_volatility_pct": "4.1611689883759855",
       "accumulation_days": 7,
       "distribution_days": 3,
-      "high_volume_avg_return_pct": "1.6927690199123748",
+      "high_volume_avg_return_pct": "2.387637861504081",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 18.828125
+      "score": 18.671875
     },
     {
       "name": "Coherent",
@@ -1553,10 +1553,10 @@
       "last20_volatility_pct": "5.190057833531657",
       "accumulation_days": 8,
       "distribution_days": 7,
-      "high_volume_avg_return_pct": "0.13374458489185947",
+      "high_volume_avg_return_pct": "-0.28134235271793234",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 18.28125
+      "score": 18.125
     },
     {
       "name": "SanDisk",
@@ -1576,7 +1576,7 @@
       "last20_volatility_pct": "3.363399808075619",
       "accumulation_days": 4,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "2.8766124502296453",
+      "high_volume_avg_return_pct": "2.307611240027964",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
       "score": 17.421875
@@ -1599,10 +1599,10 @@
       "last20_volatility_pct": "4.191867184193359",
       "accumulation_days": 8,
       "distribution_days": 8,
-      "high_volume_avg_return_pct": "-0.3168771718684297",
+      "high_volume_avg_return_pct": "0.31255623661028686",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 14.609375
+      "score": 14.453125
     },
     {
       "name": "Western Digital",
@@ -1622,10 +1622,10 @@
       "last20_volatility_pct": "3.9640155481815866",
       "accumulation_days": 5,
       "distribution_days": 6,
-      "high_volume_avg_return_pct": "-1.8219212039484876",
+      "high_volume_avg_return_pct": "-1.804474440273178",
       "state": "弱势",
       "playbook": "先等重新站回 20 日线，再看 50 日线。",
-      "score": 12.34375
+      "score": 12.1875
     }
   ],
   "summaries": [
@@ -1637,7 +1637,7 @@
       "avg_dollar_volume_20d": 59659432286.96857,
       "avg_dollar_volume_20d_label": "$59.66B",
       "leader": "Microsoft",
-      "leader_score": 84.296875
+      "leader_score": 83.984375
     },
     {
       "group": "芯片计算",
@@ -1667,7 +1667,7 @@
       "avg_dollar_volume_20d": 28410612984.037323,
       "avg_dollar_volume_20d_label": "$28.41B",
       "leader": "Amphenol",
-      "leader_score": 63.828125
+      "leader_score": 63.671875
     },
     {
       "group": "存储",
@@ -1687,7 +1687,7 @@
       "avg_dollar_volume_20d": 23545132293.616123,
       "avg_dollar_volume_20d_label": "$23.55B",
       "leader": "Atlassian",
-      "leader_score": 93.984375
+      "leader_score": 94.140625
     },
     {
       "group": "电力",
@@ -1718,10 +1718,10 @@
       "matrix": [
         [
           1.0,
-          0.24,
+          0.23,
           0.45,
           0.51,
-          0.21,
+          0.2,
           0.28,
           0.19,
           0.19,
@@ -1730,7 +1730,7 @@
           0.14
         ],
         [
-          0.24,
+          0.23,
           1.0,
           0.64,
           0.29,
@@ -1740,28 +1740,28 @@
           0.29,
           0.21,
           0.16,
-          0.16
+          0.17
         ],
         [
           0.45,
           0.64,
           1.0,
-          0.31,
+          0.3,
           0.41,
           0.23,
-          0.18,
+          0.19,
           0.31,
           0.25,
-          0.21,
+          0.22,
           0.1
         ],
         [
           0.51,
           0.29,
-          0.31,
+          0.3,
           1.0,
           0.21,
-          0.6,
+          0.61,
           0.53,
           0.45,
           0.43,
@@ -1769,13 +1769,13 @@
           0.51
         ],
         [
-          0.21,
+          0.2,
           0.34,
           0.41,
           0.21,
           1.0,
           0.11,
-          0.05,
+          0.06,
           0.16,
           0.11,
           0.11,
@@ -1785,7 +1785,7 @@
           0.28,
           0.17,
           0.23,
-          0.6,
+          0.61,
           0.11,
           1.0,
           0.81,
@@ -1797,15 +1797,15 @@
         [
           0.19,
           0.15,
-          0.18,
+          0.19,
           0.53,
-          0.05,
+          0.06,
           0.81,
           1.0,
           0.64,
           0.59,
           0.68,
-          0.45
+          0.44
         ],
         [
           0.19,
@@ -1836,7 +1836,7 @@
         [
           0.24,
           0.16,
-          0.21,
+          0.22,
           0.46,
           0.11,
           0.72,
@@ -1848,12 +1848,12 @@
         ],
         [
           0.14,
-          0.16,
+          0.17,
           0.1,
           0.51,
           0.06,
           0.47,
-          0.45,
+          0.44,
           0.42,
           0.4,
           0.47,
@@ -1923,8 +1923,8 @@
           1.0,
           0.56,
           0.38,
-          0.53,
-          0.49
+          0.54,
+          0.5
         ],
         [
           0.43,
@@ -1947,7 +1947,7 @@
         [
           0.43,
           0.7,
-          0.53,
+          0.54,
           0.61,
           0.49,
           1.0,
@@ -1956,7 +1956,7 @@
         [
           0.43,
           0.78,
-          0.49,
+          0.5,
           0.55,
           0.53,
           0.57,
@@ -2082,7 +2082,7 @@
           0.76,
           0.73,
           0.69,
-          0.69
+          0.7
         ],
         [
           0.75,
@@ -2109,7 +2109,7 @@
           1.0,
           0.88,
           0.84,
-          0.81
+          0.82
         ],
         [
           0.73,
@@ -2127,15 +2127,15 @@
           0.84,
           0.75,
           1.0,
-          0.76
+          0.77
         ],
         [
-          0.69,
+          0.7,
           0.84,
           0.79,
-          0.81,
+          0.82,
           0.76,
-          0.76,
+          0.77,
           1.0
         ]
       ],
@@ -2197,15 +2197,15 @@
           0.46,
           0.45,
           0.49,
-          0.47,
+          0.46,
           0.52,
           0.39
         ],
         [
           0.55,
           1.0,
+          0.81,
           0.8,
-          0.78,
           0.56,
           0.44,
           0.6,
@@ -2219,7 +2219,7 @@
         ],
         [
           0.45,
-          0.8,
+          0.81,
           1.0,
           0.76,
           0.38,
@@ -2235,25 +2235,25 @@
         ],
         [
           0.43,
-          0.78,
+          0.8,
           0.76,
           1.0,
-          0.4,
+          0.41,
           0.37,
-          0.45,
-          0.31,
+          0.46,
+          0.32,
           0.34,
           0.31,
-          0.47,
-          0.61,
-          0.63,
-          0.25
+          0.48,
+          0.62,
+          0.65,
+          0.24
         ],
         [
           0.52,
           0.56,
           0.38,
-          0.4,
+          0.41,
           1.0,
           0.5,
           0.61,
@@ -2274,7 +2274,7 @@
           1.0,
           0.58,
           0.47,
-          0.59,
+          0.6,
           0.58,
           0.52,
           0.44,
@@ -2285,7 +2285,7 @@
           0.57,
           0.6,
           0.51,
-          0.45,
+          0.46,
           0.61,
           0.58,
           1.0,
@@ -2301,7 +2301,7 @@
           0.44,
           0.41,
           0.38,
-          0.31,
+          0.32,
           0.52,
           0.47,
           0.5,
@@ -2319,7 +2319,7 @@
           0.49,
           0.34,
           0.5,
-          0.59,
+          0.6,
           0.56,
           0.55,
           1.0,
@@ -2349,7 +2349,7 @@
           0.49,
           0.54,
           0.52,
-          0.47,
+          0.48,
           0.47,
           0.52,
           0.56,
@@ -2362,10 +2362,10 @@
           0.29
         ],
         [
-          0.47,
+          0.46,
           0.72,
           0.66,
-          0.61,
+          0.62,
           0.44,
           0.44,
           0.48,
@@ -2381,7 +2381,7 @@
           0.52,
           0.72,
           0.66,
-          0.63,
+          0.65,
           0.41,
           0.37,
           0.49,
@@ -2397,7 +2397,7 @@
           0.39,
           0.35,
           0.25,
-          0.25,
+          0.24,
           0.45,
           0.31,
           0.41,
@@ -2419,12 +2419,12 @@
         {
           "a": "ServiceNow",
           "b": "Salesforce",
-          "corr": 0.8
+          "corr": 0.81
         },
         {
           "a": "ServiceNow",
           "b": "Adobe",
-          "corr": 0.78
+          "corr": 0.8
         },
         {
           "a": "Salesforce",
@@ -2462,13 +2462,13 @@
           0.67,
           0.62,
           0.57,
-          0.48,
-          0.17,
+          0.47,
+          0.18,
           0.15,
-          0.15,
+          0.16,
           0.29,
-          0.08,
-          0.01
+          0.09,
+          0.02
         ],
         [
           0.23,
@@ -2476,7 +2476,7 @@
           0.81,
           0.2,
           0.12,
-          0.26,
+          0.27,
           0.16,
           0.32,
           0.4,
@@ -2492,7 +2492,7 @@
           0.09,
           0.01,
           0.22,
-          0.06,
+          0.07,
           0.42,
           0.51,
           0.46,
@@ -2509,7 +2509,7 @@
           0.82,
           0.7,
           -0.12,
-          -0.13,
+          -0.14,
           -0.1,
           0.04,
           -0.06,
@@ -2525,30 +2525,30 @@
           0.68,
           -0.2,
           -0.2,
-          -0.16,
+          -0.15,
           -0.05,
           -0.12,
           -0.21
         ],
         [
           0.57,
-          0.26,
+          0.27,
           0.22,
           0.82,
           0.81,
           1.0,
           0.66,
           0.04,
-          0.01,
-          0.02,
-          0.13,
+          0.0,
+          0.03,
+          0.14,
           0.07,
           -0.04
         ],
         [
-          0.48,
+          0.47,
           0.16,
-          0.06,
+          0.07,
           0.7,
           0.68,
           0.66,
@@ -2561,7 +2561,7 @@
           -0.04
         ],
         [
-          0.17,
+          0.18,
           0.32,
           0.42,
           -0.12,
@@ -2579,31 +2579,31 @@
           0.15,
           0.4,
           0.51,
-          -0.13,
+          -0.14,
           -0.2,
-          0.01,
+          0.0,
           -0.09,
           0.8,
           1.0,
-          0.71,
-          0.73,
+          0.72,
+          0.74,
           0.63,
-          0.6
+          0.61
         ],
         [
-          0.15,
+          0.16,
           0.37,
           0.46,
           -0.1,
-          -0.16,
-          0.02,
+          -0.15,
+          0.03,
           -0.05,
           0.66,
-          0.71,
+          0.72,
           1.0,
           0.65,
           0.59,
-          0.55
+          0.54
         ],
         [
           0.29,
@@ -2611,17 +2611,17 @@
           0.48,
           0.04,
           -0.05,
-          0.13,
+          0.14,
           0.01,
           0.64,
-          0.73,
+          0.74,
           0.65,
           1.0,
           0.41,
           0.47
         ],
         [
-          0.08,
+          0.09,
           0.3,
           0.32,
           -0.06,
@@ -2636,7 +2636,7 @@
           0.47
         ],
         [
-          0.01,
+          0.02,
           0.25,
           0.3,
           -0.15,
@@ -2644,8 +2644,8 @@
           -0.04,
           -0.04,
           0.51,
-          0.6,
-          0.55,
+          0.61,
+          0.54,
           0.47,
           0.47,
           1.0
@@ -2698,12 +2698,12 @@
           0.56,
           0.56,
           0.4,
-          0.47,
-          0.56,
-          0.51,
+          0.48,
+          0.57,
+          0.52,
           0.43,
           0.57,
-          0.43
+          0.44
         ],
         [
           0.56,
@@ -2742,23 +2742,23 @@
           0.28
         ],
         [
-          0.47,
+          0.48,
           0.49,
           0.55,
           0.27,
           1.0,
-          0.69,
-          0.6,
+          0.7,
+          0.61,
           0.52,
           0.52,
-          0.52
+          0.51
         ],
         [
-          0.56,
+          0.57,
           0.49,
           0.7,
           0.34,
-          0.69,
+          0.7,
           1.0,
           0.61,
           0.51,
@@ -2766,11 +2766,11 @@
           0.55
         ],
         [
-          0.51,
+          0.52,
           0.54,
           0.71,
           0.48,
-          0.6,
+          0.61,
           0.61,
           1.0,
           0.86,
@@ -2802,11 +2802,11 @@
           0.44
         ],
         [
-          0.43,
+          0.44,
           0.54,
           0.48,
           0.28,
-          0.52,
+          0.51,
           0.55,
           0.44,
           0.33,
